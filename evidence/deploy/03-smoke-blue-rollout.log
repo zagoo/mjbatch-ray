@@ -1,0 +1,39 @@
+2026-09-27 21:15:32,333	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-27 21:15:32,338	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.12:6379...
+2026-09-27 21:15:32,341	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.12:8265 [39m[22m
+[33m(raylet)[0m There are tasks with infeasible resource requests that cannot be scheduled. See https://docs.ray.io/en/latest/ray-core/scheduling/index.html#ray-scheduling-resources for more details. Possible solutions: 1. Updating the ray cluster to include nodes with all required resources 2. To cause the tasks with infeasible requests to raise an error instead of hanging, set the 'RAY_enable_infeasible_task_early_exit=true'. This feature will be turned on by default in a future release of Ray.
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "6c43571be0dd3c71af79009075648515a46a4856d41f3f4298763b5731a234cc",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "0cc8bde6a029f8ac14c0e3358106d08ed11df42d",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 3,
+  "checks": {
+    "mode_a": {
+      "run_id": "93725ee5503047d7b261a6571b7d2760",
+      "state": "FAILED",
+      "error": "RayTaskError(GetTimeoutError): \u001b[36mray::ShardCoordinator.install()\u001b[39m (pid=541, ip=10.244.1.10, actor_id=a66e82ec18a06083206e3c0102000000, repr=<raysimbatch.control.coordinator.ShardCoordinator object at 0xfffeb13d6960>)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/control/coordinator.py\", line 147, in install\n    readies[rec.name] = self._initialize(rec)\n                        ^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/control/coordinator.py\", line 160, in _initialize\n    ready = ray.get(rec.actor.initialize.remote(*args), timeout=max(120.0, self.cfg.failure.native_max_deadline_s))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^\n                                  ^^^^^^^^^^^^^^^^^^^\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"python/ray/includes/common.pxi\", line 107, in ray._raylet.check_status\nray.exceptions.GetTimeoutError: Get timed out: some object(s) not ready.",
+      "passed": false
+    }
+  },
+  "passed": false,
+  "seconds": 376.2621765136719
+}
+command terminated with exit code 1
+deploy/kind/release.sh smoke blue rollout  0.09s user 0.06s system 0% cpu 6:17.61 total

@@ -1,0 +1,8 @@
+CREATE TABLE
+INSERT 0 1
+pod "postgres-5d45d6c445-bjgxd" deleted from raysimbatch-qual namespace
+Waiting for deployment "postgres" rollout to finish: 0 of 1 updated replicas are available...
+deployment "postgres" successfully rolled out
+old=postgres-5d45d6c445-bjgxd new=postgres-5d45d6c445-mbgk9
+written-before-pod-deletion
+DROP TABLE

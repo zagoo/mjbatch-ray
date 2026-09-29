@@ -1,0 +1,8 @@
+2026-09-28 01:27:45,529	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-28 01:27:45,535	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.33:6379...
+2026-09-28 01:27:45,540	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.33:8265 [39m[22m
+2026-09-28 01:27:19.754878+00|run_state|{"state": "VALIDATING"}
+2026-09-28 01:27:19.888382+00|run_state|{"state": "RESERVING"}
+2026-09-28 01:27:19.904485+00|units_enumerated|{"count": 64}
+2026-09-28 01:27:23.66911+00|run_state|{"state": "RUNNING", "workers": "2", "coordinators": "1"}
+2026-09-28 01:27:47.51101+00|run_state|{"error": "LeaseHeld: lease 'run/6f8dc831dc3240918316420506132fc4' is held by another owner", "state": "FAILED"}

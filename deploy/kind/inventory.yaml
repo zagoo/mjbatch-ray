@@ -1,0 +1,21 @@
+# Qualification platform inventory for the kind cluster.
+name: kind-rsb-qual
+head_image: raysimbatch-cpu:${TAG}
+cpu_image: raysimbatch-cpu:${TAG}
+image_pull_policy: Never
+pools:
+  head: {node_selector: {raysimbatch.io/pool: head}}
+  sim_general: {node_selector: {raysimbatch.io/pool: sim}}
+database_secret: "k8s:rsb-db/dsn"
+s3_secret: "k8s:rsb-s3"
+s3_endpoint: "http://s3.raysimbatch-qual.svc:9000"
+spill_volume: {emptyDir: {sizeLimit: 2Gi}}
+scale:
+  head_cpu: "1"
+  head_memory: 2048Mi
+  worker_cpu: "4"
+  worker_memory: 2400Mi
+  ray_cpus: 4
+  object_store_bytes: 419430400
+  shm: 512Mi
+  replicas: 1

@@ -1,0 +1,13 @@
+2026-09-28T01:49:27Z images: blue=raysimbatch-cpu:blue green=raysimbatch-cpu:green
+active=green previous=blue
+2026-09-28T01:49:27Z pointer {"active":"green","previous":"blue"}
+2026-09-28T01:49:27Z xresume-start on green (seeds=32 steps=200000)
+2026-09-28T01:49:34Z green hard-failed; run bae3c40d3b6744069b5f93eb300165ae durable state:
+RUNNING|32
+SUCCEEDED|32
+run|RUNNING|0
+active=blue previous=green
+2026-09-28T01:49:34Z pointer {"active":"blue","previous":"green"}
+2026-09-28T01:49:34Z xresume-finish on blue
+2026-09-28T01:51:48Z attempt 1 fenced (LeaseHeld: green head alive ~91 s after force-delete, grace 120 s); retrying after the lease lapsed
+2026-09-28T02:00:30Z attempt 2: controller OOM-killed on the 1.76 GB kind head (a stray reference run's controller shared it); run left VALIDATING epoch 2 -> fixed by the cluster janitor (orphan resume) and a larger kind head

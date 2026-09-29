@@ -1,0 +1,21 @@
+<mujoco model="reacher">
+  <option timestep="0.002" gravity="0 0 0"/>
+  <worldbody>
+    <body name="link1" pos="0 0 .1">
+      <joint name="j1" type="hinge" axis="0 0 1" damping="0.05"/>
+      <geom type="capsule" fromto="0 0 0 .2 0 0" size=".02" mass=".3"/>
+      <body name="link2" pos=".2 0 0">
+        <joint name="j2" type="hinge" axis="0 0 1" damping="0.05" range="-2.6 2.6" limited="true"/>
+        <geom type="capsule" fromto="0 0 0 .18 0 0" size=".02" mass=".2"/>
+        <body name="link3" pos=".18 0 0">
+          <joint name="j3" type="hinge" axis="0 0 1" damping="0.05" range="-2.6 2.6" limited="true"/>
+          <geom type="capsule" fromto="0 0 0 .1 0 0" size=".015" mass=".1"/>
+          <site name="fingertip" pos=".1 0 0"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <motor name="j1" joint="j1" gear="1"/><motor name="j2" joint="j2" gear="1"/><motor name="j3" joint="j3" gear="1"/>
+  </actuator>
+</mujoco>

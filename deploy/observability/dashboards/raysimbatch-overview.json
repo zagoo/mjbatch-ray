@@ -1,0 +1,457 @@
+{
+ "uid": "rsb-overview",
+ "title": "RaySimBatch / Fleet overview",
+ "description": "Throughput, outcomes, capacity and latency of all runs on this cluster.",
+ "tags": [
+  "raysimbatch"
+ ],
+ "timezone": "utc",
+ "schemaVersion": 39,
+ "version": 1,
+ "editable": true,
+ "refresh": "30s",
+ "time": {
+  "from": "now-6h",
+  "to": "now"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "datasource",
+    "label": "Prometheus",
+    "type": "datasource",
+    "query": "prometheus",
+    "current": {},
+    "hide": 0
+   }
+  ]
+ },
+ "annotations": {
+  "list": []
+ },
+ "links": [
+  {
+   "title": "RaySimBatch dashboards",
+   "type": "dashboards",
+   "tags": [
+    "raysimbatch"
+   ],
+   "asDropdown": true
+  }
+ ],
+ "panels": [
+  {
+   "type": "row",
+   "title": "Throughput",
+   "id": 1,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Control steps per second",
+   "description": "Transitions per second. The calibration line is the throughput alert's baseline (runbook: Throughput regression).",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_control_steps_total[5m]))",
+     "legendFormat": "wrapper",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "raysimbatch:calibrated_control_steps_per_second",
+     "legendFormat": "calibration (0 = unset)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 2,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Physics steps per second",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_physics_steps_total[5m]))",
+     "legendFormat": "substeps",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 3,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Episodes per second by outcome",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (outcome) (rate(ray_raysimbatch_episodes_total[5m]))",
+     "legendFormat": "{{outcome}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_aborted_episodes_total[5m]))",
+     "legendFormat": "aborted (infrastructure/health)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops",
+     "custom": {
+      "stacking": {
+       "mode": "normal"
+      }
+     }
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 4,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 9
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Slot health failures and engine warnings",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_slot_health_failures_total[5m]))",
+     "legendFormat": "health failures",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_warning_total[5m]))",
+     "legendFormat": "MuJoCo warnings",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 5,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 9
+   }
+  },
+  {
+   "type": "row",
+   "title": "Capacity",
+   "id": 6,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 17
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Healthy capacity",
+   "description": "Pages below 95% (runbook: Capacity degraded).",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "min by (mode) (ray_raysimbatch_healthy_capacity_ratio)",
+     "legendFormat": "{{mode}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 7,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 18
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Slots by state",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(ray_raysimbatch_slots_active)",
+     "legendFormat": "active",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum(ray_raysimbatch_slots_ready)",
+     "legendFormat": "ready",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "C",
+     "expr": "sum(ray_raysimbatch_slots_waiting)",
+     "legendFormat": "waiting",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "D",
+     "expr": "sum(ray_raysimbatch_slots_quarantined)",
+     "legendFormat": "quarantined (restart budget exhausted)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 8,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 18
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Circuit state by model family",
+   "description": "0 closed, 1 open, 2 half-open (runbook: Worker quarantined).",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "max by (model_family) (ray_raysimbatch_circuit_state)",
+     "legendFormat": "{{model_family}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 9,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 26
+   }
+  },
+  {
+   "type": "row",
+   "title": "Latency",
+   "id": 10,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 34
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Native slice (batch_step_seconds)",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_batch_step_seconds_bucket[5m])))",
+     "legendFormat": "p50",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_batch_step_seconds_bucket[5m])))",
+     "legendFormat": "p99",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 11,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 35
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Command round trip (control_interval_seconds)",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.99, sum by (le, stage) (rate(ray_raysimbatch_control_interval_seconds_bucket[5m])))",
+     "legendFormat": "p99 {{stage}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 12,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 35
+   }
+  }
+ ]
+}

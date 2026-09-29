@@ -1,0 +1,1 @@
+OK mjbatch checkout /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/third_party/mjbatch pristine at 2f169146b643adda65e195d8ad13d997abdd2a2e; boundary respected

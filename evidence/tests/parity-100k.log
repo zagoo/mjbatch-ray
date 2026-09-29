@@ -1,0 +1,43 @@
+# 2026-09-28T18:29:49Z RSB_PARITY_CONTROL_STEPS=100000 python -m pytest -v tests/core -k parity (per-substep: each_substep=True; fused where eligible: each_substep=False)
+# rsb d3bd3a99de0841dd3feeee45c2d9284ba1317be7 mjbatch 2f169146b643adda65e195d8ad13d997abdd2a2e host Apple M4 Max
+============================= test session starts ==============================
+platform darwin -- Python 3.12.8, pytest-9.1.1, pluggy-1.6.0 -- /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/bin/python
+rootdir: /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch
+configfile: pyproject.toml
+plugins: timeout-2.4.0, asyncio-1.4.0, platformdirs-4.12.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 111 items / 99 deselected / 12 selected
+
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-cartpole] PASSED [  8%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-quadruped] PASSED [ 16%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-reacher] PASSED [ 25%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-cartpole] PASSED [ 33%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-quadruped] PASSED [ 41%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-reacher] PASSED [ 50%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-cartpole] PASSED [ 58%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-quadruped] PASSED [ 66%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-reacher] PASSED [ 75%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-cartpole] PASSED [ 83%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-quadruped] PASSED [ 91%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-reacher] PASSED [100%]
+
+============================== slowest durations ===============================
+65.15s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-reacher]
+62.57s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-quadruped]
+62.23s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-quadruped]
+59.94s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-reacher]
+58.39s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-quadruped]
+57.21s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-quadruped]
+51.63s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-reacher]
+49.49s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-reacher]
+32.66s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-cartpole]
+27.24s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-cartpole]
+24.42s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-cartpole]
+24.29s call     tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-cartpole]
+
+(24 durations < 0.005s hidden.  Use -vv to show these durations.)
+================ 12 passed, 99 deselected in 575.42s (0:09:35) =================
+# exit=0 2026-09-28T18:39:25Z

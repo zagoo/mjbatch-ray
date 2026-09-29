@@ -1,0 +1,58 @@
+{
+  "candidate": {
+    "ref": "origin/mujoco-versions",
+    "sha": "121e0331323eab76a30db34b5b9dae2111c837a8",
+    "version": "0.1.0",
+    "mujoco": "3.13.0",
+    "worktree": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch",
+    "venv": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv",
+    "committed_pin": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+    "prepared_at": 1790562028.82235
+  },
+  "gates": {
+    "behaviour_probes": {
+      "passed": true,
+      "report": {
+        "mjbatch_version": "0.1.0.post31300",
+        "mujoco_version": "3.13.0",
+        "mj_version": 3013000,
+        "qualified": false,
+        "candidate_mode": true,
+        "binary_sha256": "0f64f3a5e5cfc49bbd242794411e3f317591c8fef261685b71a1a144cd25b913",
+        "probes": {
+          "first_error_attributed": true,
+          "failed_slots_exact": true,
+          "failed_keep_state": true,
+          "others_advanced": true,
+          "neutralize_cancels_pending": true,
+          "forward_pure": true,
+          "reset_applies_pending_field_writes": true,
+          "state_layout": true
+        },
+        "abi_fingerprint": "f5a0fe9f65cd079c95a858f4f3bd10d77149c800b5fbc39930b5a4781c12ba2f"
+      }
+    },
+    "upstream_contract_and_parity_tests": {
+      "passed": true,
+      "summary": [
+        "43 passed in 3.24s"
+      ]
+    },
+    "performance_regression": {
+      "passed": true,
+      "wrapper_change_vs_pinned": {
+        "cartpole/T1": -0.002,
+        "cartpole/T2": -0.0018,
+        "quadruped/T1": -0.0043,
+        "quadruped/T2": 0.0023
+      },
+      "method": "ABAB"
+    },
+    "candidate_tree_pristine": {
+      "passed": true,
+      "output": "OK checkout pristine"
+    }
+  },
+  "passed": true,
+  "qualified_at": 1790562459.907637
+}

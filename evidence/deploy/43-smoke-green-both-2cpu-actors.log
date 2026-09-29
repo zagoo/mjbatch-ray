@@ -1,0 +1,4 @@
+2026-09-28 02:04:20,313	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-28 02:04:20,319	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.40:6379...
+2026-09-28 02:04:20,323	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.40:8265 [39m[22m
+deploy/kind/release.sh: line 15: 30585 Terminated: 15          kubectl -n "$NS" exec -c ray-head "$pod" -- python -m raysimbatch.deployment.smoke --mode "${3:-eval}" "${@:4}"

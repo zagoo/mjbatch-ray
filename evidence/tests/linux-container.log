@@ -1,0 +1,6 @@
+# 2026-09-29T06:36:35Z docker run raysimbatch-cpu:test python -m pytest -q tests/linux tests/ray/test_node_helpers.py tests/core tests/telemetry/test_procfs.py
+# rsb 5f4629f070b898d4889c4dbe4f2c7d761b8f09e3 (image built from the clean tree) mjbatch 2f169146b643adda65e195d8ad13d997abdd2a2e Linux aarch64
+........................................................................ [ 55%]
+..........................................................               [100%]
+130 passed in 18.02s
+# exit=0

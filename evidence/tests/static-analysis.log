@@ -1,0 +1,12 @@
+# 2026-09-29T05:50:25Z rsb 50be29a
+## ruff check src tests tools qualification examples
+All checks passed!
+# ruff exit=0
+## pyright (pinned 1.1.414, [tool.pyright] in pyproject.toml, pythonPlatform Linux)
+# pyright exit=0
+# summary {'filesAnalyzed': 74, 'errorCount': 0, 'warningCount': 1, 'informationCount': 0}
+## CI gate: python tools/pyright_ratchet.py --report <the JSON above>
+pyright 1.1.414: 0 errors, all in the baseline
+# ratchet exit=0
+# history: 424 errors at e228b97 triaged (evidence/tests/pyright-triage-e228b97.csv); 4 real defects fixed in a9cdb7b;
+#   409 false positives baselined at 986839e; baseline 409 -> 0 in 9e1d03d..5cfea1b.

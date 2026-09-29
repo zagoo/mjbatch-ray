@@ -1,0 +1,20 @@
+# Local KubeRay qualification cluster (NOT production sizing). The kubelet runs the
+# static CPU Manager policy so Guaranteed pods receive exclusive cpusets, the layout
+# the node affinity agent leases from.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: rsb-qual
+kubeadmConfigPatches:
+  - |
+    kind: KubeletConfiguration
+    cpuManagerPolicy: static
+    reservedSystemCPUs: "0-1"
+    cpuManagerReconcilePeriod: 5s
+nodes:
+  - role: control-plane
+  - role: worker
+    labels:
+      raysimbatch.io/pool: head
+  - role: worker
+    labels:
+      raysimbatch.io/pool: sim

@@ -1,0 +1,110 @@
+Using CPython 3.12.8 interpreter at: /opt/homebrew/opt/python@3.12/bin/python3.12
+Creating virtual environment at: .venv
+Resolved 121 packages in 6ms
+   Building raysimbatch @ file:///private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/rsb-upgrade-clone
+   Building mjbatch @ file:///private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/rsb-upgrade-clone/third_party/mjbatch
+      Built raysimbatch @ file:///private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/rsb-upgrade-clone
+      Built mjbatch @ file:///private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/rsb-upgrade-clone/third_party/mjbatch
+Prepared 2 packages in 13.73s
+Installed 100 packages in 407ms
+ + absl-py==2.5.0
+ + aiohappyeyeballs==2.7.1
+ + aiohttp==3.14.3
+ + aiohttp-cors==0.8.1
+ + aiosignal==1.4.0
+ + annotated-types==0.8.0
+ + attrs==26.1.0
+ + boto3==1.43.103
+ + botocore==1.43.103
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + charset-normalizer==3.5.1
+ + click==8.5.0
+ + colorful==0.5.8
+ + cryptography==50.0.1
+ + distlib==0.4.3
+ + etils==1.14.0
+ + filelock==4.0.4
+ + flatbuffers==25.12.19
+ + frozenlist==1.8.0
+ + fsspec==2026.9.0
+ + glfw==2.10.2
+ + google-api-core==2.39.0
+ + google-auth==2.58.1
+ + googleapis-common-protos==1.75.4
+ + grpcio==1.84.0
+ + idna==3.20
+ + iniconfig==2.3.0
+ + jinja2==3.1.6
+ + jmespath==1.1.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + markupsafe==3.0.3
+ + mjbatch==0.1.1 (from file:///private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/rsb-upgrade-clone/third_party/mjbatch)
+ + ml-dtypes==0.6.0
+ + mpmath==1.3.0
+ + msgpack==1.2.2
+ + mujoco==3.13.0
+ + multidict==6.9.1
+ + networkx==3.7
+ + nodeenv==1.11.0
+ + numpy==2.3.5
+ + onnx==1.23.0
+ + onnxruntime==1.30.0
+ + opencensus==0.11.4
+ + opencensus-context==0.1.3
+ + opentelemetry-api==1.45.0
+ + opentelemetry-exporter-http-transport==0.66b0
+ + opentelemetry-exporter-otlp-common==0.66b0
+ + opentelemetry-exporter-otlp-proto-common==1.45.0
+ + opentelemetry-exporter-otlp-proto-http==1.45.0
+ + opentelemetry-exporter-prometheus==0.66b0
+ + opentelemetry-proto==1.45.0
+ + opentelemetry-sdk==1.45.0
+ + opentelemetry-semantic-conventions==0.66b0
+ + packaging==26.3
+ + platformdirs==4.12.0
+ + pluggy==1.6.0
+ + prometheus-client==0.26.0
+ + propcache==0.5.4
+ + proto-plus==1.28.4
+ + protobuf==7.36.2
+ + psycopg==3.3.6
+ + psycopg-binary==3.3.6
+ + psycopg-pool==3.3.3
+ + py-spy==0.4.2
+ + pyarrow==25.0.1
+ + pyasn1==0.6.4
+ + pyasn1-modules==0.4.2
+ + pycparser==3.0
+ + pydantic==2.13.5
+ + pydantic-core==2.46.5
+ + pygments==2.21.0
+ + pyopengl==3.1.10
+ + pyright==1.1.414
+ + pytest==9.1.1
+ + pytest-asyncio==1.4.0
+ + pytest-timeout==2.4.0
+ + python-dateutil==2.9.0.post0
+ + python-discovery==1.6.1
+ + pyyaml==6.0.3
+ + ray==2.58.0
+ + raysimbatch==0.1.0 (from file:///private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/rsb-upgrade-clone)
+ + referencing==0.37.0
+ + requests==2.34.2
+ + rpds-py==2026.6.3
+ + ruff==0.16.9
+ + s3transfer==0.19.2
+ + setuptools==84.0.0
+ + six==1.17.0
+ + smart-open==8.0.1
+ + sympy==1.14.0
+ + torch==2.14.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + virtualenv==21.13.0
+ + wrapt==2.5.0
+ + yarl==1.25.1
+ + zipp==4.1.0
+uv sync --extra torch  13.89s user 4.79s system 127% cpu 14.633 total

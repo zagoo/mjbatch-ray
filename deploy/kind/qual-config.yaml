@@ -1,0 +1,37 @@
+# Qualification-scale RunConfig base for the kind cluster (resources shrunk to fit an
+# 8 GiB VM). Models/policies/tasks are added by the smoke test.
+mode: eval
+artifact_root: "s3://rsb-qual/artifacts?endpoint=http%3A%2F%2Fs3.raysimbatch-qual.svc%3A9000"
+database_secret: "k8s:rsb-db/dsn"
+cluster:
+  namespace: raysimbatch
+  cpu_node_cores: 8
+  cpu_node_memory_gib: 5
+  ray_cpus: 4
+  simulation_cpus: 4
+  object_store_gib: 1
+  shm_gib: 1
+  min_cpu_nodes: 1
+  max_cpu_nodes: 2
+  head_cpu: 1
+  head_memory_gib: 2
+  coordinator_fanout: 8
+  gang_timeout_s: 300
+worker:
+  # One-CPU actors: an evaluation of two policies (two runtimes, two actors) plus its
+  # coordinator fits one 4-CPU worker node, so blue and green can each run on one node
+  # of this 8 GiB / 14-CPU kind VM (observed: two-CPU actors needed a second node per
+  # color and the gang could not be placed while both colors were up).
+  envs: 8
+  threads: 1
+  num_cpus: 1
+  slice_size: 8
+  slice_min: 8
+  slice_max: 128
+  memory_gib: 1
+  affinity: numa_exclusive
+evaluation:
+  seeds: [0, 1, 2, 3]
+  episodes_per_seed: 2
+  wave_actors: 1
+  bootstrap_replicates: 1000

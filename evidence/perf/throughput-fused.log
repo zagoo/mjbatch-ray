@@ -1,0 +1,23 @@
+# 2026-09-28T08:37:58Z rsb 9371e02-dirty(fused path uncommitted) load: 3.26 4.17 4.28
+cartpole   T=1 upstream(nstep)=     735,731/s upstream(substep)=     787,693/s wrapper=     491,718/s  ratio=0.667 (vs substep 0.628) native_fraction=0.82 | fused=     613,162/s ratio=0.832 native_fraction=0.87
+cartpole   T=2 upstream(nstep)=   1,351,812/s upstream(substep)=   1,154,400/s wrapper=     683,779/s  ratio=0.507 (vs substep 0.595) native_fraction=0.72 | fused=     992,259/s ratio=0.734 native_fraction=0.77
+cartpole   T=4 upstream(nstep)=   2,509,395/s upstream(substep)=   1,701,093/s wrapper=     867,561/s  ratio=0.346 (vs substep 0.513) native_fraction=0.64 | fused=   1,489,161/s ratio=0.592 native_fraction=0.64
+quadruped  T=1 upstream(nstep)=     129,087/s upstream(substep)=     128,097/s wrapper=     145,663/s  ratio=1.130 (vs substep 1.140) native_fraction=0.93 | per_substep=     146,021/s ratio=1.133 native_fraction=0.93
+quadruped  T=2 upstream(nstep)=     247,749/s upstream(substep)=     239,320/s wrapper=     249,083/s  ratio=1.000 (vs substep 1.040) native_fraction=0.86 | per_substep=     251,266/s ratio=1.015 native_fraction=0.86
+quadruped  T=4 upstream(nstep)=     475,223/s upstream(substep)=     441,047/s wrapper=     408,009/s  ratio=0.861 (vs substep 0.925) native_fraction=0.77 | per_substep=     409,794/s ratio=0.865 native_fraction=0.77
+reacher    T=1 upstream(nstep)=     597,616/s upstream(substep)=     610,571/s wrapper=     378,846/s  ratio=0.633 (vs substep 0.619) native_fraction=0.80 | fused=     479,186/s ratio=0.806 native_fraction=0.84
+reacher    T=2 upstream(nstep)=   1,155,321/s upstream(substep)=     979,989/s wrapper=     571,182/s  ratio=0.496 (vs substep 0.585) native_fraction=0.72 | fused=     856,226/s ratio=0.743 native_fraction=0.77
+reacher    T=4 upstream(nstep)=   2,206,157/s upstream(substep)=   1,542,737/s wrapper=     787,639/s  ratio=0.357 (vs substep 0.514) native_fraction=0.64 | fused=   1,430,075/s ratio=0.649 native_fraction=0.68
+# exit=0
+cartpole   T=1 upstream(nstep)=     799,017/s upstream(substep)=     749,632/s wrapper=     601,734/s  ratio=0.754 (vs substep 0.803) native_fraction=0.92 | fused=     721,672/s ratio=0.902 native_fraction=0.94
+cartpole   T=2 upstream(nstep)=   1,452,638/s upstream(substep)=   1,342,254/s wrapper=     968,422/s  ratio=0.667 (vs substep 0.722) native_fraction=0.85 | fused=   1,247,446/s ratio=0.858 native_fraction=0.89
+cartpole   T=4 upstream(nstep)=   2,696,931/s upstream(substep)=   2,418,326/s wrapper=   1,531,363/s  ratio=0.571 (vs substep 0.636) native_fraction=0.77 | fused=   2,115,667/s ratio=0.789 native_fraction=0.81
+quadruped  T=1 upstream(nstep)=     125,608/s upstream(substep)=     121,735/s wrapper=     148,710/s  ratio=1.188 (vs substep 1.228) native_fraction=0.96 | per_substep=     148,476/s ratio=1.187 native_fraction=0.97
+quadruped  T=2 upstream(nstep)=     248,959/s upstream(substep)=     241,615/s wrapper=     277,861/s  ratio=1.115 (vs substep 1.150) native_fraction=0.93 | per_substep=     279,119/s ratio=1.117 native_fraction=0.94
+quadruped  T=4 upstream(nstep)=     488,059/s upstream(substep)=     473,295/s wrapper=     502,421/s  ratio=1.029 (vs substep 1.060) native_fraction=0.88 | per_substep=     507,669/s ratio=1.039 native_fraction=0.88
+reacher    T=1 upstream(nstep)=     588,271/s upstream(substep)=     588,755/s wrapper=     411,804/s  ratio=0.700 (vs substep 0.699) native_fraction=0.87 | fused=     491,946/s ratio=0.835 native_fraction=0.87
+reacher    T=2 upstream(nstep)=   1,155,244/s upstream(substep)=   1,086,517/s wrapper=     732,883/s  ratio=0.635 (vs substep 0.675) native_fraction=0.82 | fused=     938,531/s ratio=0.812 native_fraction=0.84
+reacher    T=4 upstream(nstep)=   2,289,044/s upstream(substep)=   2,018,592/s wrapper=   1,236,363/s  ratio=0.540 (vs substep 0.612) native_fraction=0.76 | fused=   1,736,344/s ratio=0.759 native_fraction=0.79
+# exit=0
+# end 2026-09-28T08:47:38Z load: 7.09 5.94 5.11
+# note: the header's revision was HEAD when the run started; the code under test is 4b6df90 (committed during the run from the unchanged working tree; the only later edit was a lint fix in tests/core/test_fused.py, which the benchmark does not import).

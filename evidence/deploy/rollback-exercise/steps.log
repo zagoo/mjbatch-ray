@@ -1,0 +1,16 @@
+2026-09-28T02:12:16Z images: blue=raysimbatch-cpu:blue green=raysimbatch-cpu:green
+active=green previous=blue
+2026-09-28T02:12:16Z pointer {"active":"green","previous":"blue"}
+2026-09-28T02:12:16Z xresume-start on green (seeds=32 steps=200000)
+2026-09-28T02:12:22Z green hard-failed; run c1a22064cf41439a9de076218bae2d50 durable state:
+RUNNING|32
+SUCCEEDED|32
+run|RUNNING|0
+active=blue previous=green
+2026-09-28T02:12:22Z pointer {"active":"blue","previous":"green"}
+2026-09-28T02:12:22Z xresume-finish on blue
+2026-09-28T02:35:15Z xresume-finish exit=137; run c1a22064cf41439a9de076218bae2d50 durable state:
+SUCCEEDED|64
+run|COMPLETED|1
+2026-09-28T02:36:49Z reference comparison on blue (redeployed; the first reference run's controller was OOM-killed on the head)
+2026-09-28T02:51:43Z xresume-compare exit=0

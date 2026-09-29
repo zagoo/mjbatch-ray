@@ -1,0 +1,162 @@
+{
+  "schema": "rsb-bench-inference/1",
+  "args": {
+    "obs_dim": 36,
+    "act_dim": 8,
+    "sizes": "1,8,64,256,1024",
+    "seconds": 1.0,
+    "out": "evidence/perf/inference-curves.json"
+  },
+  "results": [
+    {
+      "batch": 1,
+      "calls": 60060,
+      "p50_ms": 0.016417005099356174,
+      "p99_ms": 0.018916965927928686,
+      "rows_per_s": 60413.713812219416,
+      "runtime": "onnx",
+      "device": "cpu",
+      "policy": "mlp_gaussian"
+    },
+    {
+      "batch": 8,
+      "calls": 52414,
+      "p50_ms": 0.01899997005239129,
+      "p99_ms": 0.0226249685510993,
+      "rows_per_s": 421561.1283647793,
+      "runtime": "onnx",
+      "device": "cpu",
+      "policy": "mlp_gaussian"
+    },
+    {
+      "batch": 64,
+      "calls": 33550,
+      "p50_ms": 0.029499991796910763,
+      "p99_ms": 0.032750016544014215,
+      "rows_per_s": 2154431.021809214,
+      "runtime": "onnx",
+      "device": "cpu",
+      "policy": "mlp_gaussian"
+    },
+    {
+      "batch": 256,
+      "calls": 17453,
+      "p50_ms": 0.056958000641316175,
+      "p99_ms": 0.06341701373457909,
+      "rows_per_s": 4475388.28544604,
+      "runtime": "onnx",
+      "device": "cpu",
+      "policy": "mlp_gaussian"
+    },
+    {
+      "batch": 1024,
+      "calls": 6428,
+      "p50_ms": 0.15391601482406259,
+      "p99_ms": 0.18008402548730373,
+      "rows_per_s": 6586445.410614808,
+      "runtime": "onnx",
+      "device": "cpu",
+      "policy": "mlp_gaussian"
+    },
+    {
+      "batch": 1,
+      "calls": 123603,
+      "p50_ms": 0.007833004929125309,
+      "p99_ms": 0.010125047992914915,
+      "rows_per_s": 124884.06036344341,
+      "runtime": "torchscript",
+      "device": "cpu",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 8,
+      "calls": 118753,
+      "p50_ms": 0.008083006832748652,
+      "p99_ms": 0.010999967344105244,
+      "rows_per_s": 959864.920235596,
+      "runtime": "torchscript",
+      "device": "cpu",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 64,
+      "calls": 104531,
+      "p50_ms": 0.00929099041968584,
+      "p99_ms": 0.011999974958598614,
+      "rows_per_s": 6751267.024442932,
+      "runtime": "torchscript",
+      "device": "cpu",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 256,
+      "calls": 75165,
+      "p50_ms": 0.013166980352252722,
+      "p99_ms": 0.014542019926011562,
+      "rows_per_s": 19403726.504921768,
+      "runtime": "torchscript",
+      "device": "cpu",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 1024,
+      "calls": 52168,
+      "p50_ms": 0.018709019059315324,
+      "p99_ms": 0.021874962840229273,
+      "rows_per_s": 53711304.68304051,
+      "runtime": "torchscript",
+      "device": "cpu",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 1,
+      "calls": 4128,
+      "p50_ms": 0.22770900977775455,
+      "p99_ms": 0.3917909925803542,
+      "rows_per_s": 4129.961490143522,
+      "runtime": "torchscript",
+      "device": "mps",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 8,
+      "calls": 3812,
+      "p50_ms": 0.24795799981802702,
+      "p99_ms": 0.44174998765811324,
+      "rows_per_s": 30511.074670655045,
+      "runtime": "torchscript",
+      "device": "mps",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 64,
+      "calls": 3846,
+      "p50_ms": 0.24683299125172198,
+      "p99_ms": 0.4033750155940652,
+      "rows_per_s": 246249.90228255177,
+      "runtime": "torchscript",
+      "device": "mps",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 256,
+      "calls": 3850,
+      "p50_ms": 0.2474794746376574,
+      "p99_ms": 0.38420798955485225,
+      "rows_per_s": 986087.2288357663,
+      "runtime": "torchscript",
+      "device": "mps",
+      "policy": "linear_ts"
+    },
+    {
+      "batch": 1024,
+      "calls": 3792,
+      "p50_ms": 0.25179149815812707,
+      "p99_ms": 0.3845410537905991,
+      "rows_per_s": 3884631.0657113525,
+      "runtime": "torchscript",
+      "device": "mps",
+      "policy": "linear_ts"
+    }
+  ]
+}

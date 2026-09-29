@@ -1,0 +1,86 @@
+2026-09-29 03:20:21,850	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-29 03:20:21,856	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.7:6379...
+2026-09-29 03:20:21,860	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.7:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "bcf840787597e4fcd9863a919408d964706aed5d53e30ea333874b907a0f116b",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true,
+      "fused_substeps_equal": true,
+      "history_rows_are_states": true
+    }
+  },
+  "image": "6e0ad7e208e3a7c9f767309c537bf28fd07bb3ff",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 3,
+  "checks": {
+    "xresume_start": {
+      "run_id": "8f7a2af10eb340858aced7e505570e23",
+      "committed_units_at_handoff": 16,
+      "passed": true
+    }
+  },
+  "affinity": {
+    "rsb-affinity-b3cd4b755d2f89e5": {
+      "cpus": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "service": [],
+      "pool": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "leases": {
+        "sim-8f7a2af1-0000": {
+          "cpus": [
+            10
+          ],
+          "numa_node": null,
+          "pid": 808
+        },
+        "sim-8f7a2af1-0001": {
+          "cpus": [
+            11
+          ],
+          "numa_node": null,
+          "pid": 807
+        }
+      }
+    },
+    "rsb-affinity-c49b4bd654d8e3b7": {
+      "cpus": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "service": [],
+      "pool": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "leases": {}
+    }
+  },
+  "passed": true,
+  "seconds": 5.210387468338013
+}

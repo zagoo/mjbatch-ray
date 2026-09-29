@@ -1,0 +1,5 @@
+-  "mjbatch==0.1.1",
++  "mjbatch==0.1.0.post31300",
++  "0.1.0.post31300": {"mujoco": "3.13.0", "revision": "121e0331323eab76a30db34b5b9dae2111c837a8"},
+{'mjbatch_version': '0.1.0.post31300', 'mujoco_version': '3.13.0', 'qualified': True, 'candidate_mode': False} True
+43 passed in 5.07s

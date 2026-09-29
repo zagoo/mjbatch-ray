@@ -1,0 +1,13 @@
+slots=64 cartpole   T=1 upstream(nstep)=     919,405/s upstream(substep)=     731,726/s wrapper=     476,250/s  ratio=0.518 (vs substep 0.651) native_fraction=0.84
+slots=64 cartpole   T=4 upstream(nstep)=   3,057,324/s upstream(substep)=   1,640,435/s wrapper=     914,906/s  ratio=0.299 (vs substep 0.558) native_fraction=0.66
+slots=64 reacher    T=1 upstream(nstep)=     745,686/s upstream(substep)=     596,797/s wrapper=     380,230/s  ratio=0.510 (vs substep 0.637) native_fraction=0.82
+slots=64 reacher    T=4 upstream(nstep)=   2,888,368/s upstream(substep)=   1,502,668/s wrapper=     818,778/s  ratio=0.283 (vs substep 0.545) native_fraction=0.67
+slots=256 cartpole   T=1 upstream(nstep)=     915,861/s upstream(substep)=     733,866/s wrapper=     593,972/s  ratio=0.649 (vs substep 0.809) native_fraction=0.93
+slots=256 cartpole   T=4 upstream(nstep)=   3,398,398/s upstream(substep)=   2,341,118/s wrapper=   1,531,912/s  ratio=0.451 (vs substep 0.654) native_fraction=0.79
+slots=256 reacher    T=1 upstream(nstep)=     712,158/s upstream(substep)=     575,790/s wrapper=     405,619/s  ratio=0.570 (vs substep 0.704) native_fraction=0.87
+slots=256 reacher    T=4 upstream(nstep)=   2,849,645/s upstream(substep)=     259,725/s wrapper=   1,237,716/s  ratio=0.434 (vs substep 4.765) native_fraction=0.78
+slots=1024 cartpole   T=1 upstream(nstep)=     916,780/s upstream(substep)=       4,075/s wrapper=      21,806/s  ratio=0.024 (vs substep 5.351) native_fraction=0.91
+slots=1024 cartpole   T=4 upstream(nstep)=      28,994/s upstream(substep)=      13,176/s wrapper=      21,589/s  ratio=0.745 (vs substep 1.639) native_fraction=0.92
+slots=1024 reacher    T=1 upstream(nstep)=      15,482/s upstream(substep)=     201,822/s wrapper=     397,292/s  ratio=25.661 (vs substep 1.969) native_fraction=0.89
+slots=1024 reacher    T=4 upstream(nstep)=   1,443,664/s upstream(substep)=     120,297/s wrapper=      30,040/s  ratio=0.021 (vs substep 0.250) native_fraction=0.85
+INVALID: 1024-slot rows contaminated by host contention (implausible upstream rates); rerun pending

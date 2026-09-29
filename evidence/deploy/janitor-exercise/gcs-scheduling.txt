@@ -1,0 +1,12 @@
+# janitor (timestamps):
+2026-09-28T03:51:14.067904096Z {"janitor_worker_node": true}
+2026-09-28T03:51:16.870907750Z {"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": ["6cdd2d15257c49c2a2dc5d51da2ffda0"], "failed_orphans":
+# rsb-blue-head-h4b6n gcs_server.out: node registration, then the first actor leases after the janitor's first pass
+[2026-09-28 03:51:11,015 I 11 41] (gcs_server) gcs_node_manager.cc:109: Registering new node. node_id=bd6a2b57f6e1b3ea932adc623c4d9619606255a2ea71e2e47c293d0e node_name=10.244.2.47 node_address=10.244
+[2026-09-28 03:51:12,384 I 11 41] (gcs_server) gcs_node_manager.cc:109: Registering new node. node_id=1f6ef0d0c4c3099a967f2527eb65b21a97a2e05c6752efeeb8a2258d node_name=10.244.1.49 node_address=10.244
+[2026-09-28 03:51:16,260 I 11 11] (gcs_server) gcs_actor_scheduler.cc:274: Leasing worker for actor. actor_id=b4b20a3b705f616dbe703bb301000000 job_id=01000000 node_id=1f6ef0d0c4c3099a967f2527eb65b21a97a2e05c6752efeeb8a2258d
+[2026-09-28 03:51:16,694 I 11 11] (gcs_server) gcs_actor_scheduler.cc:622: Finished leasing worker from 1f6ef0d0c4c3099a967f2527eb65b21a97a2e05c6752efeeb8a2258d for actor b4b20a3b705f616dbe703bb301000000, job id = 01000000
+[2026-09-28 03:51:17,175 I 11 11] (gcs_server) gcs_actor_scheduler.cc:274: Leasing worker for actor. actor_id=a917168611a58b3841f4bf0f01000000 job_id=01000000 node_id=1f6ef0d0c4c3099a967f2527eb65b21a97a2e05c6752efeeb8a2258d
+[2026-09-28 03:51:17,609 I 11 11] (gcs_server) gcs_actor_scheduler.cc:622: Finished leasing worker from 1f6ef0d0c4c3099a967f2527eb65b21a97a2e05c6752efeeb8a2258d for actor a917168611a58b3841f4bf0f01000000, job id = 01000000
+[2026-09-28 03:51:17,732 I 11 11] (gcs_server) gcs_actor_scheduler.cc:274: Leasing worker for actor. actor_id=f49dabbbff339a6b6dfa366e01000000 job_id=01000000 node_id=1f6ef0d0c4c3099a967f2527eb65b21a97a2e05c6752efeeb8a2258d
+[2026-09-28 03:51:18,184 I 11 11] (gcs_server) gcs_actor_scheduler.cc:622: Finished leasing worker from 1f6ef0d0c4c3099a967f2527eb65b21a97a2e05c6752efeeb8a2258d for actor f49dabbbff339a6b6dfa366e01000000, job id = 01000000

@@ -1,0 +1,86 @@
+2026-09-28 01:27:18,688	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-28 01:27:18,694	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.34:6379...
+2026-09-28 01:27:18,698	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.34:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "4ceaa72ddad3abebe5f1a4d04c11dd560e24f46f815cc366f2d34eb90c1e1995",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "03014ba96c061166f6ab23c773f3a326046c6dc1",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 3,
+  "checks": {
+    "xresume_start": {
+      "run_id": "6f8dc831dc3240918316420506132fc4",
+      "committed_units_at_handoff": 16,
+      "passed": true
+    }
+  },
+  "affinity": {
+    "rsb-affinity-59bf7c66b5ddd707": {
+      "cpus": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "service": [],
+      "pool": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "leases": {}
+    },
+    "rsb-affinity-c2b63712085c1b17": {
+      "cpus": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "service": [],
+      "pool": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "leases": {
+        "sim-6f8dc831-0000": {
+          "cpus": [
+            6,
+            7
+          ],
+          "numa_node": null,
+          "pid": 308
+        },
+        "sim-6f8dc831-0001": {
+          "cpus": [
+            8,
+            9
+          ],
+          "numa_node": null,
+          "pid": 309
+        }
+      }
+    }
+  },
+  "passed": true,
+  "seconds": 5.598104238510132
+}

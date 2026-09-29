@@ -1,0 +1,58 @@
+<mujoco model="quadruped">
+  <compiler angle="radian"/>
+  <option timestep="0.004"/>
+  <default>
+    <joint type="hinge" damping="0.2" armature="0.01" limited="true"/>
+    <geom friction="0.8 0.02 0.01" condim="3"/>
+  </default>
+  <worldbody>
+    <geom name="floor" type="plane" size="20 20 .1"/>
+    <body name="torso" pos="0 0 .45">
+      <freejoint name="root"/>
+      <geom type="box" size=".25 .12 .05" mass="4"/>
+      <site name="imu"/>
+      <body name="fl" pos=".2 .12 0">
+        <joint name="fl_hip" axis="0 1 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0 0 0 -.18" size=".025" mass=".3"/>
+        <body name="fl_shin" pos="0 0 -.18">
+          <joint name="fl_knee" axis="0 1 0" range="-2.4 0"/>
+          <geom name="fl_foot" type="capsule" fromto="0 0 0 0 0 -.18" size=".02" mass=".2"/>
+        </body>
+      </body>
+      <body name="fr" pos=".2 -.12 0">
+        <joint name="fr_hip" axis="0 1 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0 0 0 -.18" size=".025" mass=".3"/>
+        <body name="fr_shin" pos="0 0 -.18">
+          <joint name="fr_knee" axis="0 1 0" range="-2.4 0"/>
+          <geom name="fr_foot" type="capsule" fromto="0 0 0 0 0 -.18" size=".02" mass=".2"/>
+        </body>
+      </body>
+      <body name="hl" pos="-.2 .12 0">
+        <joint name="hl_hip" axis="0 1 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0 0 0 -.18" size=".025" mass=".3"/>
+        <body name="hl_shin" pos="0 0 -.18">
+          <joint name="hl_knee" axis="0 1 0" range="-2.4 0"/>
+          <geom name="hl_foot" type="capsule" fromto="0 0 0 0 0 -.18" size=".02" mass=".2"/>
+        </body>
+      </body>
+      <body name="hr" pos="-.2 -.12 0">
+        <joint name="hr_hip" axis="0 1 0" range="-1.2 1.2"/>
+        <geom type="capsule" fromto="0 0 0 0 0 -.18" size=".025" mass=".3"/>
+        <body name="hr_shin" pos="0 0 -.18">
+          <joint name="hr_knee" axis="0 1 0" range="-2.4 0"/>
+          <geom name="hr_foot" type="capsule" fromto="0 0 0 0 0 -.18" size=".02" mass=".2"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <motor name="fl_hip" joint="fl_hip" gear="1"/><motor name="fl_knee" joint="fl_knee" gear="1"/>
+    <motor name="fr_hip" joint="fr_hip" gear="1"/><motor name="fr_knee" joint="fr_knee" gear="1"/>
+    <motor name="hl_hip" joint="hl_hip" gear="1"/><motor name="hl_knee" joint="hl_knee" gear="1"/>
+    <motor name="hr_hip" joint="hr_hip" gear="1"/><motor name="hr_knee" joint="hr_knee" gear="1"/>
+  </actuator>
+  <sensor><gyro name="gyro" site="imu"/><accelerometer name="accel" site="imu"/></sensor>
+  <keyframe>
+    <key name="stand" qpos="0 0 .38 1 0 0 0  .5 -1  .5 -1  .5 -1  .5 -1"/>
+  </keyframe>
+</mujoco>

@@ -1,0 +1,14 @@
+Image: "raysimbatch-cpu:green" with ID "sha256:5274966e485791acb90212cf56076640695020b5858ec77610e00b63d491ff13" found to be already present on all nodes.
+Image: "postgres:rsb-pinned" with ID "sha256:0ab8045a2ab29cb465d51a281286099633319df87fd13918a4f35f2e4c3fc82c" found to be already present on all nodes.
+Image: "minio/minio:rsb-pinned" with ID "sha256:8f08aee614800a237906bd48114d733e5ac5bfac4ccdf731f141b0e880d7a253" found to be already present on all nodes.
+waiting for rsb-green head
+pod/rsb-green-head-wskdr condition met
+NAME        DESIRED WORKERS   AVAILABLE WORKERS   CPUS   MEMORY   GPUS   STATUS   AGE
+rsb-green   1                 1                   5      4200Mi   0               12s
+NAME                                 READY   STATUS    RESTARTS   AGE     IP            NODE               NOMINATED NODE   READINESS GATES
+postgres-5d45d6c445-qmbn2            1/1     Running   0          2m34s   10.244.2.30   rsb-qual-worker    <none>           <none>
+rsb-blue-head-f9nr5                  2/2     Running   0          24s     10.244.2.31   rsb-qual-worker    <none>           <none>
+rsb-blue-sim-general-worker-k57v6    1/1     Running   0          24s     10.244.1.24   rsb-qual-worker2   <none>           <none>
+rsb-green-head-wskdr                 2/2     Running   0          11s     10.244.2.32   rsb-qual-worker    <none>           <none>
+rsb-green-sim-general-worker-bkwtc   0/1     Running   0          11s     10.244.1.25   rsb-qual-worker2   <none>           <none>
+s3-647dd48456-jnwjb                  1/1     Running   0          33m     10.244.2.26   rsb-qual-worker    <none>           <none>

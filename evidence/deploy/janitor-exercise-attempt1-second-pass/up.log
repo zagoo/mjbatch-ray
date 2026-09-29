@@ -1,0 +1,14 @@
+Image: "raysimbatch-cpu:blue" with ID "sha256:0f3cb378ce82f8e45009b07d538878756c568e5020da5faaa26117bfbba08a41" not yet present on node "rsb-qual-worker", loading...
+Image: "raysimbatch-cpu:blue" with ID "sha256:0f3cb378ce82f8e45009b07d538878756c568e5020da5faaa26117bfbba08a41" not yet present on node "rsb-qual-control-plane", loading...
+Image: "raysimbatch-cpu:blue" with ID "sha256:0f3cb378ce82f8e45009b07d538878756c568e5020da5faaa26117bfbba08a41" not yet present on node "rsb-qual-worker2", loading...
+Image: "postgres:rsb-pinned" with ID "sha256:0ab8045a2ab29cb465d51a281286099633319df87fd13918a4f35f2e4c3fc82c" found to be already present on all nodes.
+Image: "minio/minio:rsb-pinned" with ID "sha256:8f08aee614800a237906bd48114d733e5ac5bfac4ccdf731f141b0e880d7a253" found to be already present on all nodes.
+waiting for rsb-blue head
+pod/rsb-blue-head-whrmd condition met
+NAME       DESIRED WORKERS   AVAILABLE WORKERS   CPUS    MEMORY   GPUS   STATUS   AGE
+rsb-blue   1                 1                   5100m   4832Mi   0               17s
+NAME                                READY   STATUS    RESTARTS   AGE     IP            NODE               NOMINATED NODE   READINESS GATES
+postgres-5d45d6c445-qmbn2           1/1     Running   0          164m    10.244.2.30   rsb-qual-worker    <none>           <none>
+rsb-blue-head-whrmd                 3/3     Running   0          17s     10.244.2.44   rsb-qual-worker    <none>           <none>
+rsb-blue-sim-general-worker-5lxss   0/1     Running   0          17s     10.244.1.47   rsb-qual-worker2   <none>           <none>
+s3-647dd48456-jnwjb                 1/1     Running   0          3h15m   10.244.2.26   rsb-qual-worker    <none>           <none>

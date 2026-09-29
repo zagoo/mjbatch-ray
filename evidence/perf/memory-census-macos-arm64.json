@@ -1,0 +1,108 @@
+{
+  "schema": "rsb-memory-census/1",
+  "rows": [
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 4,
+      "nv": 2,
+      "nbuffer": 13196,
+      "narena": 13631488,
+      "census": {
+        "kernel_state_bytes": 19584,
+        "state_bytes": 14336,
+        "bound_bytes": 9728,
+        "expanded_bytes": 0
+      },
+      "rss_construct_bytes": 2146304,
+      "rss_after_warmup_bytes": 2441216,
+      "rss_per_slot_bytes": 38144.0
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 4,
+      "nv": 2,
+      "nbuffer": 13196,
+      "narena": 13631488,
+      "census": {
+        "kernel_state_bytes": 78336,
+        "state_bytes": 57344,
+        "bound_bytes": 38912,
+        "expanded_bytes": 0
+      },
+      "rss_construct_bytes": 2244608,
+      "rss_after_warmup_bytes": 2621440,
+      "rss_per_slot_bytes": 10240.0
+    },
+    {
+      "model": "quadruped",
+      "slots": 64,
+      "threads": 4,
+      "nv": 14,
+      "nbuffer": 25668,
+      "narena": 14680064,
+      "census": {
+        "kernel_state_bytes": 54144,
+        "state_bytes": 64512,
+        "bound_bytes": 33280,
+        "expanded_bytes": 54272
+      },
+      "rss_construct_bytes": 3424256,
+      "rss_after_warmup_bytes": 3915776,
+      "rss_per_slot_bytes": 61184.0
+    },
+    {
+      "model": "quadruped",
+      "slots": 256,
+      "threads": 4,
+      "nv": 14,
+      "nbuffer": 25668,
+      "narena": 14680064,
+      "census": {
+        "kernel_state_bytes": 216576,
+        "state_bytes": 258048,
+        "bound_bytes": 133120,
+        "expanded_bytes": 217088
+      },
+      "rss_construct_bytes": 4128768,
+      "rss_after_warmup_bytes": 4931584,
+      "rss_per_slot_bytes": 19264.0
+    },
+    {
+      "model": "reacher",
+      "slots": 64,
+      "threads": 4,
+      "nv": 3,
+      "nbuffer": 12760,
+      "narena": 13631488,
+      "census": {
+        "kernel_state_bytes": 29056,
+        "state_bytes": 20480,
+        "bound_bytes": 11776,
+        "expanded_bytes": 0
+      },
+      "rss_construct_bytes": 2048000,
+      "rss_after_warmup_bytes": 2441216,
+      "rss_per_slot_bytes": 38144.0
+    },
+    {
+      "model": "reacher",
+      "slots": 256,
+      "threads": 4,
+      "nv": 3,
+      "nbuffer": 12760,
+      "narena": 13631488,
+      "census": {
+        "kernel_state_bytes": 116224,
+        "state_bytes": 81920,
+        "bound_bytes": 47104,
+        "expanded_bytes": 0
+      },
+      "rss_construct_bytes": 2424832,
+      "rss_after_warmup_bytes": 2916352,
+      "rss_per_slot_bytes": 11392.0
+    }
+  ],
+  "note": "current RSS deltas sampled with ps (not PSS)"
+}

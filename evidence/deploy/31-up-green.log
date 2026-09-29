@@ -1,0 +1,16 @@
+Image with ID: sha256:d32b7f0c001ad83aee9e5a6e7dd61fddae88437fd741999ce21b1c4281c8e2fb already present on the node rsb-qual-worker but is missing the tag docker.io/library/raysimbatch-cpu:green. re-tagging...
+Image with ID: sha256:d32b7f0c001ad83aee9e5a6e7dd61fddae88437fd741999ce21b1c4281c8e2fb already present on the node rsb-qual-control-plane but is missing the tag docker.io/library/raysimbatch-cpu:green. re-tagging...
+Image with ID: sha256:d32b7f0c001ad83aee9e5a6e7dd61fddae88437fd741999ce21b1c4281c8e2fb already present on the node rsb-qual-worker2 but is missing the tag docker.io/library/raysimbatch-cpu:green. re-tagging...
+Image: "postgres:rsb-pinned" with ID "sha256:0ab8045a2ab29cb465d51a281286099633319df87fd13918a4f35f2e4c3fc82c" found to be already present on all nodes.
+Image: "minio/minio:rsb-pinned" with ID "sha256:8f08aee614800a237906bd48114d733e5ac5bfac4ccdf731f141b0e880d7a253" found to be already present on all nodes.
+waiting for rsb-green head
+pod/rsb-green-head-6bs2r condition met
+NAME        DESIRED WORKERS   AVAILABLE WORKERS   CPUS   MEMORY   GPUS   STATUS   AGE
+rsb-green   1                 1                   5      4200Mi   0               11s
+NAME                                 READY   STATUS    RESTARTS   AGE    IP            NODE               NOMINATED NODE   READINESS GATES
+postgres-5d45d6c445-qmbn2            1/1     Running   0          90m    10.244.2.30   rsb-qual-worker    <none>           <none>
+rsb-blue-head-srch5                  2/2     Running   0          24s    10.244.2.37   rsb-qual-worker    <none>           <none>
+rsb-blue-sim-general-worker-bp6sb    1/1     Running   0          24s    10.244.1.36   rsb-qual-worker2   <none>           <none>
+rsb-green-head-6bs2r                 2/2     Running   0          11s    10.244.2.38   rsb-qual-worker    <none>           <none>
+rsb-green-sim-general-worker-hw94t   0/1     Running   0          11s    10.244.1.37   rsb-qual-worker2   <none>           <none>
+s3-647dd48456-jnwjb                  1/1     Running   0          121m   10.244.2.26   rsb-qual-worker    <none>           <none>

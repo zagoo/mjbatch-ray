@@ -1,0 +1,16 @@
+# 2026-09-29T03:20:41Z rsb-blue during the resumed run (rollback exercise)
+## named RaySimBatch actors (all namespaces), from the head
+2026-09-29 03:20:41,531	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-29 03:20:41,546	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.6:6379...
+2026-09-29 03:20:41,551	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.6:8265 [39m[22m
+raysimbatch rsb-asset-cache-072ce9d72506b36e
+raysimbatch rsb-run-8f7a2af10eb340858aced7e505570e23
+raysimbatch rsb-watchdog-072ce9d72506b36e
+## worker pod rsb-blue-sim-general-worker-slfg8 metrics (port 8080): watchdog heartbeat and worker RSS
+ray_raysimbatch_heartbeat_age_seconds{Component="core_worker",NodeAddress="10.244.1.3",SessionName="session_2026-09-29_03-19-17_386677_1",Version="2.58.0",WorkerId="21e34710a98f58d17deb0e1e19e970d9a4d824cf5f38bfd93fd65c0
+## 2026-09-29T03:20:50Z worker pod rsb-blue-sim-general-worker-slfg8 metrics (port 8080), name, selected labels and value
+ray_raysimbatch_heartbeat_age_seconds {'actor_role': 'watchdog', 'node': '072ce9d72506b36e', 'model_family': None} 0.0
+## 2026-09-29T03:22:03Z after the resumed run's workers registered (polled every 5 s, attempt 13)
+ray_raysimbatch_heartbeat_age_seconds {'actor_role': 'watchdog', 'node': '072ce9d72506b36e', 'model_family': None} 3.287499930593185e-05
+ray_raysimbatch_worker_rss_bytes {'actor_role': 'simulation', 'node': None, 'model_family': 'cartpole'} 2.02338304e+08
+ray_raysimbatch_worker_rss_bytes {'actor_role': 'simulation', 'node': None, 'model_family': 'cartpole'} 1.96530176e+08

@@ -1,0 +1,14 @@
+start 2026-09-28T00:27:28Z image=raysimbatch-cpu:blue
+00:27:29 workers=2 alive_actors=[]
+00:27:59 workers=2 alive_actors=[]
+00:28:30 workers=2 alive_actors=[]
+00:29:01 workers=2 alive_actors=[]
+00:29:32 workers=2 alive_actors=[]
+00:30:02 workers=2 alive_actors=[]
+00:30:33 workers=2 alive_actors=[]
+00:31:04 workers=2 alive_actors=[]
+00:31:35 workers=2 alive_actors=[]
+00:32:06 workers=2 alive_actors=[]
+00:32:36 workers=2 alive_actors=[]
+00:33:07 workers=1 alive_actors=[]
+end 2026-09-28T00:33:07Z

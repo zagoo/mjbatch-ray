@@ -1,0 +1,17 @@
+2026-09-28 03:51:07,063	INFO client_builder.py:262 -- Passing the following kwargs to ray.init() on the server: log_to_driver
+{"janitor_worker_node": true}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": ["6cdd2d15257c49c2a2dc5d51da2ffda0"], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": ["6cdd2d15257c49c2a2dc5d51da2ffda0"], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}

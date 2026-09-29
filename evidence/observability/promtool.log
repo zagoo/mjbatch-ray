@@ -1,0 +1,10 @@
+# 2026-09-29T06:37:11Z rsb 5f4629f: qualification/check_alerts.sh
+Checking alerts.yaml
+  SUCCESS: 23 rules found
+
+  SUCCESS
+
+Checking dashboard-queries.yaml
+  SUCCESS: 74 rules found
+
+# exit=0

@@ -1,0 +1,582 @@
+{
+ "uid": "rsb-resources",
+ "title": "RaySimBatch / Resources and placement",
+ "description": "Memory, CPU placement quality, object store, backpressure and control-plane delays.",
+ "tags": [
+  "raysimbatch"
+ ],
+ "timezone": "utc",
+ "schemaVersion": 39,
+ "version": 1,
+ "editable": true,
+ "refresh": "30s",
+ "time": {
+  "from": "now-6h",
+  "to": "now"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "datasource",
+    "label": "Prometheus",
+    "type": "datasource",
+    "query": "prometheus",
+    "current": {},
+    "hide": 0
+   }
+  ]
+ },
+ "annotations": {
+  "list": []
+ },
+ "links": [
+  {
+   "title": "RaySimBatch dashboards",
+   "type": "dashboards",
+   "tags": [
+    "raysimbatch"
+   ],
+   "asDropdown": true
+  }
+ ],
+ "panels": [
+  {
+   "type": "row",
+   "title": "Memory",
+   "id": 1,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Worker memory (largest worker)",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "max(ray_raysimbatch_worker_rss_bytes)",
+     "legendFormat": "RSS",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "max(ray_raysimbatch_worker_private_bytes)",
+     "legendFormat": "private (Linux)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "bytes"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 2,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Object store by node",
+   "description": "Occupancy above 85% pages (runbook: Object store pressure).",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "raysimbatch:object_store_used_bytes",
+     "legendFormat": "used {{NodeAddress}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "raysimbatch:object_store_capacity_bytes",
+     "legendFormat": "capacity {{NodeAddress}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "bytes"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 3,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Spill and restore throughput",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(rate(raysimbatch:object_spilled_bytes_total[5m]))",
+     "legendFormat": "spilled",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum(rate(raysimbatch:object_restored_bytes_total[5m]))",
+     "legendFormat": "restored",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "Bps"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 4,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 9
+   }
+  },
+  {
+   "type": "row",
+   "title": "CPU placement",
+   "id": 5,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 17
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "CPU busy per leased thread",
+   "description": "Process CPU time per wall second per leased thread; a busy simulation actor is near 1.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "avg by (model_family) (ray_raysimbatch_cpu_busy_ratio)",
+     "legendFormat": "mean {{model_family}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "min(ray_raysimbatch_cpu_busy_ratio)",
+     "legendFormat": "least busy worker",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 6,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 18
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "NUMA remote memory and affinity violations",
+   "description": "Runbook: NUMA and CPU imbalance.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "max(ray_raysimbatch_numa_remote_ratio)",
+     "legendFormat": "worst remote-memory share (Linux)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_affinity_violations_total[5m]))",
+     "legendFormat": "affinity violations/s",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 7,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 18
+   }
+  },
+  {
+   "type": "row",
+   "title": "Backpressure",
+   "id": 8,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 26
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Credits by stage",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (stage) (ray_raysimbatch_credits_in_use)",
+     "legendFormat": "in use {{stage}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum by (stage) (ray_raysimbatch_credits_available)",
+     "legendFormat": "available {{stage}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 9,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 27
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Queued rows and bytes by stage",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (stage) (ray_raysimbatch_queue_rows)",
+     "legendFormat": "rows {{stage}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum by (stage) (ray_raysimbatch_queue_bytes)",
+     "legendFormat": "bytes {{stage}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 10,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 27
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Oldest queued request",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "max by (stage) (ray_raysimbatch_oldest_request_seconds)",
+     "legendFormat": "{{stage}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 11,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 35
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Frame publication",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_publish_seconds_bucket[5m])))",
+     "legendFormat": "p99 latency",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_publish_bytes_total[5m]))",
+     "legendFormat": "bytes/s",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 12,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 35
+   }
+  },
+  {
+   "type": "row",
+   "title": "Native and adapter costs",
+   "id": 13,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 43
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Reset, set_const and observation (p99)",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_reset_seconds_bucket[5m])))",
+     "legendFormat": "reset",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_set_const_seconds_bucket[5m])))",
+     "legendFormat": "set_const",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "C",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_observe_seconds_bucket[5m])))",
+     "legendFormat": "observe (1 in 16 steps)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 14,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 44
+   }
+  },
+  {
+   "type": "row",
+   "title": "Control plane",
+   "id": 15,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 52
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Placement",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "max(ray_raysimbatch_scheduler_backlog_seconds)",
+     "legendFormat": "waiting for placement",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_placement_ready_seconds_bucket[5m])))",
+     "legendFormat": "p99 time to ready",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 16,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 53
+   }
+  }
+ ]
+}

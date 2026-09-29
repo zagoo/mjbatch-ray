@@ -1,0 +1,12 @@
+fetch failed (fatal: couldn't find remote ref origin/mujoco-versions); using refs already present
+{
+  "ref": "origin/mujoco-versions",
+  "sha": "121e0331323eab76a30db34b5b9dae2111c837a8",
+  "version": "0.1.0",
+  "mujoco": "3.13.0",
+  "worktree": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch",
+  "venv": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv",
+  "committed_pin": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "prepared_at": 1790561813.4133492
+}
+exit=0

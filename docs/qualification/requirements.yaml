@@ -1,0 +1,400 @@
+# RaySimBatch requirement matrix. Source of truth for docs/qualification/requirements.md
+# (tools/render_requirements.py) and checked by tests/tooling/test_requirements.py: every
+# implementation, test and evidence path must exist.
+#
+# Status: VERIFIED     implemented and verified here with real components (evidence given)
+#         IMPLEMENTED  implemented; verification incomplete (reason in notes)
+#         BLOCKED      cannot be verified in this environment (procedure in notes)
+#         NOT_STARTED  not implemented
+# Test commands assume `source tools/env.sh && eval "$(tools/local_services.sh env)"`.
+
+requirements:
+  # ------------------------------------------------------------------ assignment-level
+  - id: R-NI-1
+    section: "Assignment §4; design §1 (AM-0)"
+    requirement: RaySimBatch integrates MJBatch without modifying, patching, vendoring, monkey-patching or private-layout access; one import boundary; builds outside the checkout.
+    implementation: [src/raysimbatch/compat/mjbatch_adapter.py, tools/check_mjbatch_clean.py, pyproject.toml]
+    config: []
+    tests: [tests/tooling/test_noninvasive.py, tests/upstream/test_mjbatch_contract.py]
+    evidence: [docs/mjbatch-integration.md, docs/qualification/report.md]
+    status: VERIFIED
+  - id: R-NI-2
+    section: "Assignment §4 (upgrade workflow)"
+    requirement: MJBatch upgrades run as an isolated candidate (worktree + venv), pass gates (probes, contract, parity, performance, pristine tree), then promote the pin; rollback restores the committed pin.
+    implementation: [tools/mjbatch_upgrade.py, src/raysimbatch/compat/mjbatch_adapter.py]
+    config: []
+    tests: [tests/tooling/test_noninvasive.py]
+    evidence: [evidence/mjbatch-upgrade, docs/operations/mjbatch-upgrade.md]
+    status: VERIFIED
+    notes: "Candidate 121e033 (origin/mujoco-versions) passed all four gates (A/B performance within ±0.5%); promote and rollback exercised end to end in a disposable clone (production pin unchanged: no newer upstream release exists)."
+  - id: R-NI-3
+    section: "Assignment §4; design §6.1 (compat)"
+    requirement: Unqualified MJBatch/MuJoCo pairs fail with an actionable error; candidate mode requires every behaviour probe and is refused in production.
+    implementation: [src/raysimbatch/compat/mjbatch_adapter.py, src/raysimbatch/config/system.py]
+    config: []
+    tests: [tests/config/test_config.py, tests/upstream/test_mjbatch_contract.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-DOC-1
+    section: "Assignment §9"
+    requirement: English documentation for installation, configuration, Modes A/B/C, integration, troubleshooting, operations, MJBatch boundaries, upgrade/rollback, qualification results.
+    implementation: [docs/architecture.md, docs/installation.md, docs/reference/configuration.md, docs/usage/mode-a-rollout.md, docs/usage/mode-b-evaluation.md, docs/usage/mode-c-sim2sim.md, docs/usage/routing.md, docs/deployment/kuberay.md, docs/operations/observability.md, docs/operations/runbooks.md, docs/operations/mjbatch-upgrade.md, docs/troubleshooting.md, docs/extending.md, docs/mjbatch-integration.md, docs/design-amendments.md, docs/qualification/report.md, docs/qualification/verify-gates.md]
+    config: []
+    tests: [tests/examples/test_examples.py, tests/telemetry/test_alerts.py]
+    evidence: []
+    status: VERIFIED
+    notes: "Examples and runbook anchors are executed/checked by tests; the configuration reference is generated (tools/gen_config_reference.py --check)."
+
+  # ------------------------------------------------------------------ §4 traceability
+  - id: R-3.1
+    section: "§4 3.1, §5, §6.2"
+    requirement: Every process that runs simulation capacity is a Ray actor.
+    implementation: [src/raysimbatch/worker/actor.py, src/raysimbatch/control/coordinator.py]
+    config: [worker]
+    tests: [tests/ray/test_worker_actor.py, tests/e2e/test_mode_b.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.1.1
+    section: "§4 3.1.1, §6.1-6.3, §9"
+    requirement: Fleet parallelism through slots per actor and horizontal growth (256 slots/actor target).
+    implementation: [src/raysimbatch/control/placement.py, src/raysimbatch/worker/core.py]
+    config: [worker.envs, target_envs, cluster.max_cpu_nodes]
+    tests: [tests/core/test_core.py, tests/e2e/test_mode_a.py]
+    evidence: [evidence/perf/throughput-macos-arm64.json]
+    status: IMPLEMENTED
+    notes: "Measured up to 256 slots/actor on one host; fleet-scale growth BLOCKED (R-3.4)."
+  - id: R-3.1.2
+    section: "§4 3.1.2, §7.3"
+    requirement: Share immutable weights, XML/MJB and tables through the object store once per node.
+    implementation: [src/raysimbatch/control/assets.py, src/raysimbatch/control/controller.py]
+    config: []
+    tests: [tests/ray/test_node_helpers.py, tests/ray_contract/test_ray_semantics.py]
+    evidence: []
+    status: VERIFIED
+    notes: "Native model-template sharing across actors is a resolved constraint in the design (each Batch copies its template)."
+  - id: R-3.1.3
+    section: "§4 3.1.3, §6.3-6.5, §7.1-7.4"
+    requirement: Contiguous RSB/1 records, ObjectRef publication (one store copy), zero-copy same-node reads, task-event suppression on hot methods.
+    implementation: [src/raysimbatch/protocol.py, src/raysimbatch/worker/actor.py]
+    config: [flow]
+    tests: [tests/ray_contract/test_ray_semantics.py, tests/ray/test_worker_actor.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.1.4
+    section: "§4 3.1.4, §6.2, §9.1, §11.4"
+    requirement: CPU accounting (threads = Ray CPUs), one pool per actor, gang scheduling, affinity/NUMA placement.
+    implementation: [src/raysimbatch/worker/affinity.py, src/raysimbatch/worker/affinity_agent.py, src/raysimbatch/control/placement.py, deploy/kind/cluster.yaml]
+    config: [worker.threads, worker.num_cpus, worker.affinity, evaluation.gang, cluster.placement]
+    tests: [tests/linux/test_affinity.py, tests/linux/test_affinity_agent.py, tests/config/test_config.py]
+    evidence: [evidence/deploy/02-smoke-blue-both.log]
+    status: IMPLEMENTED
+    notes: "Linux pinning and agent leases verified in containers and kind (exclusive cpusets). Multi-socket NUMA locality BLOCKED (no NUMA hardware)."
+  - id: R-3.1.5
+    section: "§4 3.1.5, §6.4, §9.4, §11.4"
+    requirement: Mixed CPU/GPU/custom resources and autoscaling.
+    implementation: [src/raysimbatch/deployment/render.py, src/raysimbatch/policy/service.py]
+    config: [cluster, inference]
+    tests: [tests/deployment/test_render.py, tests/e2e/test_mode_a.py]
+    evidence: [evidence/deploy/21-blue-scale-down-watch.log]
+    status: IMPLEMENTED
+    notes: "CPU custom resources and in-tree autoscaling (up and down) verified on kind; GPU groups rendered but not deployable here (BLOCKED, R-GPU)."
+  - id: R-3.1-LIFE
+    section: "§4 3.1 lifetime, §6.1, §9.3, §11.5"
+    requirement: Detached per-run controller, named actors, leases, janitor reconciliation, version upgrades by blue/green.
+    implementation: [src/raysimbatch/control/controller.py, src/raysimbatch/recovery/watchdog.py, deploy/release.sh, deploy/kind/release.sh, deploy/kind/rollback_exercise.sh]
+    config: [failure.lease_s, failure.lease_renew_s, cluster.termination_grace_s]
+    tests: [tests/e2e/test_mode_b_chaos.py, tests/storage/test_storage.py, tests/ray/test_controller_placement.py]
+    evidence: [evidence/deploy/requalify-6e0ad7e, evidence/deploy/rollback-exercise, evidence/deploy/janitor-exercise-attempt1-second-pass, evidence/deploy/janitor-exercise-attempt2-soft-affinity, evidence/deploy/janitor-exercise]
+    status: VERIFIED
+    notes: "On kind: cross-release resume and janitor-resumed orphans give per-episode results identical to an uninterrupted run; the janitor places resumed controllers off the head (deploy/kind/janitor_exercise.sh)."
+  - id: R-3.2.A-1
+    section: "§4 3.2.A, §5.2, §6.4-6.5, §12.1"
+    requirement: Complete Mode A pipeline with local and central inference into a durable replay sink or learner queue.
+    implementation: [src/raysimbatch/experience/assembler.py, src/raysimbatch/experience/sinks.py, src/raysimbatch/policy/service.py, src/raysimbatch/control/coordinator.py]
+    config: [rollout, inference]
+    tests: [tests/e2e/test_mode_a.py, tests/examples/test_examples.py]
+    evidence: [evidence/deploy/43-smoke-green-both.log]
+    status: VERIFIED
+  - id: R-3.2.A-2
+    section: "§4 3.2.A long tail, §6.2-6.3, §7.4"
+    requirement: Asynchronous stepping so slow groups never gate others; bounded barrier API.
+    implementation: [src/raysimbatch/routing/router.py]
+    config: []
+    tests: [tests/ray/test_router.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.2.A-3
+    section: "§4 3.2.A, §6.2, §6.5, §10"
+    requirement: Reset-time randomization, curriculum weights, deterministic seeds (HMAC derivation, Philox counters).
+    implementation: [src/raysimbatch/worker/randomization.py, src/raysimbatch/seeds.py, native/src/philox.h, src/raysimbatch/routing/router.py]
+    config: [curriculum, run_seed, models]
+    tests: [tests/core/test_core.py, tests/e2e/test_mode_a.py, tests/e2e/test_mode_b_chaos.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.2.B-1
+    section: "§4 3.2.B, §5.3, §6.6, §12.2"
+    requirement: Checkpoint x suite x seed matrix, gang waves, resume, partial failures with explicit coverage.
+    implementation: [src/raysimbatch/evaluation/scheduler.py, src/raysimbatch/control/controller.py]
+    config: [evaluation]
+    tests: [tests/e2e/test_mode_b.py, tests/e2e/test_mode_b_chaos.py]
+    evidence: [evidence/deploy/rollback-exercise]
+    status: VERIFIED
+  - id: R-3.2.B-2
+    section: "§4 3.2.B, §6.6, §7.5"
+    requirement: Exact episode/aggregate schemas, seed-cluster bootstrap CIs, paired effects with Holm adjustment, Parquet/CSV/JSON/Markdown exports, manifest last.
+    implementation: [src/raysimbatch/evaluation/schema.py, src/raysimbatch/evaluation/stats.py, src/raysimbatch/evaluation/aggregator.py]
+    config: [evaluation.bootstrap_replicates, evaluation.confidence, evaluation.exports]
+    tests: [tests/evaluation/test_stats.py, tests/e2e/test_mode_b.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.2.C-1
+    section: "§4 3.2.C, §5.4, §6.7, §12.3"
+    requirement: Source ingestion, observation spaces/history/normalization/filtering, actuators and timing through the adapter contract.
+    implementation: [src/raysimbatch/adapter.py, src/raysimbatch/sim2sim/source.py, native/src/kernels.h]
+    config: [sim2sim]
+    tests: [tests/sim2sim/test_gates.py, tests/e2e/test_mode_c.py]
+    evidence: []
+    status: IMPLEMENTED
+    notes: "Verified against an independent reference source simulator; real Isaac traces BLOCKED (R-ISAAC)."
+  - id: R-3.2.C-2
+    section: "§4 3.2.C, §6.7, §13.4"
+    requirement: Twelve automated gates catching known failure classes; paired diagnostic axes; scorecards.
+    implementation: [src/raysimbatch/sim2sim/gates.py, src/raysimbatch/sim2sim/harness.py, src/raysimbatch/sim2sim/orchestrator.py]
+    config: [sim2sim.parity, sim2sim.static_gates, sim2sim.dynamics_gates]
+    tests: [tests/sim2sim/test_gates.py, tests/e2e/test_mode_c.py, tests/examples/test_examples.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.3.1
+    section: "§4 3.3.1, §7.2"
+    requirement: Zero-copy lifecycle and ownership; one unavoidable publication copy; immutable snapshots.
+    implementation: [src/raysimbatch/worker/actor.py, src/raysimbatch/protocol.py]
+    config: []
+    tests: [tests/ray_contract/test_ray_semantics.py, tests/ray/test_worker_actor.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.3.2
+    section: "§4 3.3.2, §6.2, §8.1-8.3"
+    requirement: Per-slot health, native failure isolation, exact sparse reset, quarantine, env/shard restart.
+    implementation: [src/raysimbatch/compat/mjbatch_adapter.py, src/raysimbatch/worker/core.py, native/src/kernels.h, src/raysimbatch/control/coordinator.py]
+    config: [models.health, failure]
+    tests: [tests/core/test_core.py, tests/upstream/test_mjbatch_contract.py, tests/e2e/test_mode_b_chaos.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.3.3
+    section: "§4 3.3.3, §6.8, §8.2-8.4"
+    requirement: Heartbeat/progress liveness, deadlines, cancel-fence-kill, restart state, circuit breaker, bounded recovery.
+    implementation: [src/raysimbatch/control/coordinator.py, src/raysimbatch/recovery/watchdog.py, src/raysimbatch/recovery/circuit.py]
+    config: [failure]
+    tests: [tests/ray/test_watchdog.py, tests/e2e/test_watchdog_liveness.py, tests/e2e/test_mode_b_chaos.py]
+    evidence: [evidence/tests/pytest-final.log, evidence/deploy/requalify-6e0ad7e/watchdog-live.txt]
+    status: VERIFIED
+    notes: "Command deadlines plus the per-node watchdog (AM-16, deployed 2026-09-29): a GIL-holding command is recovered by the watchdog before its 60 s deadline and an idle worker's death without any command, each run giving exactly the episodes of a clean run (mutation-checked). Verified with real Ray and PostgreSQL on one host; node loss under load is R-8.1-NODE (BLOCKED)."
+  - id: R-3.3.4
+    section: "§4 3.3.4, §7.4, §9.2, §11.3"
+    requirement: Bounded queues and credits, inference overload handling, no silent loss under store pressure.
+    implementation: [src/raysimbatch/worker/actor.py, src/raysimbatch/experience/assembler.py, src/raysimbatch/policy/service.py]
+    config: [flow, inference.queue_rows, inference.queue_requests]
+    tests: [tests/ray/test_worker_actor.py, tests/e2e/test_mode_a.py]
+    evidence: []
+    status: IMPLEMENTED
+    notes: "Credit bounds and the fragment-flush livelock are tested; an object-store-full / spill-stall fault-injection test is not implemented."
+  - id: R-3.3.5
+    section: "§4 3.3.5, §6.2, §9.1, §13.1"
+    requirement: CPU saturation without GIL contention; BLAS/OMP/Torch thread caps of 1.
+    implementation: [tools/env.sh, src/raysimbatch/deployment/render.py, src/raysimbatch/config/system.py]
+    config: [worker.omp_threads, worker.blas_threads, worker.torch_threads]
+    tests: [tests/config/test_config.py, tests/ray/test_watchdog.py]
+    evidence: []
+    status: IMPLEMENTED
+    notes: "CPU-busy target (>=85%) not measured on target hardware (BLOCKED)."
+  - id: R-3.3.6
+    section: "§4 3.3.6, §9.1-9.3, §13.1-13.3"
+    requirement: Throughput/latency SLOs (wrapper >=90% of equal-thread upstream; p99 slice <=20 ms; round trip <=50 ms).
+    implementation: [qualification/bench_throughput.py, qualification/bench_overhead.py, qualification/bench_inference.py, src/raysimbatch/worker/core.py, native/src/kernels.h]
+    config: [worker.fuse_substeps, models.health.check_each_substep]
+    tests: [tests/core/test_fused.py, tests/core/test_book.py, tests/core/test_substep_settle.py]
+    evidence: [evidence/perf/throughput-overhead-64.json, evidence/perf/throughput-overhead-256.json, evidence/perf/overhead-after.json, evidence/perf/overhead-before.json, evidence/perf/throughput-fused-64.json, evidence/perf/throughput-fused-256.json, evidence/perf/throughput-macos-arm64.json, evidence/perf/inference-curves.json]
+    status: IMPLEMENTED
+    notes: "Measured on Apple arm64 (interleaved): met for the contact model (quadruped 0.97-1.20x); for the lightest models fused stepping with native bookkeeping (AM-2, identical results) gives 0.75-0.93x vs 0.44-0.78x per-substep - the target is met for cartpole at 64 slots/1 thread and 256 slots/1-2 threads only. The owner accepted these figures on 2026-09-29 and closed AM-2 optimization; the status stays IMPLEMENTED because the target is not met, and it is unmeasured on the reference x86-64 nodes (R-X86). In-process policy inference p99 is below 0.4 ms at batch 1024 (CPU, MPS); the p99 slice and round-trip SLOs on target hardware and the CUDA service are BLOCKED."
+  - id: R-3.4
+    section: "§4 3.4, §9.2-9.4"
+    requirement: 10k/50k/100k environment sizing, memory, GCS/raylet load.
+    implementation: [src/raysimbatch/control/placement.py, src/raysimbatch/config/system.py]
+    config: [target_envs, cluster]
+    tests: [tests/config/test_config.py]
+    evidence: []
+    status: BLOCKED
+    notes: "No cluster of that size. Procedure: deploy per docs/deployment/kuberay.md on 128-core nodes, run qualification/bench_throughput.py per node, then Mode A/B at 10k, 50k, 100k envs with GCS/raylet CPU and RSS recorded."
+  - id: R-3.4-CTRL
+    section: "§4 3.4 distributed control, §5.1, §6.1, §9.3"
+    requirement: Distributed control (coordinators of <=8 actors) and aggregation off the driver.
+    implementation: [src/raysimbatch/control/coordinator.py, src/raysimbatch/evaluation/aggregator.py]
+    config: [cluster.coordinator_fanout]
+    tests: [tests/e2e/test_mode_b.py, tests/config/test_config.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.5-CFG
+    section: "§4 3.5, §10"
+    requirement: Full typed/defaulted configuration, one-report validation, canonical hash, restart diff classification.
+    implementation: [src/raysimbatch/config/models.py, src/raysimbatch/config/system.py, tools/gen_config_reference.py]
+    config: [all]
+    tests: [tests/config/test_config.py]
+    evidence: [docs/reference/configuration.md, docs/reference/run-config.schema.json]
+    status: VERIFIED
+  - id: R-3.5-OBS
+    section: "§4 3.5, §11.1-11.3"
+    requirement: Metrics, logs, traces, alerts, reproducibility manifests.
+    implementation: [src/raysimbatch/telemetry/metrics.py, src/raysimbatch/telemetry/logs.py, src/raysimbatch/telemetry/tracing.py, src/raysimbatch/telemetry/manifest.py, deploy/observability/alerts.yaml, src/raysimbatch/telemetry/procfs.py, tools/gen_dashboards.py, deploy/observability/dashboards]
+    config: [telemetry]
+    tests: [tests/e2e/test_telemetry.py, tests/telemetry/test_catalog.py, tests/telemetry/test_alerts.py, tests/telemetry/test_dashboards.py, tests/telemetry/test_procfs.py, tests/telemetry/test_tracing_drops.py, tests/ray_contract/test_ray_metric_semantics.py]
+    evidence: [evidence/observability/promtool.log, evidence/observability/dashboards-live.json]
+    status: VERIFIED
+    notes: "Every §11.1 metric is emitted except native_arena_peak_bytes (not exposed by MJBatch's public API; accepted gap). Four generated Grafana dashboards cover every emitted metric; checked statically, by promtool, and live against Prometheus during the Mode A/B/C and worker-loss e2e tests. In Grafana 13.2.2 they load unchanged by provisioning and import, all 74 panel queries return the same series through Grafana as from Prometheus, and all 40 panels render. NUMA placement on multi-socket nodes is R-X86 (BLOCKED)."
+  - id: R-3.5-OPS
+    section: "§4 3.5, §11.4-11.6, §13"
+    requirement: Images, KubeRay manifests, CI/CD, rollback, quotas, ten runbooks.
+    implementation: [deploy/docker/cpu.Dockerfile, deploy/docker/build.sh, src/raysimbatch/deployment/render.py, deploy/release.sh, deploy/kind/release.sh, docs/operations/runbooks.md, .github/workflows/ci.yml, tools/pyright_ratchet.py]
+    config: [cluster]
+    tests: [tests/deployment/test_render.py, tests/telemetry/test_alerts.py, tests/tooling/test_pyright_ratchet.py]
+    evidence: [evidence/deploy, evidence/tests/static-analysis.log]
+    status: IMPLEMENTED
+    notes: "CI workflow authored but not executed on a CI service here (no remote access); its static job gates on ruff and on the pyright ratchet (src is pyright-clean since 2026-09-29, baseline empty; run locally: pass; a probe type error fails it). GPU image not built (BLOCKED)."
+  - id: R-3.6-ROUTE
+    section: "§4 3.6, §6.2-6.3"
+    requirement: Model/config sharding and per-environment routing; exact migration; dynamic re-sharding at boundaries.
+    implementation: [src/raysimbatch/routing/router.py, src/raysimbatch/routing/fleet.py]
+    config: [curriculum]
+    tests: [tests/ray/test_router.py, tests/examples/test_examples.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.6-HETERO
+    section: "§4 3.6, §7.1"
+    requirement: Heterogeneous observation encoding without padding (schema groups).
+    implementation: [src/raysimbatch/protocol.py]
+    config: []
+    tests: [tests/e2e/test_mode_a.py, tests/ray/test_router.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-3.6-API
+    section: "§4 3.6, §1, §6.3, §12"
+    requirement: Same-batch guarantees stated explicitly; explicit async API; public facade.
+    implementation: [src/raysimbatch/control/driver.py, src/raysimbatch/routing/router.py]
+    config: []
+    tests: [tests/ray/test_router.py, tests/examples/test_examples.py]
+    evidence: []
+    status: VERIFIED
+
+  # ------------------------------------------------------------------ component / §6-§13 specifics
+  - id: R-6.2-PARITY
+    section: "§6.2, §13.1"
+    requirement: Bitwise parity of the wrapper with scalar MuJoCo for every fixture and thread count.
+    implementation: [src/raysimbatch/worker/core.py, native/CMakeLists.txt]
+    config: []
+    tests: [tests/core/test_core.py]
+    evidence: [evidence/tests/parity-100k.log]
+    status: VERIFIED
+    notes: "Per-substep and fused stepping (AM-2) are both compared with scalar mj_step, and with each other in tests/core/test_fused.py. Default runs use 300 control steps; RSB_PARITY_CONTROL_STEPS=100000 passed for every fixture at 1 and 3 threads (12 cases: per-substep for every fixture and fused for cartpole and reacher; 6 slots, state compared bitwise after every control step; Apple arm64 only)."
+  - id: R-6.2-SCALAR
+    section: "§6.2 scalar lane, §14"
+    requirement: Features MJBatch rejects (sleep) or cannot represent run on an isolated scalar lane with replay certification.
+    implementation: [src/raysimbatch/worker/scalar.py]
+    config: [worker.native_backend, models.sleep]
+    tests: [tests/core/test_scalar_lane.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-6.5-EXACT
+    section: "§6.5, §7.4"
+    requirement: Mode A exactly-once fragments (digest dedup, outbox), policy-lag rejection, explicit tail-loss gaps.
+    implementation: [src/raysimbatch/experience/assembler.py, src/raysimbatch/storage/db.py]
+    config: [rollout]
+    tests: [tests/e2e/test_mode_a.py, tests/storage/test_storage.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-6.8-DURABLE
+    section: "§6.8"
+    requirement: PostgreSQL leases on database time, fencing epochs, keyed commits with digest dedup, blobs before commit, UTF8 database.
+    implementation: [src/raysimbatch/storage/db.py, src/raysimbatch/storage/blob.py, src/raysimbatch/storage/store.py]
+    config: [storage, database_secret, artifact_root]
+    tests: [tests/storage/test_storage.py]
+    evidence: [evidence/deploy/08-postgres-persistence-probe.log]
+    status: VERIFIED
+  - id: R-8.1-CHAOS
+    section: "§8.1, §13.3"
+    requirement: Worker, coordinator and controller loss mid-run yield identical exactly-once results; orphaned runs are resumed by the janitor, bounded.
+    implementation: [src/raysimbatch/control/coordinator.py, src/raysimbatch/control/controller.py, src/raysimbatch/recovery/watchdog.py]
+    config: [failure]
+    tests: [tests/e2e/test_mode_b_chaos.py]
+    evidence: []
+    status: VERIFIED
+  - id: R-8.1-NODE
+    section: "§8.1 node loss, head/GCS outage, §13.3"
+    requirement: Node loss and head/GCS outage recovery on a real cluster; Redis-backed GCS FT.
+    implementation: [src/raysimbatch/deployment/render.py]
+    config: [cluster.gcs_ft, cluster.redis_secret]
+    tests: []
+    evidence: [evidence/deploy/rollback-exercise]
+    status: BLOCKED
+    notes: "Whole-release (cluster) loss and cross-cluster resume verified on kind; per-node loss under load and Redis GCS FT need a multi-node cluster and Redis (not available)."
+  - id: R-11.4-DEPLOY
+    section: "§11.4, B.3"
+    requirement: KubeRay manifests (CRD-valid), CPU Manager exclusivity, non-root pods, secrets by reference, spill, preStop drain.
+    implementation: [src/raysimbatch/deployment/render.py, deploy/kind/up.sh, deploy/kind/infra.yaml]
+    config: [cluster]
+    tests: [tests/deployment/test_render.py]
+    evidence: [evidence/deploy]
+    status: VERIFIED
+    notes: "On kind (Kubernetes 1.37, KubeRay 1.7.0); production cluster deployment not authorized/available."
+  - id: R-11.5-RELEASE
+    section: "§11.5"
+    requirement: Blue/green release, canary smoke, rollback routing, durable work resumed from original seeds on the rollback cluster.
+    implementation: [deploy/release.sh, deploy/kind/release.sh, deploy/kind/rollback_exercise.sh, src/raysimbatch/deployment/smoke.py]
+    config: []
+    tests: [tests/deployment/test_release_tool.py, tests/deployment/test_smoke.py]
+    evidence: [evidence/deploy/requalify-6e0ad7e, evidence/deploy/rollback-exercise, evidence/deploy/rollback-exercise-attempt1]
+    status: VERIFIED
+    notes: "Routing through the raysimbatch-active Service verified on kind at 6e0ad7e (a Ray Client connection landed on the promoted, then the rolled-back color); the rollback exercise passed again on that image. On kind: green failed mid-run, the pointer rolled back, blue resumed the run from the durable store, and its 128 episodes are identical to an uninterrupted reference run (xresume-compare.json). The report's release section lists the attempts and the defects they exposed."
+  - id: R-13.1-SAN
+    section: "§13.1, §14 (native safety)"
+    requirement: ASan/UBSan and TSan runs of MJBatch and native kernels built with sanitizer flags only.
+    implementation: [qualification/native_sanitizers.sh, deploy/docker/cpu.Dockerfile]
+    config: []
+    tests: []
+    evidence: [evidence/sanitizers]
+    status: VERIFIED
+    notes: "MuJoCo's shared library itself is not instrumented (prebuilt wheel)."
+  - id: R-13.2-SOAK
+    section: "§13.2, §11.5"
+    requirement: 24-hour soak and scale acceptance.
+    implementation: []
+    config: []
+    tests: []
+    evidence: []
+    status: BLOCKED
+    notes: "Not run (duration and hardware). Procedure in the qualification report."
+  - id: R-GPU
+    section: "§6.4, §9.1"
+    requirement: CUDA central inference service curves (L40S-class), GPU image.
+    implementation: [src/raysimbatch/policy/service.py, deploy/docker/gpu.Dockerfile]
+    config: [inference.device, inference.gpu_replicas]
+    tests: []
+    evidence: []
+    status: BLOCKED
+    notes: "No CUDA device. CPU central inference is tested (tests/e2e/test_mode_a.py central)."
+  - id: R-ISAAC
+    section: "§6.7, §13.4"
+    requirement: Real Isaac Lab trace ingestion and fidelity acceptance.
+    implementation: [src/raysimbatch/sim2sim/source.py]
+    config: []
+    tests: []
+    evidence: []
+    status: BLOCKED
+    notes: "No Isaac installation or traces. The export format and gates are verified with an independent reference exporter."
+  - id: R-X86
+    section: "§9.1 reference node"
+    requirement: Qualification on x86-64 EPYC-class Linux nodes (SMT off, 128 cores, NUMA).
+    implementation: []
+    config: []
+    tests: []
+    evidence: [docs/ledgers/environment-inventory.md, evidence/deploy/amd64-image]
+    status: BLOCKED
+    notes: "Only Apple arm64 (macOS host, Linux arm64 containers) available. The linux/amd64 CPU image builds under Rosetta emulation and passes compat and 126 of the 130 Linux tests; the other 4 need Ray, which does not stay up under Rosetta, so Ray is unverified on x86-64."

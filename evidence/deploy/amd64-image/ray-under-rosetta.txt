@@ -1,0 +1,82 @@
+# 2026-09-29T08:43:42Z Ray 2.58.0 under linux/amd64 emulation (Rosetta, Docker Desktop 29.8.1 on Darwin arm64), rsb 050070e
+
+## 1. The arm64 Linux test set in raysimbatch-cpu:amd64-test: the process dies in the ray_session fixture
+$ docker run --platform linux/amd64 raysimbatch-cpu:amd64-test python -m pytest -v tests/linux tests/ray/test_node_helpers.py tests/core tests/telemetry/test_procfs.py
+tests/linux/test_affinity.py::test_physics_threads_inherit_and_pin_the_lease PASSED [  0%]
+tests/linux/test_affinity.py::test_affinity_rejects_leases_outside_the_pod PASSED [  1%]
+tests/linux/test_affinity.py::test_threads_that_exit_during_verification_are_skipped PASSED [  2%]
+tests/linux/test_affinity_agent.py::test_disjoint_leases_service_reservation_and_persistence PASSED [  3%]
+tests/linux/test_affinity_agent.py::test_dead_holders_are_reaped PASSED  [  3%]
+tests/linux/test_affinity_agent.py::test_status_reports_only_live_leases PASSED [  4%]
+tests/linux/test_affinity_agent.py::test_node_without_its_exclusive_allocation_is_refused_not_oversubscribed PASSED [  5%]
+tests/linux/test_affinity_agent.py::test_the_pod_request_comes_from_the_environment_only_for_the_real_cpu_set PASSED [  6%]
+tests/linux/test_procfs_linux.py::test_private_bytes_of_this_process PASSED [  6%]
+tests/linux/test_procfs_linux.py::test_numa_remote_ratio_of_this_process PASSED [  7%]
+tests/ray/test_node_helpers.py::test_held_entries_survive_idle_expiry_and_budget_pressure 
+# exit=1
+
+## 2. Driver in raysimbatch-cpu:amd64-test: ~30 ms after start the raylet reports both agents dead (exit code -1) and fate-shares with them; the driver dies before its first print
+2026-09-29 08:45:59,246	INFO worker.py:2024 -- Started a local Ray instance.
+[2026-09-29 08:45:59,277 I 149 221] (raylet) agent_manager.cc:83: Agent process with name dashboard_agent exited, exit code -1.
+[2026-09-29 08:45:59,277 I 149 223] (raylet) agent_manager.cc:83: Agent process with name runtime_env_agent exited, exit code -1.
+reason_message: "dashboard_agent failed and raylet fate-shares with it."
+
+## 3. Same with stock ray[default]==2.58.0 and grpcio==1.84.0 (the uv.lock versions) in the plain python base, no RaySimBatch code involved. The agents are reported dead (exit code -1) at start; here tasks kept running for ~8 s until the raylet terminated, then the next one timed out
+2026-09-29 08:47:34,213	INFO worker.py:2024 -- Started a local Ray instance.
+ray.init returned after 4.3s
+t=4.4s task ok
+t=5.0s task ok
+t=5.5s task ok
+t=6.0s task ok
+t=6.5s task ok
+t=7.0s task ok
+t=7.5s task ok
+t=8.0s task ok
+t=8.5s task ok
+t=9.0s task ok
+t=9.5s task ok
+t=10.0s task ok
+t=10.5s task ok
+t=11.0s task ok
+t=11.5s task ok
+t=12.0s task ok
+t=12.5s task ok
+[33m(raylet)[0m Raylet is terminated. Termination is unexpected. Possible reasons include: (1) SIGKILL by the user or system OOM killer, (2) Invalid memory access from Raylet causing SIGSEGV or SIGB
+    [state-dump] 	NodeManager.GCTaskFailureReason - 1 total (1 active), Execution time: mean = 0.00ms, total = 0.00ms, Queueing time: mean = 0.00ms, max = -0.00ms, min = 9223372036854.78ms, total = 0.
+    [state-dump] 	ray::rpc::NodeInfoGcsService.grpc_client.RegisterNode - 1 total (0 active), Execution time: mean = 6.67ms, total = 6.67ms, Queueing time: mean = 0.00ms, max = -0.00ms, min = 92233720
+    [state-dump] DebugString() time ms: 0
+    [state-dump] 
+    [state-dump] 
+    [2026-09-29 08:47:34,172 I 152 152] (raylet) accessor.cc:453: Received address and liveness notification for node, IsAlive = 1 node_id=1cc1163a8aae84a9c9c095db140133dd7bcf4beb828158b13be43085
+    [2026-09-29 08:47:34,177 I 152 152] (raylet) metrics_agent_client.cc:59: Exporter initialized.
+    [2026-09-29 08:47:34,244 I 152 228] (raylet) agent_manager.cc:83: Agent process with name runtime_env_agent exited, exit code -1.
+    [2026-09-29 08:47:34,244 E 152 228] (raylet) agent_manager.cc:87: The raylet exited immediately because one Ray agent failed, agent_name = runtime_env_agent.
+    The raylet fate shares with the agent. This can happen because
+    - The version of `grpcio` doesn't follow Ray's requirement. Agent can segfault with the incorrect `grpcio` version. Check the grpcio version `pip freeze | grep grpcio`.
+    - The agent failed to start because of unexpected error or port conflict. Read the log `cat /tmp/ray/session_latest/logs/{dashboard_agent|runtime_env_agent}.log`. You can find the log file structu
+    - The agent is killed by the OS (e.g., out of memory).
+    [2026-09-29 08:47:34,244 I 152 228] (raylet) main.cc:475: Raylet shutdown already triggered, ignoring death info: reason: UNEXPECTED_TERMINATION
+    reason_message: "runtime_env_agent failed and raylet fate-shares with it."
+    
+    [2026-09-29 08:47:34,244 I 152 152] (raylet) worker_pool.cc:531: Started worker process with pid 323 worker_id=2120c2c73d0dfdb154b1c51b3f4caa9aa7614fa13b7855e2bd0fabf8
+    [2026-09-29 08:47:34,247 I 152 152] (raylet) worker_pool.cc:531: Started worker process with pid 324 worker_id=405ed07767ea14db809b0cf6b5e4c366da14cebc15a227afa9091076
+    [2026-09-29 08:47:34,808 I 152 177] (raylet) object_store.cc:37: Object store current usage 8e-09 / 2.33384 GB.
+    [2026-09-29 08:47:34,857 I 152 152] (raylet) worker_pool.cc:779: Job 01000000 already started in worker pool.
+
+t=18.1s task failed: GetTimeoutError: Get timed out: some object(s) not ready.
+[2026-09-29 08:47:33,272 I 152 226] (raylet) agent_manager.cc:83: Agent process with name dashboard_agent exited, exit code -1.
+reason_message: "dashboard_agent failed and raylet fate-shares with it."
+[2026-09-29 08:47:34,244 I 152 228] (raylet) agent_manager.cc:83: Agent process with name runtime_env_agent exited, exit code -1.
+
+## 4. Control: the same driver in the arm64 test image (arm64, native)
+t=12.8s task ok
+RAY_STAYED_UP
+[2026-09-29 08:48:03,605 I 150 222] (raylet) agent_manager.cc:83: Agent process with name dashboard_agent exited, exit code 0.
+[2026-09-29 08:48:03,609 I 150 224] (raylet) agent_manager.cc:83: Agent process with name runtime_env_agent exited, exit code 0.
+(the exit code 0 lines above are the normal shutdown after the driver finished; the raylet stayed up for all 20 tasks)
+
+## 5. pidfd_open is not implemented under Rosetta; it is on arm64. Consistent with the raylet losing track of its agents; not proven to be the cause (no pidfd string in the raylet binary, but it may call the syscall by number)
+x86_64 pidfd_open failed: [Errno 38] Function not implemented
+x86_64 waitpid: (7, 0)
+aarch64 pidfd_open: ok
+aarch64 waitpid: (7, 0)

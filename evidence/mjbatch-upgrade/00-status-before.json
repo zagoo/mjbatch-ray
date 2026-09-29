@@ -1,0 +1,15 @@
+{
+  "committed_pin": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "checkout_head": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "qualified": {
+    "0.1.1": {
+      "mujoco": "3.13.0",
+      "revision": "2f169146b643adda65e195d8ad13d997abdd2a2e"
+    }
+  },
+  "installed": {
+    "mjbatch": "0.1.1",
+    "mujoco": "3.13.0"
+  },
+  "candidates": []
+}

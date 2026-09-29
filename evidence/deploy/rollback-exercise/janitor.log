@@ -1,0 +1,20 @@
+2026-09-28 02:36:25,080	INFO client_builder.py:262 -- Passing the following kwargs to ray.init() on the server: log_to_driver
+SIGTERM handler is not set because current thread is not the main thread.
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": ["96d19e39cb464fa9aa027bfb9082ab18"], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": ["96d19e39cb464fa9aa027bfb9082ab18"], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": ["4a80ec4c98f04fd2a81436b91218a04b"], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}

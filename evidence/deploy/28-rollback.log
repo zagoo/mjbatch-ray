@@ -1,0 +1,6 @@
+pointer before repair: {"active":"green","previous":"green"}
+pointer repaired: {"active":"green","previous":"blue"} (re-promotion had overwritten previous; release.sh promote made idempotent)
+active=green previous=blue
+idempotent re-promote check: {"active":"green","previous":"blue"}
+active=blue previous=green
+after rollback: {"active":"blue","previous":"green"} at 2026-09-28T01:27:38Z

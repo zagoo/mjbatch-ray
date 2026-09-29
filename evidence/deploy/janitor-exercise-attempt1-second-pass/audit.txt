@@ -1,0 +1,13 @@
+2026-09-28 03:01:59.764366+00|run_state|{"state": "VALIDATING"}
+2026-09-28 03:01:59.904582+00|run_state|{"state": "RESERVING"}
+2026-09-28 03:01:59.921657+00|units_enumerated|{"count": 64}
+2026-09-28 03:02:03.384439+00|run_state|{"state": "RUNNING", "workers": "2", "coordinators": "1"}
+2026-09-28 03:03:58.776098+00|janitor_resumed_run|{"attempt": 1}
+2026-09-28 03:03:58.955758+00|run_state|{"state": "VALIDATING"}
+2026-09-28 03:03:59.094543+00|run_state|{"state": "RESERVING"}
+2026-09-28 03:03:59.110397+00|units_enumerated|{"count": 64}
+2026-09-28 03:04:02.600054+00|run_state|{"state": "RUNNING", "workers": "2", "coordinators": "1"}
+2026-09-28 03:18:21.355612+00|run_state|{"state": "DRAINING"}
+2026-09-28 03:18:21.43325+00|results_finalized|{"complete": true, "coverage": 1.0, "manifest": "8907c715d2eb87cb05d52664b4b22b3cba656da3b35b86dabe10c8cf770b3d93"}
+2026-09-28 03:18:21.454894+00|run_manifest|{"uri": "s3://rsb-qual/artifacts/objects/c3/c3a6ea2fb2b2838706c2e367f61f3de7f9f14d4a231c5a366a1620c843c293c4", "sha256": "c3a6ea2fb2b2838706c2e367f61f3de7f9f14d4a231c5a366a1620c843c293c4"}
+2026-09-28 03:18:21.4635+00|run_state|{"state": "COMPLETED", "complete": "True", "coverage": "1.0", "unit_states": "{'SUCCEEDED': 64}"}

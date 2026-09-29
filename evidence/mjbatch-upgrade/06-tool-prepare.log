@@ -1,0 +1,130 @@
+$ git worktree add --detach /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch 121e0331323eab76a30db34b5b9dae2111c837a8  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/third_party/mjbatch, exit=0, 0.1s)
+HEAD is now at 121e033 Support MuJoCo 3.10 through 3.13 with one wheel per release.
+Preparing worktree (detached HEAD 121e033)
+
+$ uv venv --python 3.12 /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 0.0s)
+Using CPython 3.12.8 interpreter at: /opt/homebrew/opt/python@3.12/bin/python3.12
+Creating virtual environment at: var/upgrade/121e0331323e/venv
+Activate with: source var/upgrade/121e0331323e/venv/bin/activate
+
+$ uv pip install --python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv/bin/python -r /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/requirements.txt mujoco==3.13.0  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 0.4s)
+Using Python 3.12.8 environment at: var/upgrade/121e0331323e/venv
+Resolved 98 packages in 4ms
+Installed 98 packages in 422ms
+ + absl-py==2.5.0
+ + aiohappyeyeballs==2.7.1
+ + aiohttp==3.14.3
+ + aiohttp-cors==0.8.1
+ + aiosignal==1.4.0
+ + annotated-types==0.8.0
+ + attrs==26.1.0
+ + boto3==1.43.103
+ + botocore==1.43.103
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + charset-normalizer==3.5.1
+ + click==8.5.0
+ + colorful==0.5.8
+ + cryptography==50.0.1
+ + distlib==0.4.3
+ + etils==1.14.0
+ + filelock==4.0.4
+ + flatbuffers==25.12.19
+ + frozenlist==1.8.0
+ + fsspec==2026.9.0
+ + glfw==2.10.2
+ + google-api-core==2.39.0
+ + google-auth==2.58.1
+ + googleapis-common-protos==1.75.4
+ + grpcio==1.84.0
+ + idna==3.20
+ + iniconfig==2.3.0
+ + jinja2==3.1.6
+ + jmespath==1.1.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + markupsafe==3.0.3
+ + ml-dtypes==0.6.0
+ + mpmath==1.3.0
+ + msgpack==1.2.2
+ + mujoco==3.13.0
+ + multidict==6.9.1
+ + networkx==3.7
+ + nodeenv==1.11.0
+ + numpy==2.3.5
+ + onnx==1.23.0
+ + onnxruntime==1.30.0
+ + opencensus==0.11.4
+ + opencensus-context==0.1.3
+ + opentelemetry-api==1.45.0
+ + opentelemetry-exporter-http-transport==0.66b0
+ + opentelemetry-exporter-otlp-common==0.66b0
+ + opentelemetry-exporter-otlp-proto-common==1.45.0
+ + opentelemetry-exporter-otlp-proto-http==1.45.0
+ + opentelemetry-exporter-prometheus==0.66b0
+ + opentelemetry-proto==1.45.0
+ + opentelemetry-sdk==1.45.0
+ + opentelemetry-semantic-conventions==0.66b0
+ + packaging==26.3
+ + platformdirs==4.12.0
+ + pluggy==1.6.0
+ + prometheus-client==0.26.0
+ + propcache==0.5.4
+ + proto-plus==1.28.4
+ + protobuf==7.36.2
+ + psycopg==3.3.6
+ + psycopg-binary==3.3.6
+ + psycopg-pool==3.3.3
+ + py-spy==0.4.2
+ + pyarrow==25.0.1
+ + pyasn1==0.6.4
+ + pyasn1-modules==0.4.2
+ + pycparser==3.0
+ + pydantic==2.13.5
+ + pydantic-core==2.46.5
+ + pygments==2.21.0
+ + pyopengl==3.1.10
+ + pyright==1.1.414
+ + pytest==9.1.1
+ + pytest-asyncio==1.4.0
+ + pytest-timeout==2.4.0
+ + python-dateutil==2.9.0.post0
+ + python-discovery==1.6.1
+ + pyyaml==6.0.3
+ + ray==2.58.0
+ + referencing==0.37.0
+ + requests==2.34.2
+ + rpds-py==2026.6.3
+ + ruff==0.16.9
+ + s3transfer==0.19.2
+ + setuptools==84.0.0
+ + six==1.17.0
+ + smart-open==8.0.1
+ + sympy==1.14.0
+ + torch==2.14.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + virtualenv==21.13.0
+ + wrapt==2.5.0
+ + yarl==1.25.1
+ + zipp==4.1.0
+
+$ uv pip install --no-config --python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv/bin/python --no-deps -C build-dir=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/build/{wheel_tag} /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 12.5s)
+Using Python 3.12.8 environment at: var/upgrade/121e0331323e/venv
+Resolved 1 package in 8.83s
+   Building mjbatch @ file:///Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch
+      Built mjbatch @ file:///Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch
+Prepared 1 package in 3.30s
+Installed 1 package in 0.95ms
+ + mjbatch==0.1.0.post31300 (from file:///Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch)
+
+$ uv pip install --no-config --python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv/bin/python --no-deps -C build-dir=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/build/rsb /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 3.1s)
+Using Python 3.12.8 environment at: var/upgrade/121e0331323e/venv
+Resolved 1 package in 0.68ms
+   Building raysimbatch @ file:///Users/renshaobin/Workspace/Develop/GitHub/raysimbatch
+      Built raysimbatch @ file:///Users/renshaobin/Workspace/Develop/GitHub/raysimbatch
+Prepared 1 package in 2.92s
+Installed 1 package in 1ms
+ + raysimbatch==0.1.0 (from file:///Users/renshaobin/Workspace/Develop/GitHub/raysimbatch)
+

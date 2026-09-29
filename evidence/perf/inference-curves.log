@@ -1,0 +1,20 @@
+# 2026-09-28T04:07:17Z rsb 8b3eb4b host Apple M4 Max torch 2.14.0 onnxruntime 1.30.0
+# load: 3.89 5.20 5.96
+onnx        cpu  batch=    1 p50=   0.016 ms p99=   0.019 ms rows/s=      60,414
+onnx        cpu  batch=    8 p50=   0.019 ms p99=   0.023 ms rows/s=     421,561
+onnx        cpu  batch=   64 p50=   0.029 ms p99=   0.033 ms rows/s=   2,154,431
+onnx        cpu  batch=  256 p50=   0.057 ms p99=   0.063 ms rows/s=   4,475,388
+onnx        cpu  batch= 1024 p50=   0.154 ms p99=   0.180 ms rows/s=   6,586,445
+/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/lib/python3.12/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+torchscript cpu  batch=    1 p50=   0.008 ms p99=   0.010 ms rows/s=     124,884
+torchscript cpu  batch=    8 p50=   0.008 ms p99=   0.011 ms rows/s=     959,865
+torchscript cpu  batch=   64 p50=   0.009 ms p99=   0.012 ms rows/s=   6,751,267
+torchscript cpu  batch=  256 p50=   0.013 ms p99=   0.015 ms rows/s=  19,403,727
+torchscript cpu  batch= 1024 p50=   0.019 ms p99=   0.022 ms rows/s=  53,711,305
+torchscript mps  batch=    1 p50=   0.228 ms p99=   0.392 ms rows/s=       4,130
+torchscript mps  batch=    8 p50=   0.248 ms p99=   0.442 ms rows/s=      30,511
+torchscript mps  batch=   64 p50=   0.247 ms p99=   0.403 ms rows/s=     246,250
+torchscript mps  batch=  256 p50=   0.247 ms p99=   0.384 ms rows/s=     986,087
+torchscript mps  batch= 1024 p50=   0.252 ms p99=   0.385 ms rows/s=   3,884,631
+# exit=0

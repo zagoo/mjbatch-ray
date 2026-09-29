@@ -1,0 +1,53 @@
+2026-09-29 15:08:23,125	INFO worker.py:2024 -- Started a local Ray instance.
+......                                                                   [100%]
+6 passed in 47.58s
+{
+ "tests_exit": 0,
+ "window_s": 59.7,
+ "scrape_up_fraction": 0.958,
+ "queries": 74,
+ "with_data": 55,
+ "expected_with_data": 48,
+ "expected": 48,
+ "event_driven_or_platform_empty": [
+  "overview / Episodes per second by outcome: sum (rate(ray_raysimbatch_aborted_episodes_total[5m]))",
+  "overview / Slot health failures and engine warnings: sum (rate(ray_raysimbatch_slot_health_failures_total[5m]))",
+  "overview / Slot health failures and engine warnings: sum (rate(ray_raysimbatch_warning_total[5m]))",
+  "liveness / Worker restarts: sum (rate(ray_raysimbatch_worker_restart_exhausted_total[5m]))",
+  "liveness / Stale commands and expired leases: sum (rate(ray_raysimbatch_stale_commands_total[5m]))",
+  "liveness / Stale commands and expired leases: sum (rate(ray_raysimbatch_leases_expired_total[5m]))",
+  "liveness / Duplicate commits (deduplicated): sum (rate(ray_raysimbatch_duplicate_commits_total[5m]))",
+  "liveness / Storage errors by outcome: sum by (outcome) (rate(ray_raysimbatch_storage_errors_total[5m]))",
+  "liveness / Dropped logs and spans: sum (rate(ray_raysimbatch_log_dropped_total[5m]))",
+  "liveness / Dropped logs and spans: sum (rate(ray_raysimbatch_traces_dropped_total[5m]))",
+  "resources / Worker memory (largest worker): max(ray_raysimbatch_worker_private_bytes)",
+  "resources / NUMA remote memory and affinity violations: max(ray_raysimbatch_numa_remote_ratio)",
+  "resources / NUMA remote memory and affinity violations: sum (rate(ray_raysimbatch_affinity_violations_total[5m]))",
+  "workloads / Fragments: sum by (outcome) (rate(ray_raysimbatch_fragments_rejected_total[5m]))",
+  "workloads / Inference failures: sum (rate(ray_raysimbatch_inference_deadlines_total[5m]))",
+  "workloads / Inference failures: sum (rate(ray_raysimbatch_inference_errors_total[5m]))",
+  "workloads / Gates: sum by (fault_code) (rate(ray_raysimbatch_sim2sim_gate_failures_total[5m]))"
+ ],
+ "exported_but_too_short_for_rate": [],
+ "recovery_events_observed": {
+  "circuit_state": true,
+  "transitions_lost_upper_bound_total": false,
+  "worker_restarts_total": false
+ },
+ "missing": [],
+ "grafana": {
+  "image": "grafana/grafana:13.2.2@sha256:ac461fb352abc50da10a51c7d02462e9c05488f11f53f14b3ad79a8145f638a0",
+  "version": "13.2.2",
+  "prometheus_plugin": "13.1.7",
+  "dashboards": 4,
+  "panel_types": [
+   "row",
+   "timeseries"
+  ],
+  "queries": 74,
+  "same_series_as_prometheus": 74,
+  "problems": []
+ }
+}
+Grafana: http://127.0.0.1:52876/dashboards?tag=raysimbatch (up for 900 s)
+exit=0

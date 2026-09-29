@@ -1,0 +1,59 @@
+2026-09-28 01:17:47,407	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-28 01:17:47,412	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.32:6379...
+2026-09-28 01:17:47,417	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.32:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "dfa8d976a2c5c0e9b60963cc7b9f9268f26f61f06aab2befd91fe556dec2d027",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "92a021a631b3dc0ca50dc5df82cbe5cd087370b2",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 3,
+  "checks": {
+    "mode_b": {
+      "run_id": "0d229835d0674c04a3af93faa11f2d43",
+      "state": "FAILED",
+      "error": "RuntimeError: run lease lost: another controller owns this run",
+      "complete": null,
+      "coverage": null,
+      "committed_units": 0,
+      "epoch": 0,
+      "passed": false
+    }
+  },
+  "affinity": {
+    "rsb-affinity-17faaba268db4445": {
+      "cpus": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "service": [],
+      "pool": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "leases": {}
+    }
+  },
+  "passed": false,
+  "seconds": 26.86544942855835
+}
+command terminated with exit code 1

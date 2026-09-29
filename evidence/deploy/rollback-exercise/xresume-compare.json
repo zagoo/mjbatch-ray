@@ -1,0 +1,114 @@
+2026-09-28 02:36:51,054	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-28 02:36:51,064	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.43:6379...
+2026-09-28 02:36:51,071	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.43:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "f77b5ff7f811202232e894d0e7642f0a39fe6340f820a431758be7ed27476af4",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "ec33b471a4f8bb11116a55659e6ef5719ae6c40d",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 2,
+  "checks": {
+    "xresume_finish": {
+      "resumed": {
+        "run_id": "c1a22064cf41439a9de076218bae2d50",
+        "state": "COMPLETED",
+        "error": null,
+        "complete": true,
+        "coverage": 1.0,
+        "committed_units": 64,
+        "epoch": 1,
+        "success": {
+          "lqr": 1.0,
+          "zero": 0.0
+        },
+        "passed": true,
+        "committed_units_before_resume": 64,
+        "state_before_resume": "COMPLETED"
+      },
+      "reference": {
+        "run_id": "4a80ec4c98f04fd2a81436b91218a04b",
+        "state": "COMPLETED",
+        "error": null,
+        "complete": true,
+        "coverage": 1.0,
+        "committed_units": 64,
+        "epoch": 0,
+        "success": {
+          "lqr": 1.0,
+          "zero": 0.0
+        },
+        "passed": true
+      },
+      "episodes": 128,
+      "identical_to_reference": true,
+      "passed": true
+    }
+  },
+  "affinity": {
+    "rsb-affinity-79fa3e71a6767b68": {
+      "cpus": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "service": [],
+      "pool": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "leases": {}
+    },
+    "rsb-affinity-17886864c6558172": {
+      "cpus": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "service": [],
+      "pool": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "leases": {
+        "sim-96d19e39-0000": {
+          "cpus": [
+            2
+          ],
+          "numa_node": null,
+          "pid": 1128
+        },
+        "sim-96d19e39-0001": {
+          "cpus": [
+            3
+          ],
+          "numa_node": null,
+          "pid": 1129
+        }
+      }
+    }
+  },
+  "passed": true,
+  "seconds": 891.8688743114471
+}

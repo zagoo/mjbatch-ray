@@ -1,0 +1,58 @@
+{
+  "candidate": {
+    "ref": "origin/mujoco-versions",
+    "sha": "121e0331323eab76a30db34b5b9dae2111c837a8",
+    "version": "0.1.0",
+    "mujoco": "3.13.0",
+    "worktree": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch",
+    "venv": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv",
+    "committed_pin": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+    "prepared_at": 1790561813.4133492
+  },
+  "gates": {
+    "behaviour_probes": {
+      "passed": true,
+      "report": {
+        "mjbatch_version": "0.1.0.post31300",
+        "mujoco_version": "3.13.0",
+        "mj_version": 3013000,
+        "qualified": false,
+        "candidate_mode": true,
+        "binary_sha256": "d0f89e1e56411c2fa9ece1b86dec566b41b1bb771498bc73df8378200744d244",
+        "probes": {
+          "first_error_attributed": true,
+          "failed_slots_exact": true,
+          "failed_keep_state": true,
+          "others_advanced": true,
+          "neutralize_cancels_pending": true,
+          "forward_pure": true,
+          "reset_applies_pending_field_writes": true,
+          "state_layout": true
+        },
+        "abi_fingerprint": "9db72da97495ed408d19eea6a9c08f4f2f7333ef84a7f8700206401a97a9e999"
+      }
+    },
+    "upstream_contract_and_parity_tests": {
+      "passed": true,
+      "summary": [
+        "43 passed in 3.19s"
+      ]
+    },
+    "performance_regression": {
+      "passed": false,
+      "wrapper_change": {
+        "cartpole/T1": -0.0867,
+        "cartpole/T2": -0.12,
+        "quadruped/T1": -0.0528,
+        "quadruped/T2": -0.0812
+      },
+      "baseline": "evidence/perf/throughput-macos-arm64.json"
+    },
+    "candidate_tree_pristine": {
+      "passed": false,
+      "output": "FAIL /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch: working tree is not pristine (modified/untracked/ignored files):\n  !! __pycache__/mujoco_metadata.cpython-312.pyc\nFAIL third_party/mjbatch/src/mjbatch/csrc/threadpool.h: an MJBatch source file outside the pinned checkout\nFAIL third_party/mjbatch/src/mjbatch/csrc/batch.h: an MJBatch source file outside the pinned checkout"
+    }
+  },
+  "passed": false,
+  "qualified_at": 1790561961.8311832
+}

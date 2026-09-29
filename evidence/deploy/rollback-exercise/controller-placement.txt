@@ -1,0 +1,10 @@
+# 2026-09-28T02:59:15Z RunController worker logs per pod in rsb-blue (run ids found in each controller's log)
+pod/rsb-blue-head-4kfcx head 96d19e39cb464fa9aa027bfb9082ab18 worker-2bc6fc1c57491815a63913cc76affe86e5d38d0caf532993ae2b1534-01000000-988
+pod/rsb-blue-sim-general-worker-qxh9k worker 96d19e39cb464fa9aa027bfb9082ab18 worker-4a3def7e5b4e7143c840e602be73412a6917506956c0305e0ff46d4f-01000000-998
+pod/rsb-blue-sim-general-worker-qxh9k worker 4a80ec4c98f04fd2a81436b91218a04b worker-a9920b19114ae189ad8eaab0307efbab1e90c0387c3ae233b9e2c5d4-02000000-654
+# head raylet: memory monitor kill of the attempt-1 controller
+[2026-09-28 02:36:27,529 I 619 619] (raylet) threshold_memory_monitor.cc:51: ThresholdMemoryMonitor initialized with usage threshold at 2040109440 bytes (95.000000% of system memory), total system memory bytes: 2147483648, monitor interval: 250ms
+[2026-09-28 02:40:38,251 I 619 660] (raylet) threshold_memory_monitor.cc:122: Node memory usage above threshold, used: 2042187776, threshold_bytes: 2040109440, total bytes: 2147483648, threshold fraction: 0.950000
+[2026-09-28 02:40:38,290 I 619 619] (raylet) node_manager.cc:3211: Killing 2 worker(s), kill details: Memory on the node (IP: 10.244.2.43, ID: e69f885bba57fa88f843970901eadc1c06c4296570a371b9b2949eba) was 1.90GB / 2.00GB (0.951422)
+Selected to kill: (Actor(be248bca237bb6cea3f5156901000000): job ID=01000000, lease ID=02000000d1be04ae22e00c9d20eeb23acc37a2ce71041e4093789875a9f571da, task name=rsb-asset-cache-e69f885bba57fa88:AssetCache.__init__, required resources={}, pid=1060, actual memory used=0.06GB, worker ID=c23a2c7a283eb44fb90517e8d9d933fca674312c4652d3eddf57002e)
+Selected to kill: (Actor(3c766c11a15f3bab0324cc6901000000): job ID=01000000, lease ID=01000000062c89a65bb5d71c17af8786dc2a94dd0b3d780cadd5ba88ef97a532, task name=rsb-run-96d19e39cb464fa9aa027bfb9082ab18:RunController.__init__, required resources={}, pid=988, actual memory used=0.11GB, worker ID=2bc6fc1c57491815a63913cc76affe86e5d38d0caf532993ae2b1534)

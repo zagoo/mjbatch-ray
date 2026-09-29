@@ -1,0 +1,144 @@
+{
+  "schema": "rsb-bench-overhead/1",
+  "args": {
+    "models": "cartpole,reacher",
+    "slots": "64,256",
+    "threads": 1,
+    "calls": 600,
+    "out": "/private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/overhead-before.json"
+  },
+  "results": [
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 665.5204924754798,
+      "mjbatch_us": 542.2085523605347,
+      "overhead_us": 123.99902334436774,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 514.750019647181,
+      "mjbatch_us": 443.93748976290226,
+      "overhead_us": 69.66650835238397,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "termination",
+      "wall_us": 575.1249846071005,
+      "mjbatch_us": 442.01951823197305,
+      "overhead_us": 131.75050844438374,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "termination",
+      "wall_us": 535.5419998522848,
+      "mjbatch_us": 379.9794358201325,
+      "overhead_us": 155.41695756837726,
+      "replayed_slots": 1248
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 2292.0414921827614,
+      "mjbatch_us": 2114.665985573083,
+      "overhead_us": 169.20850612223148,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 1894.7709759231657,
+      "mjbatch_us": 1782.9375283326954,
+      "overhead_us": 109.25001697614789,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "termination",
+      "wall_us": 1961.3539916463196,
+      "mjbatch_us": 1777.2700230125338,
+      "overhead_us": 184.47954789735377,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "termination",
+      "wall_us": 1680.1665187813342,
+      "mjbatch_us": 1479.6044561080635,
+      "overhead_us": 201.64495799690485,
+      "replayed_slots": 2796
+    },
+    {
+      "model": "reacher",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 1689.1875129658729,
+      "mjbatch_us": 1473.6854936927557,
+      "overhead_us": 214.20899429358542,
+      "replayed_slots": 0
+    },
+    {
+      "model": "reacher",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 1335.9790027607232,
+      "mjbatch_us": 1246.7709893826395,
+      "overhead_us": 87.56248280405998,
+      "replayed_slots": 0
+    },
+    {
+      "model": "reacher",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 6230.833474546671,
+      "mjbatch_us": 5901.958065805957,
+      "overhead_us": 327.3129987064749,
+      "replayed_slots": 0
+    },
+    {
+      "model": "reacher",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 5166.625021956861,
+      "mjbatch_us": 5004.18696901761,
+      "overhead_us": 155.979476403445,
+      "replayed_slots": 0
+    }
+  ]
+}

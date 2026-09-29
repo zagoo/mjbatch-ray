@@ -1,0 +1,13 @@
+2026-09-29 03:20:23.346584+00|run_state|{"state": "VALIDATING"}
+2026-09-29 03:20:23.500633+00|run_state|{"state": "RESERVING"}
+2026-09-29 03:20:23.535971+00|units_enumerated|{"count": 64}
+2026-09-29 03:20:26.327377+00|run_state|{"state": "RUNNING", "workers": "2", "coordinators": "1"}
+2026-09-29 03:21:48.602056+00|run_state|{"state": "VALIDATING"}
+2026-09-29 03:21:48.752056+00|run_state|{"state": "RESERVING"}
+2026-09-29 03:21:48.77083+00|units_enumerated|{"count": 64}
+2026-09-29 03:21:50.820652+00|run_state|{"state": "RUNNING", "workers": "2", "coordinators": "1"}
+2026-09-29 03:33:32.721232+00|run_state|{"state": "DRAINING"}
+2026-09-29 03:33:32.779457+00|results_finalized|{"complete": true, "coverage": 1.0, "manifest": "43cf510683d73dfb90f36714c4b53dea75ff97e712f90431850c024faa2868c6"}
+2026-09-29 03:33:32.79712+00|run_manifest|{"uri": "s3://rsb-qual/artifacts/objects/69/698ee5991cb6d543da3298f88b83ef5a2fc76ae91bcc8eab6e02d33fc56c1713", "sha256": "698ee5991cb6d543da3298f88b83ef5a2fc76ae91bcc8eab6e02d33fc56c1713"}
+2026-09-29 03:33:32.806886+00|run_state|{"state": "COMPLETED", "complete": "True", "coverage": "1.0", "unit_states": "{'SUCCEEDED': 64}"}
+2026-09-29 03:33:45.220416+00|janitor_fenced_controller|{"owner": "rsb-run-8f7a2af10eb340858aced7e505570e23:31fbd6f1"}

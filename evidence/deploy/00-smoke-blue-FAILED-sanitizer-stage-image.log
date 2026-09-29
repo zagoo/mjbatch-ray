@@ -1,0 +1,3 @@
+Defaulted container "ray-head" out of: ray-head, autoscaler
+==846==ASan runtime does not come first in initial library list; you should either link runtime to your application or manually preload it with LD_PRELOAD.
+command terminated with exit code 1

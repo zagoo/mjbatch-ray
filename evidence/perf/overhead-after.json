@@ -1,0 +1,144 @@
+{
+  "schema": "rsb-bench-overhead/1",
+  "args": {
+    "models": "cartpole,reacher",
+    "slots": "64,256",
+    "threads": 1,
+    "calls": 600,
+    "out": "evidence/perf/overhead-after.json"
+  },
+  "results": [
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 582.583510549739,
+      "mjbatch_us": 536.2704978324473,
+      "overhead_us": 44.99848000705242,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 476.707995403558,
+      "mjbatch_us": 452.999520348385,
+      "overhead_us": 22.833002731204033,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "termination",
+      "wall_us": 506.29200995899737,
+      "mjbatch_us": 453.00001511350274,
+      "overhead_us": 52.72854468785226,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "termination",
+      "wall_us": 451.93752157501876,
+      "mjbatch_us": 380.2090068347752,
+      "overhead_us": 64.66652848757803,
+      "replayed_slots": 1248
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 2215.271000750363,
+      "mjbatch_us": 2133.0414747353643,
+      "overhead_us": 78.72891728766263,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 1879.3540075421333,
+      "mjbatch_us": 1836.1455004196614,
+      "overhead_us": 40.583458030596375,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "termination",
+      "wall_us": 1897.7505387738347,
+      "mjbatch_us": 1808.979024644941,
+      "overhead_us": 87.95849862508476,
+      "replayed_slots": 0
+    },
+    {
+      "model": "cartpole",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "termination",
+      "wall_us": 1615.5834891833365,
+      "mjbatch_us": 1502.687984611839,
+      "overhead_us": 104.54255971126258,
+      "replayed_slots": 2796
+    },
+    {
+      "model": "reacher",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 1573.3750187791884,
+      "mjbatch_us": 1484.0620569884777,
+      "overhead_us": 88.95748760551214,
+      "replayed_slots": 0
+    },
+    {
+      "model": "reacher",
+      "slots": 64,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 1301.1249830015004,
+      "mjbatch_us": 1266.000501345843,
+      "overhead_us": 33.062504371628165,
+      "replayed_slots": 0
+    },
+    {
+      "model": "reacher",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "per_substep",
+      "scenario": "steady",
+      "wall_us": 6096.728990087286,
+      "mjbatch_us": 5920.707917539403,
+      "overhead_us": 167.91792586445808,
+      "replayed_slots": 0
+    },
+    {
+      "model": "reacher",
+      "slots": 256,
+      "threads": 1,
+      "stepping": "fused",
+      "scenario": "steady",
+      "wall_us": 5178.916995646432,
+      "mjbatch_us": 5101.145943626761,
+      "overhead_us": 75.41649392805994,
+      "replayed_slots": 0
+    }
+  ]
+}

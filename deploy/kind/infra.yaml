@@ -1,0 +1,82 @@
+# In-cluster qualification services: PostgreSQL 17 and an S3-compatible store.
+# Credentials come from Secrets created by deploy/kind/up.sh with generated values.
+# Both keep their data on PersistentVolumes and run with Guaranteed QoS: observed, an
+# OOM kill under VM memory pressure restarted them with empty container layers and the
+# durable run state was lost.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: postgres-data, namespace: raysimbatch-qual}
+spec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 2Gi}}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: s3-data, namespace: raysimbatch-qual}
+spec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 4Gi}}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: postgres, namespace: raysimbatch-qual}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}  # one writer of the RWO volume
+  selector: {matchLabels: {app: postgres}}
+  template:
+    metadata: {labels: {app: postgres}}
+    spec:
+      nodeSelector: {raysimbatch.io/pool: head}
+      containers:
+        - name: postgres
+          # postgres@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3
+          image: postgres:rsb-pinned
+          imagePullPolicy: Never
+          env:
+            - {name: POSTGRES_USER, value: rsb}
+            - {name: POSTGRES_DB, value: raysimbatch}
+            - {name: LC_ALL, value: C}
+            - {name: POSTGRES_INITDB_ARGS, value: "--encoding=UTF8 --locale=C"}
+            - name: POSTGRES_PASSWORD
+              valueFrom: {secretKeyRef: {name: rsb-db, key: password}}
+            - {name: PGDATA, value: /var/lib/postgresql/data/pgdata}
+          ports: [{containerPort: 5432}]
+          resources: {requests: {cpu: "500m", memory: 512Mi}, limits: {cpu: "500m", memory: 512Mi}}
+          readinessProbe: {exec: {command: [pg_isready, -U, rsb, -d, raysimbatch]}, periodSeconds: 2}
+          volumeMounts: [{name: data, mountPath: /var/lib/postgresql/data}]
+      volumes: [{name: data, persistentVolumeClaim: {claimName: postgres-data}}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: postgres, namespace: raysimbatch-qual}
+spec: {selector: {app: postgres}, ports: [{port: 5432}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: s3, namespace: raysimbatch-qual}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector: {matchLabels: {app: s3}}
+  template:
+    metadata: {labels: {app: s3}}
+    spec:
+      nodeSelector: {raysimbatch.io/pool: head}
+      containers:
+        - name: minio
+          # minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
+          image: minio/minio:rsb-pinned
+          imagePullPolicy: Never
+          args: [server, /data]
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom: {secretKeyRef: {name: rsb-s3, key: AWS_ACCESS_KEY_ID}}
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom: {secretKeyRef: {name: rsb-s3, key: AWS_SECRET_ACCESS_KEY}}
+          ports: [{containerPort: 9000}]
+          resources: {requests: {cpu: "500m", memory: 512Mi}, limits: {cpu: "500m", memory: 512Mi}}
+          readinessProbe: {httpGet: {path: /minio/health/ready, port: 9000}, periodSeconds: 2}
+          volumeMounts: [{name: data, mountPath: /data}]
+      volumes: [{name: data, persistentVolumeClaim: {claimName: s3-data}}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: s3, namespace: raysimbatch-qual}
+spec: {selector: {app: s3}, ports: [{port: 9000}]}

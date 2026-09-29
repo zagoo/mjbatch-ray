@@ -1,0 +1,6 @@
+# 2026-09-29T08:42:47Z docker run --platform linux/amd64 raysimbatch-cpu:amd64-test python -m pytest -q -rs tests/linux tests/core tests/telemetry/test_procfs.py
+# rsb 050070e22b474777940eed0aa3c87c4dbe46e987 (image built from the clean tree) mjbatch 2f169146b643adda65e195d8ad13d997abdd2a2e Linux x86_64 (Rosetta on Darwin arm64); tests/ray/test_node_helpers.py left out: Ray cannot start under Rosetta (ray-under-rosetta.txt)
+........................................................................ [ 57%]
+......................................................                   [100%]
+126 passed in 9.70s
+# exit=0

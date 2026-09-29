@@ -1,0 +1,166 @@
+# RaySimBatch Prometheus rules (design §11.3). Plain Prometheus rule-file format; wrap in a
+# PrometheusRule object if the cluster runs prometheus-operator.
+#
+# Metric naming as observed on Ray 2.58.0 (see docs/operations/observability.md):
+#   * RaySimBatch catalog metrics are exported by Ray as ray_raysimbatch_<name>, with Ray
+#     adding per-process labels (WorkerId, Component, SessionName, NodeAddress, Version).
+#     Every expression aggregates those away (sum/max/min by bounded labels only).
+#   * Ray native names used here are listed in ray-2.58.0-native-metrics.txt, produced by
+#     qualification/verify_ray_metrics.py; re-run it (--check) on every Ray upgrade.
+#   * Series of an actor disappear when its process exits and are exported every
+#     metrics_report_interval_ms (10 s default): end-of-run counters may miss the last
+#     interval. Run-level truth is the durable store and the run manifest.
+groups:
+  - name: raysimbatch-calibration
+    # Operator-supplied constants. 0 disables the alert that uses them until a
+    # qualification benchmark provides the value (never guess a throughput baseline).
+    rules:
+      - record: raysimbatch:calibrated_control_steps_per_second
+        expr: vector(0)
+      - record: raysimbatch:max_policy_lag_versions
+        expr: vector(2)  # RolloutConfig.max_policy_lag_versions of the deployed configuration
+
+  - name: raysimbatch-derived
+    rules:
+      - record: raysimbatch:object_store_occupancy
+        expr: |
+          sum by (NodeAddress) (ray_object_store_used_memory)
+            / (sum by (NodeAddress) (ray_object_store_used_memory) + sum by (NodeAddress) (ray_object_store_available_memory))
+      - record: raysimbatch:control_steps_per_second
+        expr: sum(rate(ray_raysimbatch_control_steps_total[5m]))
+      - record: raysimbatch:active_slots
+        expr: sum(ray_raysimbatch_slots_active)
+      # Catalog object-store metrics (design §11.1: derived from the verified Ray exporter),
+      # per node. Ray 2.58.0 semantics, pinned by tests/ray_contract/test_ray_metric_semantics.py:
+      # spill_manager_objects_bytes{State="Spilled"|"Restored"} are the raylet's cumulative bytes.
+      - record: raysimbatch:object_store_used_bytes
+        expr: sum by (NodeAddress) (ray_object_store_used_memory)
+      - record: raysimbatch:object_store_capacity_bytes
+        expr: sum by (NodeAddress) (ray_object_store_used_memory) + sum by (NodeAddress) (ray_object_store_available_memory)
+      - record: raysimbatch:object_spilled_bytes_total
+        expr: sum by (NodeAddress) (ray_spill_manager_objects_bytes{State="Spilled"})
+      - record: raysimbatch:object_restored_bytes_total
+        expr: sum by (NodeAddress) (ray_spill_manager_objects_bytes{State="Restored"})
+
+  - name: raysimbatch-page
+    rules:
+      - alert: RsbObjectStoreOccupancyHigh
+        expr: raysimbatch:object_store_occupancy > 0.85
+        for: 60s
+        labels: {severity: page}
+        annotations:
+          summary: "Object store on {{ $labels.NodeAddress }} is {{ $value | humanizePercentage }} full"
+          runbook: docs/operations/runbooks.md#object-store-pressure
+      - alert: RsbHealthyCapacityLow
+        expr: min by (mode) (ray_raysimbatch_healthy_capacity_ratio) < 0.95
+        for: 2m
+        labels: {severity: page}
+        annotations:
+          summary: "Healthy simulation capacity {{ $value | humanizePercentage }} (< 95%) during an active {{ $labels.mode }} run"
+          runbook: docs/operations/runbooks.md#capacity-degraded
+      - alert: RsbWorkerRestartExhausted
+        expr: sum(increase(ray_raysimbatch_worker_restart_exhausted_total[5m])) > 0
+        labels: {severity: page}
+        annotations:
+          summary: "A simulation worker exhausted its restart budget and was quarantined"
+          runbook: docs/operations/runbooks.md#worker-quarantined
+      - alert: RsbNativeProgressStalled
+        # Active native-call age beyond the 30 s maximum call deadline for two 15 s polls.
+        expr: max(ray_raysimbatch_worker_progress_age_seconds) > 30
+        for: 30s
+        labels: {severity: page}
+        annotations:
+          summary: "An active native call has made no progress for {{ $value | humanizeDuration }}"
+          runbook: docs/operations/runbooks.md#native-hang
+      - alert: RsbDatabaseCommitsFailing
+        expr: |
+          sum(rate(ray_raysimbatch_storage_errors_total[1m])) > 0
+            unless sum(rate(ray_raysimbatch_storage_commit_seconds_count[1m])) > 0
+        for: 60s
+        labels: {severity: page}
+        annotations:
+          summary: "Durable commits are failing (no successful transaction in the last minute)"
+          runbook: docs/operations/runbooks.md#database-outage
+      - alert: RsbDigestConflict
+        # The same id arrived with a different digest: never retried, always investigated.
+        expr: sum(increase(ray_raysimbatch_storage_errors_total{outcome="digest_conflict"}[10m])) > 0
+        labels: {severity: page}
+        annotations:
+          summary: "Duplicate id with a different digest (determinism or fencing breach)"
+          runbook: docs/operations/runbooks.md#digest-conflict
+      - alert: RsbCoordinatorLeasesLost
+        expr: |
+          sum(increase(ray_raysimbatch_leases_expired_total[2m])) > 0
+            unless sum(rate(ray_raysimbatch_control_steps_total[2m])) > 0
+        labels: {severity: page}
+        annotations:
+          summary: "Coordinator leases expired and no control steps are progressing"
+          runbook: docs/operations/runbooks.md#control-plane-partition
+
+  - name: raysimbatch-warn
+    rules:
+      - alert: RsbThroughputBelowCalibration
+        expr: |
+          raysimbatch:control_steps_per_second < 0.8 * scalar(raysimbatch:calibrated_control_steps_per_second)
+            and on() (sum(ray_raysimbatch_eval_units_pending) > 0 or raysimbatch:active_slots > 0)
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "Control throughput below 80% of the calibrated expectation with work queued"
+          runbook: docs/operations/runbooks.md#throughput-regression
+      - alert: RsbControlLatencyP99High
+        # Per-step round trip exists only on the central-inference path (stage="advance");
+        # local-policy commands batch several steps and are not comparable.
+        expr: histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_control_interval_seconds_bucket{stage="advance"}[5m]))) > 0.05
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "p99 control round trip {{ $value | humanizeDuration }} > 50 ms"
+          runbook: docs/operations/runbooks.md#latency
+      - alert: RsbCpuUnderutilized
+        # cpu_busy_ratio per actor is not emitted; Ray's node utilization is the proxy.
+        expr: avg by (NodeAddress) (ray_node_cpu_utilization) < 70 and on() raysimbatch:active_slots > 0
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "Node CPU busy {{ $value }}% (< 70%) while slots are active"
+          runbook: docs/operations/runbooks.md#throughput-regression
+      - alert: RsbSpillPersisting
+        expr: sum by (NodeAddress) (ray_object_store_memory{Location="SPILLED"}) > 0
+        for: 2m
+        labels: {severity: warning}
+        annotations:
+          summary: "Objects spilled on {{ $labels.NodeAddress }} for 2 minutes"
+          runbook: docs/operations/runbooks.md#object-store-pressure
+      - alert: RsbPolicyLagNearLimit
+        expr: |
+          histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_policy_lag_versions_bucket[5m])))
+            >= 0.8 * scalar(raysimbatch:max_policy_lag_versions)
+        for: 2m
+        labels: {severity: warning}
+        annotations:
+          summary: "p99 policy lag {{ $value }} versions reached 80% of the limit"
+          runbook: docs/operations/runbooks.md#policy-lag
+      - alert: RsbEvalCoverageMissing
+        expr: |
+          min(ray_raysimbatch_eval_coverage_ratio) < 0.99
+            and on() sum(ray_raysimbatch_eval_units_pending) == 0
+            and on() sum(ray_raysimbatch_eval_units_running) == 0
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: "Evaluation has no work left but coverage is {{ $value | humanizePercentage }} (> 1% missing)"
+          runbook: docs/operations/runbooks.md#eval-coverage
+      - alert: RsbHeadCpuHigh
+        # cAdvisor + kube-state-metrics (standard Kubernetes monitoring stack).
+        expr: |
+          sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{container="ray-head"}[5m]))
+            / sum by (namespace, pod) (kube_pod_container_resource_limits{container="ray-head", resource="cpu"}) > 0.6
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "Ray head CPU {{ $value | humanizePercentage }} of its limit for 10 minutes"
+          runbook: docs/operations/runbooks.md#head-overload
+      # Not implementable without hardware counters on the target platform: "remote-NUMA
+      # accesses exceed calibrated baseline by 20 points" needs numa_remote_ratio, which is
+      # BLOCKED on multi-socket qualification hardware (see qualification report).

@@ -1,0 +1,103 @@
+[build-system]
+requires = ["scikit-build-core==1.1.0", "nanobind==3.1.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "raysimbatch"
+version = "0.1.0"
+description = "Distributed CPU MuJoCo execution on Ray, built on an unmodified upstream MJBatch."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "mjbatch==0.1.1",
+  "mujoco==3.13.0",
+  "numpy==2.3.5",
+  "ray[default]==2.58.0",
+  "pydantic==2.13.5",
+  "pyyaml==6.0.3",
+  "pyarrow==25.0.1",
+  "onnx==1.23.0",
+  "onnxruntime==1.30.0",
+  "psycopg[binary]==3.3.6",
+  "psycopg-pool==3.3.3",
+  "boto3==1.43.103",
+  "prometheus-client==0.26.0",
+  "opentelemetry-api==1.45.0",
+  "opentelemetry-sdk==1.45.0",
+  "opentelemetry-exporter-otlp-proto-http==1.45.0",
+]
+
+[project.optional-dependencies]
+# TorchScript policies and the central inference service's torch backend.
+torch = ["torch==2.14.0"]
+
+[project.scripts]
+raysimbatch = "raysimbatch.cli:main"
+
+[dependency-groups]
+dev = [
+  "pytest==9.1.1",
+  "pytest-asyncio==1.4.0",
+  "pytest-timeout==2.4.0",
+  "ruff==0.16.9",
+  "pyright==1.1.414",
+  "jsonschema==4.26.0",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+# Build the pinned MJBatch checkout out of tree, so no build/ appears inside the
+# submodule (tools/check_mjbatch_clean.py enforces a pristine tree after builds).
+config-settings-package = { mjbatch = { "build-dir" = "../../build/mjbatch/{wheel_tag}" } }
+
+[tool.uv.sources]
+# The pinned upstream checkout, built unmodified (see config-settings-package above).
+mjbatch = { path = "third_party/mjbatch" }
+
+[tool.scikit-build]
+minimum-version = "build-system.requires"
+build-dir = "build/{wheel_tag}"
+wheel.packages = ["src/raysimbatch"]
+cmake.source-dir = "native"
+editable.mode = "redirect"
+editable.rebuild = false
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+src = ["src", "tests", "qualification", "tools"]
+exclude = [".venv", "build", "third_party", ".tools", "typings", "src/raysimbatch/_native.pyi"]  # generated stubs
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP", "ASYNC"]
+ignore = ["B008"]
+
+[tool.ruff.lint.isort]
+# tests/ray/ is a test package under a `src` root; without this ruff treats `ray` as first-party.
+known-third-party = ["ray"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+# Production and CI are Linux: analyze for Linux on every host, so the CI ratchet
+# (tools/pyright_ratchet.py) sees the same errors on macOS and Linux.
+pythonPlatform = "Linux"
+venvPath = "."
+venv = ".venv"
+include = ["src"]
+exclude = ["third_party", "build", ".venv"]
+reportMissingModuleSource = false
+reportPrivateImportUsage = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+timeout = 600
+markers = [
+  "ray: needs a local Ray runtime",
+  "postgres: needs a PostgreSQL server (RSB_TEST_DSN)",
+  "s3: needs an S3-compatible endpoint (RSB_TEST_S3_ENDPOINT)",
+  "slow: long-running qualification-style test",
+  "torch: needs torch",
+]

@@ -1,0 +1,28 @@
+# 2026-09-28T18:28:44Z load: 4.37 5.44 5.48
+## before: 2454a01 (temporary worktree build)
+cartpole  slots= 64 per_substep steady      wall    665.5 us  in MJBatch    542.2 us  overhead  124.0 us
+cartpole  slots= 64 fused       steady      wall    514.8 us  in MJBatch    443.9 us  overhead   69.7 us
+cartpole  slots= 64 per_substep termination wall    575.1 us  in MJBatch    442.0 us  overhead  131.8 us
+cartpole  slots= 64 fused       termination wall    535.5 us  in MJBatch    380.0 us  overhead  155.4 us
+cartpole  slots=256 per_substep steady      wall   2292.0 us  in MJBatch   2114.7 us  overhead  169.2 us
+cartpole  slots=256 fused       steady      wall   1894.8 us  in MJBatch   1782.9 us  overhead  109.3 us
+cartpole  slots=256 per_substep termination wall   1961.4 us  in MJBatch   1777.3 us  overhead  184.5 us
+cartpole  slots=256 fused       termination wall   1680.2 us  in MJBatch   1479.6 us  overhead  201.6 us
+reacher   slots= 64 per_substep steady      wall   1689.2 us  in MJBatch   1473.7 us  overhead  214.2 us
+reacher   slots= 64 fused       steady      wall   1336.0 us  in MJBatch   1246.8 us  overhead   87.6 us
+reacher   slots=256 per_substep steady      wall   6230.8 us  in MJBatch   5902.0 us  overhead  327.3 us
+reacher   slots=256 fused       steady      wall   5166.6 us  in MJBatch   5004.2 us  overhead  156.0 us
+## after: d3bd3a9
+cartpole  slots= 64 per_substep steady      wall    582.6 us  in MJBatch    536.3 us  overhead   45.0 us
+cartpole  slots= 64 fused       steady      wall    476.7 us  in MJBatch    453.0 us  overhead   22.8 us
+cartpole  slots= 64 per_substep termination wall    506.3 us  in MJBatch    453.0 us  overhead   52.7 us
+cartpole  slots= 64 fused       termination wall    451.9 us  in MJBatch    380.2 us  overhead   64.7 us
+cartpole  slots=256 per_substep steady      wall   2215.3 us  in MJBatch   2133.0 us  overhead   78.7 us
+cartpole  slots=256 fused       steady      wall   1879.4 us  in MJBatch   1836.1 us  overhead   40.6 us
+cartpole  slots=256 per_substep termination wall   1897.8 us  in MJBatch   1809.0 us  overhead   88.0 us
+cartpole  slots=256 fused       termination wall   1615.6 us  in MJBatch   1502.7 us  overhead  104.5 us
+reacher   slots= 64 per_substep steady      wall   1573.4 us  in MJBatch   1484.1 us  overhead   89.0 us
+reacher   slots= 64 fused       steady      wall   1301.1 us  in MJBatch   1266.0 us  overhead   33.1 us
+reacher   slots=256 per_substep steady      wall   6096.7 us  in MJBatch   5920.7 us  overhead  167.9 us
+reacher   slots=256 fused       steady      wall   5178.9 us  in MJBatch   5101.1 us  overhead   75.4 us
+# end 2026-09-28T18:29:18Z load: 4.56 5.37 5.45

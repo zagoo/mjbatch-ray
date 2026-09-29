@@ -1,0 +1,9 @@
+FAIL superproject pins 2f169146b643adda65e195d8ad13d997abdd2a2e but third_party/mjbatch is at 121e0331323eab76a30db34b5b9dae2111c837a8
+
+ M pyproject.toml
+ M src/raysimbatch/compat/mjbatch_adapter.py
+ M third_party/mjbatch
+ M uv.lock
+
+promoted in the working tree; review, run the full suite, then commit (gitlink + lock + table)
+exit=1

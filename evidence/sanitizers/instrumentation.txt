@@ -1,0 +1,4 @@
+_bindings.cpython-312-aarch64-linux-gnu.so: asan=45 ubsan=12 tsan=0
+_native.cpython-312-aarch64-linux-gnu.so: asan=29 ubsan=10 tsan=0
+_bindings.cpython-312-aarch64-linux-gnu.so: asan=0 ubsan=0 tsan=23
+_native.cpython-312-aarch64-linux-gnu.so: asan=0 ubsan=0 tsan=13

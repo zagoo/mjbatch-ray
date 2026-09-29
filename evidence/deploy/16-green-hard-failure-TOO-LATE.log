@@ -1,0 +1,9 @@
+2026-09-28T00:05:13Z
+run_id=8fcfe9112e894294b6188ccef42f13bc
+SUCCEEDED|24
+COMPLETED|0
+NAME                                READY   STATUS    RESTARTS   AGE
+postgres-5d45d6c445-mbgk9           1/1     Running   0          10m
+rsb-blue-head-g7m4b                 2/2     Running   0          123m
+rsb-blue-sim-general-worker-smhfg   1/1     Running   0          122m
+s3-647dd48456-jnwjb                 1/1     Running   0          17m

@@ -1,0 +1,31 @@
+# 2026-09-29T08:38:03Z checks on raysimbatch-cpu:amd64 (host: Darwin arm64, Docker 29.8.1, amd64 via Rosetta)
+## docker image inspect
+id=sha256:c93c066535ddf2b1bccce18b396028470991144fb4866c14d39eeb193f69277b os=linux arch=amd64 size=918495456 revision=050070e22b474777940eed0aa3c87c4dbe46e987 mjbatch=2f169146b643adda65e195d8ad13d997abdd2a2e
+## uname -m and native extension ELF headers in the image
+x86_64
+x86_64 linux-x86_64
+/src/.venv/lib/python3.12/site-packages/raysimbatch/_native.cpython-312-x86_64-linux-gnu.so EM_X86_64
+/src/.venv/lib/python3.12/site-packages/mjbatch/_bindings.cpython-312-x86_64-linux-gnu.so EM_X86_64
+## raysimbatch.cli compat run in the container
+{
+  "mjbatch_version": "0.1.1",
+  "mujoco_version": "3.13.0",
+  "mj_version": 3013000,
+  "qualified": true,
+  "candidate_mode": false,
+  "binary_sha256": "d2fdb4b190cba48f59461fadaafcf5d4be180a97845b31fd74aae3cb9303c7f0",
+  "probes": {
+    "first_error_attributed": true,
+    "failed_slots_exact": true,
+    "failed_keep_state": true,
+    "others_advanced": true,
+    "neutralize_cancels_pending": true,
+    "forward_pure": true,
+    "reset_applies_pending_field_writes": true,
+    "state_layout": true,
+    "fused_substeps_equal": true,
+    "history_rows_are_states": true
+  },
+  "abi_fingerprint": "f0475f4b9fae9b2ec191ef1408a71812eaf86e63689f4e5d7f3023e620e27908"
+}
+# exit=0

@@ -1,0 +1,17 @@
+# rsb-blue-head-xgdm4 gcs_server.out: node registration and the controller actor 87d44deb (rsb-run-95bcd9d5...), 03:21
+# head node f7822073... (10.244.2.45); worker node ab58ef6f... (10.244.1.48)
+[2026-09-28 03:21:11,097 I 11 41] (gcs_server) gcs_node_manager.cc:109: Registering new node. node_id=f78220732b4951f822ac1a4c371ea9a540917ec82b4ab0bf90075f04 node_name=10.244.2.45 node_address=10.244.2.45
+[2026-09-28 03:21:12,531 I 11 41] (gcs_server) gcs_node_manager.cc:109: Registering new node. node_id=ab58ef6fd3ab035e23285fb6cb2fd7f8d619e18e585749e0ceeb82fe node_name=10.244.1.48 node_address=10.244.1.48
+[2026-09-28 03:21:16,440 I 11 11] (gcs_server) gcs_actor_manager.cc:320: Registering actor job_id=01000000 actor_id=87d44deb33b62171090dcf6301000000
+[2026-09-28 03:21:16,440 I 11 11] (gcs_server) gcs_actor_manager.cc:324: Registered actor job_id=01000000 actor_id=87d44deb33b62171090dcf6301000000
+[2026-09-28 03:21:16,441 I 11 11] (gcs_server) gcs_actor_manager.cc:439: Creating actor job_id=01000000 actor_id=87d44deb33b62171090dcf6301000000
+[2026-09-28 03:21:16,441 I 11 11] (gcs_server) gcs_actor_scheduler.cc:274: Leasing worker for actor. actor_id=87d44deb33b62171090dcf6301000000 job_id=01000000 node_id=ab58ef6fd3ab035e23285fb6cb2fd7f8d619e18e585749e0ceeb82fe
+[2026-09-28 03:21:16,441 I 11 11] (gcs_server) gcs_actor_scheduler.cc:622: Finished leasing worker from ab58ef6fd3ab035e23285fb6cb2fd7f8d619e18e585749e0ceeb82fe for actor 87d44deb33b62171090dcf6301000000, job id = 01000000
+[2026-09-28 03:21:16,441 I 11 11] (gcs_server) gcs_actor_scheduler.cc:274: Leasing worker for actor. actor_id=87d44deb33b62171090dcf6301000000 job_id=01000000 node_id=f78220732b4951f822ac1a4c371ea9a540917ec82b4ab0bf90075f04
+[2026-09-28 03:21:16,894 I 11 11] (gcs_server) gcs_actor_scheduler.cc:622: Finished leasing worker from f78220732b4951f822ac1a4c371ea9a540917ec82b4ab0bf90075f04 for actor 87d44deb33b62171090dcf6301000000, job id = 01000000
+[2026-09-28 03:21:16,894 I 11 11] (gcs_server) gcs_actor_scheduler.cc:424: Submitting actor creation task to worker. actor_id=87d44deb33b62171090dcf6301000000 worker_id=3a95ca3e3ba28140236830ed54373af647d334c73313dadf1cc31d1c node_id=f78220732b4951f822ac1a4c371ea9a540917ec82b4ab0bf90075f04 job_id=01
+[2026-09-28 03:21:17,000 I 11 11] (gcs_server) gcs_actor_scheduler.cc:463: Actor creation task succeeded. actor_id=87d44deb33b62171090dcf6301000000 worker_id=3a95ca3e3ba28140236830ed54373af647d334c73313dadf1cc31d1c job_id=01000000 node_id=f78220732b4951f822ac1a4c371ea9a540917ec82b4ab0bf90075f04
+[2026-09-28 03:21:17,000 I 11 11] (gcs_server) gcs_actor_manager.cc:1675: Actor created successfully job_id=01000000 actor_id=87d44deb33b62171090dcf6301000000
+[2026-09-28 03:21:17,000 I 11 11] (gcs_server) gcs_actor_manager.cc:454: Finished creating actor. Status: OK job_id=01000000 actor_id=87d44deb33b62171090dcf6301000000
+[2026-09-28 03:36:31,520 I 11 11] (gcs_server) gcs_actor_manager.cc:986: Destroying actor, force_kill=1, timeout_ms=-1 job_id=01000000 actor_id=87d44deb33b62171090dcf6301000000
+[2026-09-28 03:36:31,593 I 11 11] (gcs_server) gcs_actor_manager.cc:1908: Node with actor is already dead, return status: Invalid: KillActor RPC failed for actor 87d44deb33b62171090dcf6301000000: RpcError: RPC error: Socket closed rpc_code: 14 actor_id=87d44deb33b62171090dcf6301000000 node_id=f78220

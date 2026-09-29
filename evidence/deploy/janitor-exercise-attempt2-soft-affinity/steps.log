@@ -1,0 +1,13 @@
+2026-09-28T03:19:28Z script ef6674f; deployed image: 2026-09-28T03:01:52Z raysimbatch-cpu:blue sha256:0f3cb378ce82f8e45009b07d538878756c568e5020da5faaa26117bfbba08a41 git=6c948b7ba8a7f42c614234f5762393c1b934bd79 mjbatch=2f169146b643adda65e195d8ad13d997a
+2026-09-28T03:19:31Z image raysimbatch-cpu:blue
+2026-09-28T03:19:31Z xresume-start on blue (seeds=32 steps=200000)
+2026-09-28T03:19:37Z rsb-blue deleted; run 95bcd9d565834cb9b3e3e4f908a339b0 durable state:
+RUNNING|32
+SUCCEEDED|32
+run|RUNNING|0|0
+2026-09-28T03:20:58Z run lease expired: 2026-09-28 03:20:58.449961+00
+2026-09-28T03:21:11Z rsb-blue redeployed: raysimbatch-cpu:blue
+2026-09-28T03:36:35Z run 95bcd9d565834cb9b3e3e4f908a339b0 durable state:
+SUCCEEDED|64
+run|COMPLETED|1|1
+2026-09-28T03:36:37Z compare-runs exit=0; controllers of 95bcd9d565834cb9b3e3e4f908a339b0 on the head: 1

@@ -1,0 +1,404 @@
+{
+ "uid": "rsb-liveness",
+ "title": "RaySimBatch / Liveness and recovery",
+ "description": "Progress versus responsiveness, restarts, fencing and durable storage.",
+ "tags": [
+  "raysimbatch"
+ ],
+ "timezone": "utc",
+ "schemaVersion": 39,
+ "version": 1,
+ "editable": true,
+ "refresh": "30s",
+ "time": {
+  "from": "now-6h",
+  "to": "now"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "datasource",
+    "label": "Prometheus",
+    "type": "datasource",
+    "query": "prometheus",
+    "current": {},
+    "hide": 0
+   }
+  ]
+ },
+ "annotations": {
+  "list": []
+ },
+ "links": [
+  {
+   "title": "RaySimBatch dashboards",
+   "type": "dashboards",
+   "tags": [
+    "raysimbatch"
+   ],
+   "asDropdown": true
+  }
+ ],
+ "panels": [
+  {
+   "type": "row",
+   "title": "Liveness",
+   "id": 1,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Active native call age",
+   "description": "Pages above 30 s, the maximum call deadline (runbook: Native hang).",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "max(ray_raysimbatch_worker_progress_age_seconds)",
+     "legendFormat": "oldest in-flight call",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 2,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Heartbeat age by node",
+   "description": "Oldest successful health reply among a node's watched workers (AM-16).",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "max by (node) (ray_raysimbatch_heartbeat_age_seconds)",
+     "legendFormat": "{{node}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 3,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Worker restarts",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_worker_restarts_total[5m]))",
+     "legendFormat": "restarts",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_worker_restart_exhausted_total[5m]))",
+     "legendFormat": "restart budget exhausted",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 4,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 9
+   }
+  },
+  {
+   "type": "row",
+   "title": "Fencing and deduplication",
+   "id": 5,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 17
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Stale commands and expired leases",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_stale_commands_total[5m]))",
+     "legendFormat": "stale commands",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_leases_expired_total[5m]))",
+     "legendFormat": "leases expired",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 6,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 18
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Duplicate commits (deduplicated)",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_duplicate_commits_total[5m]))",
+     "legendFormat": "duplicates",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 7,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 18
+   }
+  },
+  {
+   "type": "row",
+   "title": "Durable storage",
+   "id": 8,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 26
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Storage commit latency",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_storage_commit_seconds_bucket[5m])))",
+     "legendFormat": "p50",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_storage_commit_seconds_bucket[5m])))",
+     "legendFormat": "p99",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 9,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 27
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Storage errors by outcome",
+   "description": "digest_conflict pages (runbook: Digest conflict); unavailable: Database outage.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (outcome) (rate(ray_raysimbatch_storage_errors_total[5m]))",
+     "legendFormat": "{{outcome}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 10,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 27
+   }
+  },
+  {
+   "type": "row",
+   "title": "Telemetry degradation",
+   "id": 11,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 35
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Dropped logs and spans",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_log_dropped_total[5m]))",
+     "legendFormat": "log records",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_traces_dropped_total[5m]))",
+     "legendFormat": "spans (export queue full)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 12,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 36
+   }
+  }
+ ]
+}

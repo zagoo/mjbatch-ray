@@ -1,0 +1,11 @@
+OK mjbatch checkout /private/tmp/claude-501/-Users-renshaobin-Workspace-Develop-GitHub-mjbatch--claude-worktrees-raysimbatch-implementation-7b14fb/747828ed-5cf8-436c-a44d-a96d15438519/scratchpad/rsb-upgrade-clone/third_party/mjbatch pristine at 121e0331323eab76a30db34b5b9dae2111c837a8; boundary respected
+
+M  pyproject.toml
+M  src/raysimbatch/compat/mjbatch_adapter.py
+M  third_party/mjbatch
+ M tools/check_mjbatch_clean.py
+ M tools/mjbatch_upgrade.py
+M  uv.lock
+
+promoted in the working tree; review, run the full suite, then commit (gitlink + lock + table)
+exit=0

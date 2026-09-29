@@ -1,0 +1,68 @@
+2026-09-27 23:15:20,562	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-27 23:15:20,569	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.17:6379...
+2026-09-27 23:15:20,572	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.17:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "8b80c0042d50dda13e7ed5676525cd283e1ee93831d2abc5c6168b526562976e",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "543959aabde7e248dd974b71db9d650593d25adc",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 2,
+  "checks": {
+    "mode_b": {
+      "run_id": "4c27e93c2b6e40039760559063e1fa95",
+      "state": "FAILED",
+      "error": "GangTimeout: gang rsb-4c27e93c-wave not schedulable within 1.0s: deferred wave (no partial start)",
+      "complete": null,
+      "coverage": null,
+      "committed_units": 0,
+      "epoch": 0,
+      "passed": false
+    },
+    "mode_a": {
+      "run_id": "3129c70b8a224725bcae5b203edafc56",
+      "state": "FAILED",
+      "error": "RayTaskError(GetTimeoutError): \u001b[36mray::ShardCoordinator.install()\u001b[39m (pid=290, ip=10.244.1.18, actor_id=1438d54b84dad6fca5a0fcf201000000, repr=<raysimbatch.control.coordinator.ShardCoordinator object at 0xfffeba8cd7f0>)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/control/coordinator.py\", line 181, in install\n    readies[rec.name] = self._initialize(rec)\n                        ^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/control/coordinator.py\", line 195, in _initialize\n    ready = ray.get(rec.actor.initialize.remote(*args), timeout=max(120.0, self.cfg.failure.native_max_deadline_s))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^\n                                  ^^^^^^^^^^^^^^^^^^^\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"python/ray/includes/common.pxi\", line 107, in ray._raylet.check_status\nray.exceptions.GetTimeoutError: Get timed out: some object(s) not ready.",
+      "committed_transitions": 0,
+      "gaps": null,
+      "passed": false
+    }
+  },
+  "affinity": {
+    "rsb-affinity-3b03246224043e93": {
+      "cpus": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "service": [],
+      "pool": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "leases": {}
+    }
+  },
+  "passed": false,
+  "seconds": 429.57599663734436
+}
+command terminated with exit code 1
+deploy/kind/release.sh smoke green both  0.10s user 0.07s system 0% cpu 7:11.39 total

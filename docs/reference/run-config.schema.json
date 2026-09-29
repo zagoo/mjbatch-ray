@@ -1,0 +1,2414 @@
+{
+  "$defs": {
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "uri": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uri"
+        }
+      },
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "ClusterConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "default": "auto",
+          "title": "Address",
+          "type": "string"
+        },
+        "autoscale_down_hold_s": {
+          "default": 600.0,
+          "exclusiveMinimum": 0,
+          "title": "Autoscale Down Hold S",
+          "type": "number"
+        },
+        "autoscale_down_utilization": {
+          "default": 0.4,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Autoscale Down Utilization",
+          "type": "number"
+        },
+        "autoscale_up_backlog_s": {
+          "default": 60.0,
+          "exclusiveMinimum": 0,
+          "title": "Autoscale Up Backlog S",
+          "type": "number"
+        },
+        "autoscale_up_fraction_per_min": {
+          "default": 0.2,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Autoscale Up Fraction Per Min",
+          "type": "number"
+        },
+        "autoscale_up_hold_s": {
+          "default": 30.0,
+          "exclusiveMinimum": 0,
+          "title": "Autoscale Up Hold S",
+          "type": "number"
+        },
+        "coordinator_fanout": {
+          "default": 8,
+          "exclusiveMinimum": 0,
+          "title": "Coordinator Fanout",
+          "type": "integer"
+        },
+        "cpu_node_cores": {
+          "default": 128,
+          "exclusiveMinimum": 0,
+          "title": "Cpu Node Cores",
+          "type": "integer"
+        },
+        "cpu_node_memory_gib": {
+          "default": 512,
+          "exclusiveMinimum": 0,
+          "title": "Cpu Node Memory Gib",
+          "type": "integer"
+        },
+        "gang_timeout_s": {
+          "default": 600.0,
+          "exclusiveMinimum": 0,
+          "title": "Gang Timeout S",
+          "type": "number"
+        },
+        "gcs_ft": {
+          "default": "off",
+          "enum": [
+            "off",
+            "redis_qualified"
+          ],
+          "title": "Gcs Ft",
+          "type": "string"
+        },
+        "gcs_qualification": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "gpu_devices_per_pod": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Gpu Devices Per Pod",
+          "type": "integer"
+        },
+        "gpu_pod_cpus": {
+          "default": 16,
+          "exclusiveMinimum": 0,
+          "title": "Gpu Pod Cpus",
+          "type": "integer"
+        },
+        "gpu_pod_memory_gib": {
+          "default": 128,
+          "exclusiveMinimum": 0,
+          "title": "Gpu Pod Memory Gib",
+          "type": "integer"
+        },
+        "gpu_ray_cpus": {
+          "default": 14,
+          "exclusiveMinimum": 0,
+          "title": "Gpu Ray Cpus",
+          "type": "integer"
+        },
+        "gpu_type": {
+          "default": "L40S",
+          "title": "Gpu Type",
+          "type": "string"
+        },
+        "head_cpu": {
+          "default": 16,
+          "exclusiveMinimum": 0,
+          "title": "Head Cpu",
+          "type": "integer"
+        },
+        "head_memory_gib": {
+          "default": 64,
+          "exclusiveMinimum": 0,
+          "title": "Head Memory Gib",
+          "type": "integer"
+        },
+        "image_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Image Digest"
+        },
+        "kuberay_version": {
+          "default": "1.7.0",
+          "title": "Kuberay Version",
+          "type": "string"
+        },
+        "max_cpu_nodes": {
+          "default": 64,
+          "minimum": 0,
+          "title": "Max Cpu Nodes",
+          "type": "integer"
+        },
+        "max_gpu_nodes": {
+          "default": 32,
+          "minimum": 0,
+          "title": "Max Gpu Nodes",
+          "type": "integer"
+        },
+        "min_cpu_nodes": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Min Cpu Nodes",
+          "type": "integer"
+        },
+        "min_gpu_nodes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Min Gpu Nodes",
+          "type": "integer"
+        },
+        "namespace": {
+          "default": "raysimbatch",
+          "title": "Namespace",
+          "type": "string"
+        },
+        "object_store_gib": {
+          "default": 64,
+          "exclusiveMinimum": 0,
+          "title": "Object Store Gib",
+          "type": "integer"
+        },
+        "placement": {
+          "default": "PACK",
+          "enum": [
+            "PACK",
+            "SPREAD",
+            "STRICT_PACK",
+            "STRICT_SPREAD"
+          ],
+          "title": "Placement",
+          "type": "string"
+        },
+        "platform_inventory": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "ray_cpus": {
+          "default": 120,
+          "exclusiveMinimum": 0,
+          "title": "Ray Cpus",
+          "type": "integer"
+        },
+        "ray_version": {
+          "default": "2.58.0",
+          "title": "Ray Version",
+          "type": "string"
+        },
+        "redis_secret": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Redis Secret"
+        },
+        "runtime_env_vars": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime Env Vars",
+          "type": "object"
+        },
+        "service_account": {
+          "default": "raysimbatch-worker",
+          "title": "Service Account",
+          "type": "string"
+        },
+        "shm_gib": {
+          "default": 80,
+          "exclusiveMinimum": 0,
+          "title": "Shm Gib",
+          "type": "integer"
+        },
+        "simulation_cpus": {
+          "default": 112,
+          "exclusiveMinimum": 0,
+          "title": "Simulation Cpus",
+          "type": "integer"
+        },
+        "spill_gib": {
+          "default": 512,
+          "minimum": 0,
+          "title": "Spill Gib",
+          "type": "integer"
+        },
+        "spill_path": {
+          "default": "/var/lib/ray-spill",
+          "title": "Spill Path",
+          "type": "string"
+        },
+        "tenant_cpu_limit": {
+          "default": 8192,
+          "exclusiveMinimum": 0,
+          "title": "Tenant Cpu Limit",
+          "type": "integer"
+        },
+        "tenant_gpu_limit": {
+          "default": 32,
+          "minimum": 0,
+          "title": "Tenant Gpu Limit",
+          "type": "integer"
+        },
+        "termination_grace_s": {
+          "default": 120,
+          "exclusiveMinimum": 0,
+          "title": "Termination Grace S",
+          "type": "integer"
+        }
+      },
+      "title": "ClusterConfig",
+      "type": "object"
+    },
+    "CurriculumConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {
+          "const": "episode",
+          "default": "episode",
+          "title": "Boundary",
+          "type": "string"
+        },
+        "rebalance_s": {
+          "default": 60.0,
+          "exclusiveMinimum": 0,
+          "title": "Rebalance S",
+          "type": "number"
+        },
+        "version": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Version",
+          "type": "integer"
+        },
+        "weight_basis": {
+          "const": "episode_starts",
+          "default": "episode_starts",
+          "title": "Weight Basis",
+          "type": "string"
+        },
+        "weights": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Weights",
+          "type": "object"
+        }
+      },
+      "title": "CurriculumConfig",
+      "type": "object"
+    },
+    "EvalConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_partial": {
+          "default": true,
+          "title": "Allow Partial",
+          "type": "boolean"
+        },
+        "bootstrap_replicates": {
+          "default": 10000,
+          "exclusiveMinimum": 0,
+          "title": "Bootstrap Replicates",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 0.95,
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "episodes_per_seed": {
+          "default": 10,
+          "exclusiveMinimum": 0,
+          "title": "Episodes Per Seed",
+          "type": "integer"
+        },
+        "exports": {
+          "default": [
+            "parquet",
+            "csv",
+            "json",
+            "markdown"
+          ],
+          "items": {
+            "enum": [
+              "parquet",
+              "csv",
+              "json",
+              "markdown"
+            ],
+            "type": "string"
+          },
+          "title": "Exports",
+          "type": "array"
+        },
+        "gang": {
+          "default": true,
+          "title": "Gang",
+          "type": "boolean"
+        },
+        "lease_renew_s": {
+          "default": 20.0,
+          "exclusiveMinimum": 0,
+          "title": "Lease Renew S",
+          "type": "number"
+        },
+        "lease_s": {
+          "default": 120.0,
+          "exclusiveMinimum": 0,
+          "title": "Lease S",
+          "type": "number"
+        },
+        "max_attempts": {
+          "default": 3,
+          "exclusiveMinimum": 0,
+          "title": "Max Attempts",
+          "type": "integer"
+        },
+        "resume": {
+          "default": true,
+          "title": "Resume",
+          "type": "boolean"
+        },
+        "seeds": {
+          "default": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Seeds",
+          "type": "array"
+        },
+        "task_weights": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Task Weights",
+          "type": "object"
+        },
+        "unit_block": {
+          "default": 128,
+          "exclusiveMinimum": 0,
+          "title": "Unit Block",
+          "type": "integer"
+        },
+        "wave_actors": {
+          "default": 28,
+          "exclusiveMinimum": 0,
+          "title": "Wave Actors",
+          "type": "integer"
+        }
+      },
+      "title": "EvalConfig",
+      "type": "object"
+    },
+    "FailureConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "canary_episodes": {
+          "default": 100,
+          "exclusiveMinimum": 0,
+          "title": "Canary Episodes",
+          "type": "integer"
+        },
+        "cancel_grace_s": {
+          "default": 2.0,
+          "exclusiveMinimum": 0,
+          "title": "Cancel Grace S",
+          "type": "number"
+        },
+        "circuit_open_s": {
+          "default": 60.0,
+          "exclusiveMinimum": 0,
+          "title": "Circuit Open S",
+          "type": "number"
+        },
+        "circuit_restart_count": {
+          "default": 3,
+          "exclusiveMinimum": 0,
+          "title": "Circuit Restart Count",
+          "type": "integer"
+        },
+        "circuit_window_s": {
+          "default": 600.0,
+          "exclusiveMinimum": 0,
+          "title": "Circuit Window S",
+          "type": "number"
+        },
+        "health_quarantine_count": {
+          "default": 10,
+          "exclusiveMinimum": 0,
+          "title": "Health Quarantine Count",
+          "type": "integer"
+        },
+        "health_quarantine_window": {
+          "default": 100,
+          "exclusiveMinimum": 0,
+          "title": "Health Quarantine Window",
+          "type": "integer"
+        },
+        "heartbeat_s": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Heartbeat S",
+          "type": "number"
+        },
+        "lease_renew_s": {
+          "default": 5.0,
+          "exclusiveMinimum": 0,
+          "title": "Lease Renew S",
+          "type": "number"
+        },
+        "lease_s": {
+          "default": 20.0,
+          "exclusiveMinimum": 0,
+          "title": "Lease S",
+          "type": "number"
+        },
+        "max_canary_failures": {
+          "default": 3,
+          "exclusiveMinimum": 0,
+          "title": "Max Canary Failures",
+          "type": "integer"
+        },
+        "max_restarts": {
+          "default": 3,
+          "minimum": 0,
+          "title": "Max Restarts",
+          "type": "integer"
+        },
+        "max_task_retries": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Max Task Retries",
+          "type": "integer"
+        },
+        "minimum_healthy_fraction": {
+          "default": 0.95,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Healthy Fraction",
+          "type": "number"
+        },
+        "native_max_deadline_s": {
+          "default": 30.0,
+          "exclusiveMinimum": 0,
+          "title": "Native Max Deadline S",
+          "type": "number"
+        },
+        "native_min_deadline_s": {
+          "default": 2.0,
+          "exclusiveMinimum": 0,
+          "title": "Native Min Deadline S",
+          "type": "number"
+        },
+        "native_p99_multiplier": {
+          "default": 10.0,
+          "exclusiveMinimum": 0,
+          "title": "Native P99 Multiplier",
+          "type": "number"
+        },
+        "native_quarantine_count": {
+          "default": 3,
+          "exclusiveMinimum": 0,
+          "title": "Native Quarantine Count",
+          "type": "integer"
+        },
+        "on_insufficient_capacity": {
+          "default": "pause",
+          "enum": [
+            "pause",
+            "fail"
+          ],
+          "title": "On Insufficient Capacity",
+          "type": "string"
+        },
+        "suspect_s": {
+          "default": 10.0,
+          "exclusiveMinimum": 0,
+          "title": "Suspect S",
+          "type": "number"
+        }
+      },
+      "title": "FailureConfig",
+      "type": "object"
+    },
+    "FlowConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "admission_store_fraction": {
+          "default": 0.6,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Admission Store Fraction",
+          "type": "number"
+        },
+        "assembler_bytes": {
+          "default": 268435456,
+          "exclusiveMinimum": 0,
+          "title": "Assembler Bytes",
+          "type": "integer"
+        },
+        "asset_cache_bytes": {
+          "default": 17179869184,
+          "exclusiveMinimum": 0,
+          "title": "Asset Cache Bytes",
+          "type": "integer"
+        },
+        "fragment_slabs_per_worker": {
+          "default": 2,
+          "exclusiveMinimum": 0,
+          "title": "Fragment Slabs Per Worker",
+          "type": "integer"
+        },
+        "inflight_frames_per_worker": {
+          "default": 4,
+          "exclusiveMinimum": 0,
+          "title": "Inflight Frames Per Worker",
+          "type": "integer"
+        },
+        "object_max_bytes": {
+          "default": 4194304,
+          "exclusiveMinimum": 0,
+          "title": "Object Max Bytes",
+          "type": "integer"
+        },
+        "object_target_bytes": {
+          "default": 1572864,
+          "exclusiveMinimum": 0,
+          "title": "Object Target Bytes",
+          "type": "integer"
+        },
+        "pause_fraction": {
+          "default": 0.85,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Pause Fraction",
+          "type": "number"
+        },
+        "policy_load_bytes": {
+          "default": 4294967296,
+          "exclusiveMinimum": 0,
+          "title": "Policy Load Bytes",
+          "type": "integer"
+        },
+        "resume_fraction": {
+          "default": 0.6,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Resume Fraction",
+          "type": "number"
+        },
+        "resume_hold_s": {
+          "default": 30.0,
+          "exclusiveMinimum": 0,
+          "title": "Resume Hold S",
+          "type": "number"
+        },
+        "spill_hot_objects_allowed": {
+          "default": false,
+          "title": "Spill Hot Objects Allowed",
+          "type": "boolean"
+        },
+        "stop_episode_fraction": {
+          "default": 0.75,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Stop Episode Fraction",
+          "type": "number"
+        },
+        "throttle_fraction": {
+          "default": 0.65,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Throttle Fraction",
+          "type": "number"
+        }
+      },
+      "title": "FlowConfig",
+      "type": "object"
+    },
+    "HealthConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "check_each_substep": {
+          "default": true,
+          "title": "Check Each Substep",
+          "type": "boolean"
+        },
+        "fatal_warning_codes": {
+          "default": [
+            "BADQPOS",
+            "BADQVEL",
+            "BADQACC",
+            "BADCTRL",
+            "CONTACTFULL",
+            "CNSTRFULL"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Fatal Warning Codes",
+          "type": "array"
+        },
+        "max_abs_qacc": {
+          "default": 1000000.0,
+          "exclusiveMinimum": 0,
+          "title": "Max Abs Qacc",
+          "type": "number"
+        },
+        "max_abs_qvel": {
+          "default": 1000.0,
+          "exclusiveMinimum": 0,
+          "title": "Max Abs Qvel",
+          "type": "number"
+        },
+        "max_contacts": {
+          "default": 100000,
+          "exclusiveMinimum": 0,
+          "title": "Max Contacts",
+          "type": "integer"
+        },
+        "max_energy_j": {
+          "default": 100000000.0,
+          "exclusiveMinimum": 0,
+          "title": "Max Energy J",
+          "type": "number"
+        },
+        "quaternion_norm_tolerance": {
+          "default": 0.001,
+          "exclusiveMinimum": 0,
+          "title": "Quaternion Norm Tolerance",
+          "type": "number"
+        }
+      },
+      "title": "HealthConfig",
+      "type": "object"
+    },
+    "InferenceConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_max_p99_s": {
+          "default": 0.05,
+          "exclusiveMinimum": 0,
+          "title": "Auto Max P99 S",
+          "type": "number"
+        },
+        "auto_min_speedup": {
+          "default": 1.15,
+          "exclusiveMinimum": 0,
+          "title": "Auto Min Speedup",
+          "type": "number"
+        },
+        "backend": {
+          "default": "onnx",
+          "enum": [
+            "onnx",
+            "torchscript"
+          ],
+          "title": "Backend",
+          "type": "string"
+        },
+        "cpus_per_replica": {
+          "default": 2,
+          "exclusiveMinimum": 0,
+          "title": "Cpus Per Replica",
+          "type": "integer"
+        },
+        "deadline_s": {
+          "default": 0.05,
+          "exclusiveMinimum": 0,
+          "title": "Deadline S",
+          "type": "number"
+        },
+        "device": {
+          "default": "cuda",
+          "enum": [
+            "cuda",
+            "cpu",
+            "mps"
+          ],
+          "title": "Device",
+          "type": "string"
+        },
+        "flush_ms": {
+          "default": 2.0,
+          "exclusiveMinimum": 0,
+          "title": "Flush Ms",
+          "type": "number"
+        },
+        "gpu_replicas": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Gpu Replicas",
+          "type": "integer"
+        },
+        "gpus_per_replica": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Gpus Per Replica",
+          "type": "integer"
+        },
+        "max_batch_rows": {
+          "default": 1024,
+          "exclusiveMinimum": 0,
+          "title": "Max Batch Rows",
+          "type": "integer"
+        },
+        "max_resident_versions": {
+          "default": 2,
+          "exclusiveMinimum": 0,
+          "title": "Max Resident Versions",
+          "type": "integer"
+        },
+        "placement": {
+          "default": "local",
+          "enum": [
+            "local",
+            "central",
+            "auto"
+          ],
+          "title": "Placement",
+          "type": "string"
+        },
+        "queue_requests": {
+          "default": 64,
+          "exclusiveMinimum": 0,
+          "title": "Queue Requests",
+          "type": "integer"
+        },
+        "queue_rows": {
+          "default": 8192,
+          "exclusiveMinimum": 0,
+          "title": "Queue Rows",
+          "type": "integer"
+        },
+        "utilization_ceiling": {
+          "default": 0.7,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Utilization Ceiling",
+          "type": "number"
+        }
+      },
+      "title": "InferenceConfig",
+      "type": "object"
+    },
+    "ModelGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "action_schema": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "adapter": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "assets": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "cone": {
+          "default": "pyramidal",
+          "enum": [
+            "pyramidal",
+            "elliptic"
+          ],
+          "title": "Cone",
+          "type": "string"
+        },
+        "decimation": {
+          "default": 4,
+          "exclusiveMinimum": 0,
+          "title": "Decimation",
+          "type": "integer"
+        },
+        "expected_data_mib": {
+          "default": 16.0,
+          "exclusiveMinimum": 0,
+          "title": "Expected Data Mib",
+          "type": "number"
+        },
+        "expected_model_mib": {
+          "default": 8.0,
+          "exclusiveMinimum": 0,
+          "title": "Expected Model Mib",
+          "type": "number"
+        },
+        "health": {
+          "$ref": "#/$defs/HealthConfig",
+          "default": {
+            "check_each_substep": true,
+            "fatal_warning_codes": [
+              "BADQPOS",
+              "BADQVEL",
+              "BADQACC",
+              "BADCTRL",
+              "CONTACTFULL",
+              "CNSTRFULL"
+            ],
+            "max_abs_qacc": 1000000.0,
+            "max_abs_qvel": 1000.0,
+            "max_contacts": 100000,
+            "max_energy_j": 100000000.0,
+            "quaternion_norm_tolerance": 0.001
+          }
+        },
+        "initial_keyframe": {
+          "default": -1,
+          "minimum": -1,
+          "title": "Initial Keyframe",
+          "type": "integer"
+        },
+        "integrator": {
+          "default": "implicitfast",
+          "enum": [
+            "Euler",
+            "RK4",
+            "implicit",
+            "implicitfast"
+          ],
+          "title": "Integrator",
+          "type": "string"
+        },
+        "iterations": {
+          "default": 100,
+          "exclusiveMinimum": 0,
+          "title": "Iterations",
+          "type": "integer"
+        },
+        "max_control_steps": {
+          "default": 1000,
+          "exclusiveMinimum": 0,
+          "title": "Max Control Steps",
+          "type": "integer"
+        },
+        "mjb": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "mjcf": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "name": {
+          "default": "default",
+          "title": "Name",
+          "type": "string"
+        },
+        "observation_schema": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "plugins": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactRef"
+          },
+          "title": "Plugins",
+          "type": "array"
+        },
+        "randomization": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RandomizationRule"
+          },
+          "title": "Randomization",
+          "type": "array"
+        },
+        "resource_pool": {
+          "default": "sim_general",
+          "enum": [
+            "sim_general",
+            "sim_contact"
+          ],
+          "title": "Resource Pool",
+          "type": "string"
+        },
+        "sleep": {
+          "default": false,
+          "title": "Sleep",
+          "type": "boolean"
+        },
+        "solver": {
+          "default": "Newton",
+          "enum": [
+            "Newton",
+            "CG",
+            "PGS"
+          ],
+          "title": "Solver",
+          "type": "string"
+        },
+        "task_kernel": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "timestep_ns": {
+          "default": 2000000,
+          "exclusiveMinimum": 0,
+          "title": "Timestep Ns",
+          "type": "integer"
+        },
+        "tolerance": {
+          "default": 1e-08,
+          "minimum": 0,
+          "title": "Tolerance",
+          "type": "number"
+        }
+      },
+      "title": "ModelGroup",
+      "type": "object"
+    },
+    "ParityConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "action_atol": {
+          "default": 0.0001,
+          "minimum": 0,
+          "title": "Action Atol",
+          "type": "number"
+        },
+        "angle_atol_deg": {
+          "default": 0.1,
+          "minimum": 0,
+          "title": "Angle Atol Deg",
+          "type": "number"
+        },
+        "com_atol_m": {
+          "default": 0.001,
+          "minimum": 0,
+          "title": "Com Atol M",
+          "type": "number"
+        },
+        "contact_curve_rtol": {
+          "default": 0.1,
+          "minimum": 0,
+          "title": "Contact Curve Rtol",
+          "type": "number"
+        },
+        "contact_fit_grid": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "effort_atol_nm": {
+          "default": 0.01,
+          "minimum": 0,
+          "title": "Effort Atol Nm",
+          "type": "number"
+        },
+        "effort_rtol": {
+          "default": 0.01,
+          "minimum": 0,
+          "title": "Effort Rtol",
+          "type": "number"
+        },
+        "filter_atol": {
+          "default": 1e-06,
+          "minimum": 0,
+          "title": "Filter Atol",
+          "type": "number"
+        },
+        "held_out_fixtures": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "inertia_rtol": {
+          "default": 0.02,
+          "minimum": 0,
+          "title": "Inertia Rtol",
+          "type": "number"
+        },
+        "initial_state_atol": {
+          "default": 1e-06,
+          "minimum": 0,
+          "title": "Initial State Atol",
+          "type": "number"
+        },
+        "mass_rtol": {
+          "default": 0.01,
+          "minimum": 0,
+          "title": "Mass Rtol",
+          "type": "number"
+        },
+        "observation_atol": {
+          "default": 1e-05,
+          "minimum": 0,
+          "title": "Observation Atol",
+          "type": "number"
+        },
+        "observation_rtol": {
+          "default": 1e-05,
+          "minimum": 0,
+          "title": "Observation Rtol",
+          "type": "number"
+        },
+        "pose_atol_m": {
+          "default": 0.001,
+          "minimum": 0,
+          "title": "Pose Atol M",
+          "type": "number"
+        },
+        "slide_rtol": {
+          "default": 0.05,
+          "minimum": 0,
+          "title": "Slide Rtol",
+          "type": "number"
+        }
+      },
+      "title": "ParityConfig",
+      "type": "object"
+    },
+    "PolicySpec": {
+      "additionalProperties": false,
+      "properties": {
+        "bundle": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "certified_batch_sizes": {
+          "default": [
+            1,
+            16,
+            32,
+            64,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          "title": "Certified Batch Sizes",
+          "type": "array"
+        },
+        "deterministic": {
+          "default": true,
+          "title": "Deterministic",
+          "type": "boolean"
+        },
+        "distribution": {
+          "default": "deterministic",
+          "enum": [
+            "deterministic",
+            "diagonal_gaussian",
+            "categorical"
+          ],
+          "title": "Distribution",
+          "type": "string"
+        },
+        "executable": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "name": {
+          "default": "default",
+          "title": "Name",
+          "type": "string"
+        },
+        "normalization": {
+          "default": "embedded",
+          "enum": [
+            "embedded",
+            "external",
+            "none"
+          ],
+          "title": "Normalization",
+          "type": "string"
+        },
+        "normalizer": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "recurrent_schema": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "version": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Version",
+          "type": "integer"
+        },
+        "weights": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        }
+      },
+      "title": "PolicySpec",
+      "type": "object"
+    },
+    "RandomizationRule": {
+      "additionalProperties": false,
+      "properties": {
+        "distribution": {
+          "default": "fixed",
+          "enum": [
+            "fixed",
+            "uniform",
+            "log_uniform",
+            "normal_clipped",
+            "categorical"
+          ],
+          "title": "Distribution",
+          "type": "string"
+        },
+        "field": {
+          "default": "body_mass",
+          "title": "Field",
+          "type": "string"
+        },
+        "high": {
+          "default": 1.0,
+          "title": "High",
+          "type": "number"
+        },
+        "indices": {
+          "default": [],
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Indices",
+          "type": "array"
+        },
+        "low": {
+          "default": 1.0,
+          "title": "Low",
+          "type": "number"
+        },
+        "mean": {
+          "default": 1.0,
+          "title": "Mean",
+          "type": "number"
+        },
+        "operation": {
+          "default": "multiply",
+          "enum": [
+            "replace",
+            "multiply"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "probabilities": {
+          "default": [],
+          "items": {
+            "type": "number"
+          },
+          "title": "Probabilities",
+          "type": "array"
+        },
+        "refresh": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always"
+          ],
+          "title": "Refresh",
+          "type": "string"
+        },
+        "std": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Std",
+          "type": "number"
+        },
+        "stream": {
+          "default": "domain",
+          "title": "Stream",
+          "type": "string"
+        },
+        "values": {
+          "default": [],
+          "items": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "title": "RandomizationRule",
+      "type": "object"
+    },
+    "RolloutConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_quarantine_exclusion": {
+          "default": false,
+          "title": "Allow Quarantine Exclusion",
+          "type": "boolean"
+        },
+        "collection": {
+          "default": "async",
+          "enum": [
+            "async",
+            "on_policy_epoch"
+          ],
+          "title": "Collection",
+          "type": "string"
+        },
+        "durable_outbox": {
+          "default": true,
+          "title": "Durable Outbox",
+          "type": "boolean"
+        },
+        "fragment_flush_s": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Fragment Flush S",
+          "type": "number"
+        },
+        "fragment_steps": {
+          "default": 32,
+          "exclusiveMinimum": 0,
+          "title": "Fragment Steps",
+          "type": "integer"
+        },
+        "max_policy_lag_s": {
+          "default": 2.0,
+          "exclusiveMinimum": 0,
+          "title": "Max Policy Lag S",
+          "type": "number"
+        },
+        "max_policy_lag_versions": {
+          "default": 8,
+          "minimum": 0,
+          "title": "Max Policy Lag Versions",
+          "type": "integer"
+        },
+        "require_idempotent_sink": {
+          "default": true,
+          "title": "Require Idempotent Sink",
+          "type": "boolean"
+        },
+        "rllib_adapter": {
+          "default": false,
+          "title": "Rllib Adapter",
+          "type": "boolean"
+        },
+        "sink_uri": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sink Uri"
+        },
+        "target_transitions": {
+          "default": 1000000,
+          "exclusiveMinimum": 0,
+          "title": "Target Transitions",
+          "type": "integer"
+        }
+      },
+      "title": "RolloutConfig",
+      "type": "object"
+    },
+    "Sim2SimConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "axes": {
+          "default": [
+            "joint_map",
+            "normalization",
+            "actuator",
+            "filter",
+            "timestep",
+            "inertia",
+            "contact"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Axes",
+          "type": "array"
+        },
+        "bundle": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "diagnostic_fraction": {
+          "default": 0.01,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Diagnostic Fraction",
+          "type": "number"
+        },
+        "diagnostic_seed_count": {
+          "default": 20,
+          "exclusiveMinimum": 0,
+          "title": "Diagnostic Seed Count",
+          "type": "integer"
+        },
+        "dynamics_gates": {
+          "default": true,
+          "title": "Dynamics Gates",
+          "type": "boolean"
+        },
+        "fixture_count": {
+          "default": 1000,
+          "exclusiveMinimum": 0,
+          "title": "Fixture Count",
+          "type": "integer"
+        },
+        "parity": {
+          "$ref": "#/$defs/ParityConfig",
+          "default": {
+            "action_atol": 0.0001,
+            "angle_atol_deg": 0.1,
+            "com_atol_m": 0.001,
+            "contact_curve_rtol": 0.1,
+            "contact_fit_grid": {
+              "sha256": null,
+              "uri": null
+            },
+            "effort_atol_nm": 0.01,
+            "effort_rtol": 0.01,
+            "filter_atol": 1e-06,
+            "held_out_fixtures": {
+              "sha256": null,
+              "uri": null
+            },
+            "inertia_rtol": 0.02,
+            "initial_state_atol": 1e-06,
+            "mass_rtol": 0.01,
+            "observation_atol": 1e-05,
+            "observation_rtol": 1e-05,
+            "pose_atol_m": 0.001,
+            "slide_rtol": 0.05
+          }
+        },
+        "source_trace": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "static_gates": {
+          "default": true,
+          "title": "Static Gates",
+          "type": "boolean"
+        }
+      },
+      "title": "Sim2SimConfig",
+      "type": "object"
+    },
+    "StorageConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "blob_request_timeout_s": {
+          "default": 30.0,
+          "exclusiveMinimum": 0,
+          "title": "Blob Request Timeout S",
+          "type": "number"
+        },
+        "database_timeout_s": {
+          "default": 5.0,
+          "exclusiveMinimum": 0,
+          "title": "Database Timeout S",
+          "type": "number"
+        },
+        "diagnostic_retention_days": {
+          "default": 30,
+          "exclusiveMinimum": 0,
+          "title": "Diagnostic Retention Days",
+          "type": "integer"
+        },
+        "fragment_retention_days": {
+          "default": 7,
+          "exclusiveMinimum": 0,
+          "title": "Fragment Retention Days",
+          "type": "integer"
+        },
+        "orphan_retention_days": {
+          "default": 7,
+          "exclusiveMinimum": 0,
+          "title": "Orphan Retention Days",
+          "type": "integer"
+        },
+        "result_commit_interval_s": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Result Commit Interval S",
+          "type": "number"
+        },
+        "result_commit_rows": {
+          "default": 1000,
+          "exclusiveMinimum": 0,
+          "title": "Result Commit Rows",
+          "type": "integer"
+        },
+        "result_retention_days": {
+          "default": 365,
+          "exclusiveMinimum": 0,
+          "title": "Result Retention Days",
+          "type": "integer"
+        },
+        "retry_attempts": {
+          "default": 3,
+          "minimum": 0,
+          "title": "Retry Attempts",
+          "type": "integer"
+        },
+        "retry_backoff_s": {
+          "default": [
+            0.1,
+            0.5,
+            2.0
+          ],
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Retry Backoff S",
+          "type": "array"
+        }
+      },
+      "title": "StorageConfig",
+      "type": "object"
+    },
+    "TaskScoring": {
+      "additionalProperties": false,
+      "properties": {
+        "comparison": {
+          "default": "absolute",
+          "enum": [
+            "absolute",
+            "paired_source"
+          ],
+          "title": "Comparison",
+          "type": "string"
+        },
+        "maximum_tracking_error": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Tracking Error"
+        },
+        "minimum_valid_coverage": {
+          "default": 0.95,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Valid Coverage",
+          "type": "number"
+        },
+        "reward_aggregation": {
+          "const": "sum",
+          "default": "sum",
+          "title": "Reward Aggregation",
+          "type": "string"
+        },
+        "success_metric": {
+          "default": "success",
+          "title": "Success Metric",
+          "type": "string"
+        },
+        "success_threshold": {
+          "default": 0.8,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Success Threshold",
+          "type": "number"
+        },
+        "suite_weight": {
+          "default": 1.0,
+          "minimum": 0,
+          "title": "Suite Weight",
+          "type": "number"
+        },
+        "tracking_metric": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tracking Metric"
+        }
+      },
+      "title": "TaskScoring",
+      "type": "object"
+    },
+    "TaskSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "action_schema": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "kernel": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "model_groups": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Model Groups",
+          "type": "array"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "observation_schema": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "reset_distribution": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "reward_definition": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "scoring": {
+          "$ref": "#/$defs/TaskScoring",
+          "default": {
+            "comparison": "absolute",
+            "maximum_tracking_error": null,
+            "minimum_valid_coverage": 0.95,
+            "reward_aggregation": "sum",
+            "success_metric": "success",
+            "success_threshold": 0.8,
+            "suite_weight": 1.0,
+            "tracking_metric": null
+          }
+        },
+        "termination_definition": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "version": {
+          "const": 1,
+          "default": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "title": "TaskSpec",
+      "type": "object"
+    },
+    "TelemetryConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "diagnostic_max_bytes": {
+          "default": 67108864,
+          "exclusiveMinimum": 0,
+          "title": "Diagnostic Max Bytes",
+          "type": "integer"
+        },
+        "diagnostic_trace_steps": {
+          "default": 100,
+          "minimum": 0,
+          "title": "Diagnostic Trace Steps",
+          "type": "integer"
+        },
+        "log_level": {
+          "default": "INFO",
+          "enum": [
+            "DEBUG",
+            "INFO",
+            "WARN",
+            "ERROR"
+          ],
+          "title": "Log Level",
+          "type": "string"
+        },
+        "log_queue_bytes": {
+          "default": 16777216,
+          "exclusiveMinimum": 0,
+          "title": "Log Queue Bytes",
+          "type": "integer"
+        },
+        "metrics_flush_s": {
+          "default": 5.0,
+          "exclusiveMinimum": 0,
+          "title": "Metrics Flush S",
+          "type": "number"
+        },
+        "metrics_port": {
+          "default": 8080,
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Metrics Port",
+          "type": "integer"
+        },
+        "metrics_prefix": {
+          "default": "raysimbatch",
+          "title": "Metrics Prefix",
+          "type": "string"
+        },
+        "otel_endpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Otel Endpoint"
+        },
+        "per_env_metrics": {
+          "default": false,
+          "title": "Per Env Metrics",
+          "type": "boolean"
+        },
+        "run_label_retention_hours": {
+          "default": 24,
+          "exclusiveMinimum": 0,
+          "title": "Run Label Retention Hours",
+          "type": "integer"
+        },
+        "scrape_s": {
+          "default": 15.0,
+          "exclusiveMinimum": 0,
+          "title": "Scrape S",
+          "type": "number"
+        },
+        "task_events_control": {
+          "default": true,
+          "title": "Task Events Control",
+          "type": "boolean"
+        },
+        "task_events_hot": {
+          "default": false,
+          "title": "Task Events Hot",
+          "type": "boolean"
+        },
+        "trace_errors": {
+          "default": true,
+          "title": "Trace Errors",
+          "type": "boolean"
+        },
+        "trace_fraction": {
+          "default": 0.001,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Trace Fraction",
+          "type": "number"
+        }
+      },
+      "title": "TelemetryConfig",
+      "type": "object"
+    },
+    "WorkerConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "affinity": {
+          "default": "numa_exclusive",
+          "enum": [
+            "numa_exclusive",
+            "none"
+          ],
+          "title": "Affinity",
+          "type": "string"
+        },
+        "blas_threads": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Blas Threads",
+          "type": "integer"
+        },
+        "checkpoint_interval_s": {
+          "default": 60.0,
+          "exclusiveMinimum": 0,
+          "title": "Checkpoint Interval S",
+          "type": "number"
+        },
+        "engine_threads": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Engine Threads",
+          "type": "integer"
+        },
+        "envs": {
+          "default": 256,
+          "exclusiveMinimum": 0,
+          "title": "Envs",
+          "type": "integer"
+        },
+        "forward_at_control_boundary": {
+          "default": true,
+          "title": "Forward At Control Boundary",
+          "type": "boolean"
+        },
+        "fuse_substeps": {
+          "default": true,
+          "title": "Fuse Substeps",
+          "type": "boolean"
+        },
+        "local_control_steps": {
+          "default": 8,
+          "exclusiveMinimum": 0,
+          "title": "Local Control Steps",
+          "type": "integer"
+        },
+        "max_pending_calls": {
+          "default": 8,
+          "exclusiveMinimum": 0,
+          "title": "Max Pending Calls",
+          "type": "integer"
+        },
+        "memory_gib": {
+          "default": 8,
+          "exclusiveMinimum": 0,
+          "title": "Memory Gib",
+          "type": "integer"
+        },
+        "model_shards": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Model Shards",
+          "type": "integer"
+        },
+        "native_backend": {
+          "default": "mjbatch",
+          "enum": [
+            "mjbatch",
+            "scalar"
+          ],
+          "title": "Native Backend",
+          "type": "string"
+        },
+        "native_extension": {
+          "$ref": "#/$defs/ArtifactRef",
+          "default": {
+            "sha256": null,
+            "uri": null
+          }
+        },
+        "num_cpus": {
+          "default": 4,
+          "exclusiveMinimum": 0,
+          "title": "Num Cpus",
+          "type": "integer"
+        },
+        "omp_threads": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Omp Threads",
+          "type": "integer"
+        },
+        "recovery": {
+          "default": "reset",
+          "enum": [
+            "reset",
+            "snapshot"
+          ],
+          "title": "Recovery",
+          "type": "string"
+        },
+        "slice_max": {
+          "default": 128,
+          "exclusiveMinimum": 0,
+          "title": "Slice Max",
+          "type": "integer"
+        },
+        "slice_min": {
+          "default": 16,
+          "exclusiveMinimum": 0,
+          "title": "Slice Min",
+          "type": "integer"
+        },
+        "slice_size": {
+          "default": 64,
+          "exclusiveMinimum": 0,
+          "title": "Slice Size",
+          "type": "integer"
+        },
+        "smt": {
+          "default": false,
+          "title": "Smt",
+          "type": "boolean"
+        },
+        "threads": {
+          "default": 4,
+          "exclusiveMinimum": 0,
+          "title": "Threads",
+          "type": "integer"
+        },
+        "torch_threads": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Torch Threads",
+          "type": "integer"
+        }
+      },
+      "title": "WorkerConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifact_root": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Artifact Root"
+    },
+    "cluster": {
+      "$ref": "#/$defs/ClusterConfig",
+      "default": {
+        "address": "auto",
+        "autoscale_down_hold_s": 600.0,
+        "autoscale_down_utilization": 0.4,
+        "autoscale_up_backlog_s": 60.0,
+        "autoscale_up_fraction_per_min": 0.2,
+        "autoscale_up_hold_s": 30.0,
+        "coordinator_fanout": 8,
+        "cpu_node_cores": 128,
+        "cpu_node_memory_gib": 512,
+        "gang_timeout_s": 600.0,
+        "gcs_ft": "off",
+        "gcs_qualification": {
+          "sha256": null,
+          "uri": null
+        },
+        "gpu_devices_per_pod": 1,
+        "gpu_pod_cpus": 16,
+        "gpu_pod_memory_gib": 128,
+        "gpu_ray_cpus": 14,
+        "gpu_type": "L40S",
+        "head_cpu": 16,
+        "head_memory_gib": 64,
+        "image_digest": null,
+        "kuberay_version": "1.7.0",
+        "max_cpu_nodes": 64,
+        "max_gpu_nodes": 32,
+        "min_cpu_nodes": 1,
+        "min_gpu_nodes": 0,
+        "namespace": "raysimbatch",
+        "object_store_gib": 64,
+        "placement": "PACK",
+        "platform_inventory": {
+          "sha256": null,
+          "uri": null
+        },
+        "ray_cpus": 120,
+        "ray_version": "2.58.0",
+        "redis_secret": null,
+        "runtime_env_vars": {},
+        "service_account": "raysimbatch-worker",
+        "shm_gib": 80,
+        "simulation_cpus": 112,
+        "spill_gib": 512,
+        "spill_path": "/var/lib/ray-spill",
+        "tenant_cpu_limit": 8192,
+        "tenant_gpu_limit": 32,
+        "termination_grace_s": 120
+      }
+    },
+    "curriculum": {
+      "$ref": "#/$defs/CurriculumConfig",
+      "default": {
+        "boundary": "episode",
+        "rebalance_s": 60.0,
+        "version": 0,
+        "weight_basis": "episode_starts",
+        "weights": {}
+      }
+    },
+    "database_secret": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Database Secret"
+    },
+    "deterministic": {
+      "default": true,
+      "title": "Deterministic",
+      "type": "boolean"
+    },
+    "evaluation": {
+      "$ref": "#/$defs/EvalConfig",
+      "default": {
+        "allow_partial": true,
+        "bootstrap_replicates": 10000,
+        "confidence": 0.95,
+        "episodes_per_seed": 10,
+        "exports": [
+          "parquet",
+          "csv",
+          "json",
+          "markdown"
+        ],
+        "gang": true,
+        "lease_renew_s": 20.0,
+        "lease_s": 120.0,
+        "max_attempts": 3,
+        "resume": true,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "task_weights": {},
+        "unit_block": 128,
+        "wave_actors": 28
+      }
+    },
+    "exploratory": {
+      "default": false,
+      "title": "Exploratory",
+      "type": "boolean"
+    },
+    "failure": {
+      "$ref": "#/$defs/FailureConfig",
+      "default": {
+        "canary_episodes": 100,
+        "cancel_grace_s": 2.0,
+        "circuit_open_s": 60.0,
+        "circuit_restart_count": 3,
+        "circuit_window_s": 600.0,
+        "health_quarantine_count": 10,
+        "health_quarantine_window": 100,
+        "heartbeat_s": 1.0,
+        "lease_renew_s": 5.0,
+        "lease_s": 20.0,
+        "max_canary_failures": 3,
+        "max_restarts": 3,
+        "max_task_retries": 0,
+        "minimum_healthy_fraction": 0.95,
+        "native_max_deadline_s": 30.0,
+        "native_min_deadline_s": 2.0,
+        "native_p99_multiplier": 10.0,
+        "native_quarantine_count": 3,
+        "on_insufficient_capacity": "pause",
+        "suspect_s": 10.0
+      }
+    },
+    "flow": {
+      "$ref": "#/$defs/FlowConfig",
+      "default": {
+        "admission_store_fraction": 0.6,
+        "assembler_bytes": 268435456,
+        "asset_cache_bytes": 17179869184,
+        "fragment_slabs_per_worker": 2,
+        "inflight_frames_per_worker": 4,
+        "object_max_bytes": 4194304,
+        "object_target_bytes": 1572864,
+        "pause_fraction": 0.85,
+        "policy_load_bytes": 4294967296,
+        "resume_fraction": 0.6,
+        "resume_hold_s": 30.0,
+        "spill_hot_objects_allowed": false,
+        "stop_episode_fraction": 0.75,
+        "throttle_fraction": 0.65
+      }
+    },
+    "inference": {
+      "$ref": "#/$defs/InferenceConfig",
+      "default": {
+        "auto_max_p99_s": 0.05,
+        "auto_min_speedup": 1.15,
+        "backend": "onnx",
+        "cpus_per_replica": 2,
+        "deadline_s": 0.05,
+        "device": "cuda",
+        "flush_ms": 2.0,
+        "gpu_replicas": 1,
+        "gpus_per_replica": 1,
+        "max_batch_rows": 1024,
+        "max_resident_versions": 2,
+        "placement": "local",
+        "queue_requests": 64,
+        "queue_rows": 8192,
+        "utilization_ceiling": 0.7
+      }
+    },
+    "mode": {
+      "default": "eval",
+      "enum": [
+        "rollout",
+        "eval",
+        "sim2sim"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "models": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ModelGroup"
+      },
+      "title": "Models",
+      "type": "array"
+    },
+    "policies": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/PolicySpec"
+      },
+      "title": "Policies",
+      "type": "array"
+    },
+    "release_lock": {
+      "$ref": "#/$defs/ArtifactRef",
+      "default": {
+        "sha256": null,
+        "uri": null
+      }
+    },
+    "rollout": {
+      "$ref": "#/$defs/RolloutConfig",
+      "default": {
+        "allow_quarantine_exclusion": false,
+        "collection": "async",
+        "durable_outbox": true,
+        "fragment_flush_s": 1.0,
+        "fragment_steps": 32,
+        "max_policy_lag_s": 2.0,
+        "max_policy_lag_versions": 8,
+        "require_idempotent_sink": true,
+        "rllib_adapter": false,
+        "sink_uri": null,
+        "target_transitions": 1000000
+      }
+    },
+    "run_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Run Id"
+    },
+    "run_seed": {
+      "default": 0,
+      "exclusiveMaximum": 340282366920938463463374607431768211456,
+      "minimum": 0,
+      "title": "Run Seed",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "sim2sim": {
+      "$ref": "#/$defs/Sim2SimConfig",
+      "default": {
+        "axes": [
+          "joint_map",
+          "normalization",
+          "actuator",
+          "filter",
+          "timestep",
+          "inertia",
+          "contact"
+        ],
+        "bundle": {
+          "sha256": null,
+          "uri": null
+        },
+        "diagnostic_fraction": 0.01,
+        "diagnostic_seed_count": 20,
+        "dynamics_gates": true,
+        "fixture_count": 1000,
+        "parity": {
+          "action_atol": 0.0001,
+          "angle_atol_deg": 0.1,
+          "com_atol_m": 0.001,
+          "contact_curve_rtol": 0.1,
+          "contact_fit_grid": {
+            "sha256": null,
+            "uri": null
+          },
+          "effort_atol_nm": 0.01,
+          "effort_rtol": 0.01,
+          "filter_atol": 1e-06,
+          "held_out_fixtures": {
+            "sha256": null,
+            "uri": null
+          },
+          "inertia_rtol": 0.02,
+          "initial_state_atol": 1e-06,
+          "mass_rtol": 0.01,
+          "observation_atol": 1e-05,
+          "observation_rtol": 1e-05,
+          "pose_atol_m": 0.001,
+          "slide_rtol": 0.05
+        },
+        "source_trace": {
+          "sha256": null,
+          "uri": null
+        },
+        "static_gates": true
+      }
+    },
+    "storage": {
+      "$ref": "#/$defs/StorageConfig",
+      "default": {
+        "blob_request_timeout_s": 30.0,
+        "database_timeout_s": 5.0,
+        "diagnostic_retention_days": 30,
+        "fragment_retention_days": 7,
+        "orphan_retention_days": 7,
+        "result_commit_interval_s": 1.0,
+        "result_commit_rows": 1000,
+        "result_retention_days": 365,
+        "retry_attempts": 3,
+        "retry_backoff_s": [
+          0.1,
+          0.5,
+          2.0
+        ]
+      }
+    },
+    "target_envs": {
+      "default": 10000,
+      "exclusiveMinimum": 0,
+      "title": "Target Envs",
+      "type": "integer"
+    },
+    "tasks": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/TaskSpec"
+      },
+      "title": "Tasks",
+      "type": "array"
+    },
+    "telemetry": {
+      "$ref": "#/$defs/TelemetryConfig",
+      "default": {
+        "diagnostic_max_bytes": 67108864,
+        "diagnostic_trace_steps": 100,
+        "log_level": "INFO",
+        "log_queue_bytes": 16777216,
+        "metrics_flush_s": 5.0,
+        "metrics_port": 8080,
+        "metrics_prefix": "raysimbatch",
+        "otel_endpoint": null,
+        "per_env_metrics": false,
+        "run_label_retention_hours": 24,
+        "scrape_s": 15.0,
+        "task_events_control": true,
+        "task_events_hot": false,
+        "trace_errors": true,
+        "trace_fraction": 0.001
+      }
+    },
+    "worker": {
+      "$ref": "#/$defs/WorkerConfig",
+      "default": {
+        "affinity": "numa_exclusive",
+        "blas_threads": 1,
+        "checkpoint_interval_s": 60.0,
+        "engine_threads": 0,
+        "envs": 256,
+        "forward_at_control_boundary": true,
+        "fuse_substeps": true,
+        "local_control_steps": 8,
+        "max_pending_calls": 8,
+        "memory_gib": 8,
+        "model_shards": 1,
+        "native_backend": "mjbatch",
+        "native_extension": {
+          "sha256": null,
+          "uri": null
+        },
+        "num_cpus": 4,
+        "omp_threads": 1,
+        "recovery": "reset",
+        "slice_max": 128,
+        "slice_min": 16,
+        "slice_size": 64,
+        "smt": false,
+        "threads": 4,
+        "torch_threads": 1
+      }
+    }
+  },
+  "title": "RunConfig",
+  "type": "object"
+}

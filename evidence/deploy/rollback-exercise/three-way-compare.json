@@ -1,0 +1,27 @@
+{
+  "reference": "4a80ec4c98f04fd2a81436b91218a04b",
+  "episodes": 128,
+  "runs": {
+    "4a80ec4c98f04fd2a81436b91218a04b": {
+      "state": "COMPLETED",
+      "attempt": 0,
+      "cluster": "rsb-blue",
+      "episodes": 128,
+      "identical_to_reference": true
+    },
+    "c1a22064cf41439a9de076218bae2d50": {
+      "state": "COMPLETED",
+      "attempt": 1,
+      "cluster": "rsb-blue",
+      "episodes": 128,
+      "identical_to_reference": true
+    },
+    "96d19e39cb464fa9aa027bfb9082ab18": {
+      "state": "COMPLETED",
+      "attempt": 2,
+      "cluster": "rsb-blue",
+      "episodes": 128,
+      "identical_to_reference": true
+    }
+  }
+}

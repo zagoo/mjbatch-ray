@@ -1,0 +1,22 @@
+# 2026-09-28T18:18:05Z rsb d3bd3a9 load: 6.28 5.73 5.45
+cartpole   T=1 upstream(nstep)=     717,018/s upstream(substep)=     763,831/s wrapper=     538,273/s  ratio=0.750 (vs substep 0.705) native_fraction=0.92 | fused=     652,429/s ratio=0.910 native_fraction=0.95
+cartpole   T=2 upstream(nstep)=   1,319,202/s upstream(substep)=   1,134,354/s wrapper=     790,996/s  ratio=0.599 (vs substep 0.698) native_fraction=0.86 | fused=   1,130,387/s ratio=0.861 native_fraction=0.90
+cartpole   T=4 upstream(nstep)=   2,484,618/s upstream(substep)=   1,698,739/s wrapper=   1,111,158/s  ratio=0.448 (vs substep 0.656) native_fraction=0.81 | fused=   1,941,495/s ratio=0.783 native_fraction=0.83
+quadruped  T=1 upstream(nstep)=     127,072/s upstream(substep)=     125,238/s wrapper=     148,958/s  ratio=1.170 (vs substep 1.183) native_fraction=0.96 | per_substep=     149,600/s ratio=1.177 native_fraction=0.97
+quadruped  T=2 upstream(nstep)=     248,231/s upstream(substep)=     236,477/s wrapper=     268,178/s  ratio=1.081 (vs substep 1.131) native_fraction=0.93 | per_substep=     268,681/s ratio=1.088 native_fraction=0.93
+quadruped  T=4 upstream(nstep)=     476,215/s upstream(substep)=     434,887/s wrapper=     460,560/s  ratio=0.968 (vs substep 1.058) native_fraction=0.87 | per_substep=     463,856/s ratio=0.972 native_fraction=0.88
+reacher    T=1 upstream(nstep)=     590,889/s upstream(substep)=     605,823/s wrapper=     410,773/s  ratio=0.694 (vs substep 0.679) native_fraction=0.86 | fused=     494,817/s ratio=0.835 native_fraction=0.88
+reacher    T=2 upstream(nstep)=   1,151,576/s upstream(substep)=     974,473/s wrapper=     646,990/s  ratio=0.562 (vs substep 0.663) native_fraction=0.82 | fused=     914,583/s ratio=0.796 native_fraction=0.83
+reacher    T=4 upstream(nstep)=   2,199,552/s upstream(substep)=   1,531,275/s wrapper=     962,282/s  ratio=0.438 (vs substep 0.630) native_fraction=0.77 | fused=   1,637,215/s ratio=0.745 native_fraction=0.78
+# exit=0
+cartpole   T=1 upstream(nstep)=     795,241/s upstream(substep)=     738,202/s wrapper=     622,081/s  ratio=0.783 (vs substep 0.843) native_fraction=0.96 | fused=     742,569/s ratio=0.934 native_fraction=0.97
+cartpole   T=2 upstream(nstep)=   1,444,899/s upstream(substep)=   1,329,798/s wrapper=   1,037,952/s  ratio=0.719 (vs substep 0.783) native_fraction=0.93 | fused=   1,318,299/s ratio=0.915 native_fraction=0.95
+cartpole   T=4 upstream(nstep)=   2,689,063/s upstream(substep)=   2,382,719/s wrapper=   1,725,767/s  ratio=0.642 (vs substep 0.725) native_fraction=0.88 | fused=   2,344,047/s ratio=0.872 native_fraction=0.91
+quadruped  T=1 upstream(nstep)=     125,831/s upstream(substep)=     121,998/s wrapper=     150,897/s  ratio=1.204 (vs substep 1.231) native_fraction=0.98 | per_substep=     151,837/s ratio=1.201 native_fraction=0.98
+quadruped  T=2 upstream(nstep)=     248,868/s upstream(substep)=     243,041/s wrapper=     284,585/s  ratio=1.149 (vs substep 1.179) native_fraction=0.95 | per_substep=     286,105/s ratio=1.150 native_fraction=0.96
+quadruped  T=4 upstream(nstep)=     491,689/s upstream(substep)=     473,018/s wrapper=     531,249/s  ratio=1.083 (vs substep 1.123) native_fraction=0.92 | per_substep=     535,784/s ratio=1.092 native_fraction=0.93
+reacher    T=1 upstream(nstep)=     586,202/s upstream(substep)=     582,190/s wrapper=     422,552/s  ratio=0.722 (vs substep 0.724) native_fraction=0.89 | fused=     498,607/s ratio=0.854 native_fraction=0.89
+reacher    T=2 upstream(nstep)=   1,153,010/s upstream(substep)=   1,080,724/s wrapper=     765,301/s  ratio=0.664 (vs substep 0.707) native_fraction=0.86 | fused=     962,671/s ratio=0.835 native_fraction=0.87
+reacher    T=4 upstream(nstep)=   2,276,024/s upstream(substep)=   1,992,993/s wrapper=   1,352,492/s  ratio=0.594 (vs substep 0.679) native_fraction=0.83 | fused=   1,836,350/s ratio=0.809 native_fraction=0.84
+# exit=0
+# end 2026-09-28T18:27:44Z load: 6.10 5.92 5.64

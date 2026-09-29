@@ -1,0 +1,29 @@
+fetch failed (fatal: couldn't find remote ref origin/mujoco-versions); using refs already present
+command failed (1): uv pip install --python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/venv/bin/python --no-deps -C build-dir=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/build/{wheel_tag} /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/121e0331323e/mjbatch
+^^^
+           |   File "/Users/renshaobin/.cache/uv/builds-v0/.tmpEHjao2/lib/python3.12/site-packages/scikit_build_core/builder/get_requires.py", line 107, in from_config_settings
+           |     reader = SettingsReader.from_file(
+           |              ^^^^^^^^^^^^^^^^^^^^^^^^^
+           |   File "/Users/renshaobin/.cache/uv/builds-v0/.tmpEHjao2/lib/python3.12/site-packages/scikit_build_core/settings/skbuild_read_settings.py", line 742, in from_file
+           |     return cls(
+           |            ^^^^
+           |   File "/Users/renshaobin/.cache/uv/builds-v0/.tmpEHjao2/lib/python3.12/site-packages/scikit_build_core/settings/skbuild_read_settings.py", line 449, in __init__
+           |     self.settings = self.sources.convert_target(ScikitBuildSettings)
+           |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           |   File "/Users/renshaobin/.cache/uv/builds-v0/.tmpEHjao2/lib/python3.12/site-packages/scikit_build_core/settings/sources.py", line 920, in convert_target
+           |     raise ExceptionGroup(msg, errors)
+           | ExceptionGroup: Failed converting tool.scikit-build (1 sub-exception)
+           +-+---------------- 1 ----------------
+             | Traceback (most recent call last):
+             |   File "/Users/renshaobin/.cache/uv/builds-v0/.tmpEHjao2/lib/python3.12/site-packages/scikit_build_core/settings/sources.py", line 887, in convert_target
+             |     tmp = source.convert(simple, field.type)
+             |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             |   File "/Users/renshaobin/.cache/uv/builds-v0/.tmpEHjao2/lib/python3.12/site-packages/scikit_build_core/settings/sources.py", line 634, in convert
+             |     raise TypeError(msg)
+             | TypeError: Expected <class 'str'>, got list
+             | Field tool.scikit-build.build_dir
+             +------------------------------------
+
+hint: Build failures usually indicate a problem with the package or the build environment
+
+exit=1

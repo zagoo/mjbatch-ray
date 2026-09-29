@@ -1,0 +1,12 @@
+2026-09-29T03:44:07Z image raysimbatch-cpu:blue
+2026-09-29T03:44:07Z xresume-start on blue (seeds=32 steps=200000)
+2026-09-29T03:44:13Z rsb-blue deleted; run eac884c7d91f46008276f40f189b72f1 durable state:
+RUNNING|32
+SUCCEEDED|32
+run|RUNNING|0|0
+2026-09-29T03:45:34Z run lease expired: 2026-09-29 03:45:29.632349+00
+2026-09-29T03:45:47Z rsb-blue redeployed: raysimbatch-cpu:blue
+2026-09-29T03:57:50Z run eac884c7d91f46008276f40f189b72f1 durable state:
+SUCCEEDED|64
+run|COMPLETED|1|1
+2026-09-29T03:57:52Z compare-runs exit=0; controllers of eac884c7d91f46008276f40f189b72f1 on the head: 0

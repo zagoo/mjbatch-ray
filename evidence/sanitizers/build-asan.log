@@ -1,0 +1,61 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from cpu.Dockerfile
+#1 transferring dockerfile: 2.89kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+#2 DONE 1.0s
+
+#3 docker-image://docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#4 DONE 0.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 175B done
+#5 DONE 0.0s
+
+#6 [build 1/8] FROM docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 9.55kB done
+#7 DONE 0.0s
+
+#8 [build 2/8] RUN apt-get update  && apt-get install -y --no-install-recommends build-essential git ca-certificates  && rm -rf /var/lib/apt/lists/*  && pip install --no-cache-dir "uv==0.12.19"
+#8 CACHED
+
+#9 [build 8/8] RUN uv sync --frozen --no-dev --no-editable   && .venv/bin/python -m raysimbatch.cli compat > /src/compat.json  && test -z "$(cd third_party/mjbatch && find . -name build -maxdepth 1)"
+#9 CACHED
+
+#10 [test 2/2] COPY tests tests
+#10 CACHED
+
+#11 [build 4/8] COPY pyproject.toml uv.lock README.md ./
+#11 CACHED
+
+#12 [test 1/2] RUN uv sync --frozen --no-editable
+#12 CACHED
+
+#13 [build 3/8] WORKDIR /src
+#13 CACHED
+
+#14 [build 5/8] COPY native native
+#14 CACHED
+
+#15 [build 7/8] COPY third_party/mjbatch third_party/mjbatch
+#15 CACHED
+
+#16 [build 6/8] COPY src src
+#16 CACHED
+
+#17 [sanitize 1/1] RUN uv sync --frozen --no-editable --reinstall-package mjbatch --reinstall-package raysimbatch       --config-settings-package "mjbatch:cmake.define.CMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer -g -O1"       --config-settings-package "mjbatch:cmake.define.CMAKE_SHARED_LINKER_FLAGS=-fsanitize=address,undefined"       --config-settings-package "raysimbatch:cmake.define.RSB_SANITIZE=address,undefined"
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers done
+#18 writing image sha256:98500634b0d23fbf256a4b12c7154cf66c4106f5bcb7ba02de9d4e384a044bf7 done
+#18 naming to docker.io/library/raysimbatch-cpu:san-asan done
+#18 DONE 0.0s

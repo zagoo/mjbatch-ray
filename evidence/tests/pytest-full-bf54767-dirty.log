@@ -1,0 +1,7 @@
+....................................................ss.................. [ 58%]
+...................................................                      [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/linux/test_affinity.py:17: Linux CPU affinity
+SKIPPED [1] tests/linux/test_affinity.py:52: Linux CPU affinity
+121 passed, 2 skipped in 141.17s (0:02:21)
+.venv/bin/python -m pytest -q -rs tests -p no:cacheprovider  19.74s user 10.55s system 21% cpu 2:21.45 total

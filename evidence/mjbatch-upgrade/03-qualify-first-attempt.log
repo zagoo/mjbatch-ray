@@ -1,0 +1,8 @@
+{
+  "behaviour_probes": true,
+  "upstream_contract_and_parity_tests": true,
+  "performance_regression": false,
+  "candidate_tree_pristine": false,
+  "passed": false
+}
+exit=1

@@ -1,0 +1,70 @@
+2026-09-28 04:21:18,633	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-28 04:21:18,638	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.48:6379...
+2026-09-28 04:21:18,642	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.48:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "b4e0e2a654e659a213af5d6c8fdc50c0d2a1cdbb04c771c49c34957a16733078",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "31d9431596a1833c70efc4a53ea924161664d021",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 1,
+  "checks": {
+    "mode_b": {
+      "run_id": "615a54de39f048c4a98cb1561f4eb882",
+      "state": "COMPLETED",
+      "error": null,
+      "complete": true,
+      "coverage": 1.0,
+      "committed_units": 8,
+      "epoch": 0,
+      "success": {
+        "lqr": 1.0,
+        "zero": 0.0
+      },
+      "passed": true
+    },
+    "mode_a": {
+      "run_id": "b0c2a7b5acf3426ba182543f1f5ea0ae",
+      "state": "COMPLETED",
+      "error": null,
+      "committed_transitions": 5489,
+      "gaps": 0,
+      "passed": true
+    }
+  },
+  "affinity": {
+    "rsb-affinity-92374fb5860d6760": {
+      "cpus": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "service": [],
+      "pool": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "leases": {}
+    }
+  },
+  "passed": true,
+  "seconds": 12.387782335281372
+}

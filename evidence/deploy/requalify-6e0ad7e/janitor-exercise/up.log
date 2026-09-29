@@ -1,0 +1,12 @@
+Image: "raysimbatch-cpu:blue" with ID "sha256:0daf6116135dbd4d3b8b9004717ffdabce3b4485166fff9b82dec4ba62c286b0" found to be already present on all nodes.
+Image: "postgres:rsb-pinned" with ID "sha256:0ab8045a2ab29cb465d51a281286099633319df87fd13918a4f35f2e4c3fc82c" found to be already present on all nodes.
+Image: "minio/minio:rsb-pinned" with ID "sha256:8f08aee614800a237906bd48114d733e5ac5bfac4ccdf731f141b0e880d7a253" found to be already present on all nodes.
+waiting for rsb-blue head
+pod/rsb-blue-head-rct4r condition met
+NAME       DESIRED WORKERS   AVAILABLE WORKERS   CPUS    MEMORY   GPUS   STATUS   AGE
+rsb-blue   1                 1                   5100m   4832Mi   0               11s
+NAME                                READY   STATUS    RESTARTS     AGE   IP           NODE               NOMINATED NODE   READINESS GATES
+postgres-96b5b74b9-5hhgw            1/1     Running   2 (9h ago)   23h   10.244.2.4   rsb-qual-worker    <none>           <none>
+rsb-blue-head-rct4r                 3/3     Running   0            11s   10.244.2.8   rsb-qual-worker    <none>           <none>
+rsb-blue-sim-general-worker-vd2sv   0/1     Running   0            11s   10.244.1.6   rsb-qual-worker2   <none>           <none>
+s3-647dd48456-jnwjb                 1/1     Running   2 (9h ago)   27h   10.244.2.2   rsb-qual-worker    <none>           <none>

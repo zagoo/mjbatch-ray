@@ -1,0 +1,122 @@
+# promtool unit tests for alerts.yaml (qualification/check_alerts.sh runs them in the
+# pinned prom/prometheus image). Series carry Ray's per-process labels to prove the
+# expressions aggregate them away.
+rule_files:
+  - alerts.yaml
+evaluation_interval: 15s
+tests:
+  - interval: 15s
+    # Derived catalog object-store metrics: Ray's per-process labels aggregated away per node.
+    input_series:
+      - series: 'ray_object_store_used_memory{NodeAddress="10.0.0.5",WorkerId="",Component="raylet"}'
+        values: '300x4'
+      - series: 'ray_object_store_available_memory{NodeAddress="10.0.0.5",WorkerId="",Component="raylet"}'
+        values: '700x4'
+      - series: 'ray_spill_manager_objects_bytes{NodeAddress="10.0.0.5",State="Spilled",Component="raylet"}'
+        values: '0 100 200 200 200'
+      - series: 'ray_spill_manager_objects_bytes{NodeAddress="10.0.0.5",State="Restored",Component="raylet"}'
+        values: '0 0 50 100 100'
+      - series: 'ray_spill_manager_objects_bytes{NodeAddress="10.0.0.5",State="Pinned",Component="raylet"}'
+        values: '9 9 9 9 9'
+    promql_expr_test:
+      - expr: raysimbatch:object_store_used_bytes
+        eval_time: 30s
+        exp_samples: [{labels: 'raysimbatch:object_store_used_bytes{NodeAddress="10.0.0.5"}', value: 300}]
+      - expr: raysimbatch:object_store_capacity_bytes
+        eval_time: 30s
+        exp_samples: [{labels: 'raysimbatch:object_store_capacity_bytes{NodeAddress="10.0.0.5"}', value: 1000}]
+      - expr: raysimbatch:object_spilled_bytes_total
+        eval_time: 45s
+        exp_samples: [{labels: 'raysimbatch:object_spilled_bytes_total{NodeAddress="10.0.0.5"}', value: 200}]
+      - expr: raysimbatch:object_restored_bytes_total
+        eval_time: 45s
+        exp_samples: [{labels: 'raysimbatch:object_restored_bytes_total{NodeAddress="10.0.0.5"}', value: 100}]
+
+  - interval: 15s
+    input_series:
+      # Two worker processes on one node: 0.9 GiB used of 1 GiB -> 90% > 85%.
+      - series: 'ray_object_store_used_memory{NodeAddress="10.0.0.5",WorkerId="",Component="raylet"}'
+        values: '966367641x10'
+      - series: 'ray_object_store_available_memory{NodeAddress="10.0.0.5",WorkerId="",Component="raylet"}'
+        values: '107374182x10'
+      # Healthy node at 40%.
+      - series: 'ray_object_store_used_memory{NodeAddress="10.0.0.6",WorkerId="",Component="raylet"}'
+        values: '429496729x10'
+      - series: 'ray_object_store_available_memory{NodeAddress="10.0.0.6",WorkerId="",Component="raylet"}'
+        values: '644245094x10'
+    alert_rule_test:
+      - eval_time: 30s
+        alertname: RsbObjectStoreOccupancyHigh
+        exp_alerts: []  # not yet held for 60 s
+      - eval_time: 90s
+        alertname: RsbObjectStoreOccupancyHigh
+        exp_alerts:
+          - exp_labels: {severity: page, NodeAddress: "10.0.0.5"}
+            exp_annotations:
+              summary: "Object store on 10.0.0.5 is 90% full"
+              runbook: docs/operations/runbooks.md#object-store-pressure
+
+  - interval: 15s
+    input_series:
+      - series: 'ray_raysimbatch_storage_errors_total{outcome="digest_conflict",WorkerId="a",actor_role="storage"}'
+        values: '0 0 1 1 1'
+      - series: 'ray_raysimbatch_worker_restart_exhausted_total{WorkerId="b",actor_role="coordinator",mode="eval"}'
+        values: '0 0 0 0 0'
+    alert_rule_test:
+      - eval_time: 60s
+        alertname: RsbDigestConflict
+        exp_alerts:
+          - exp_labels: {severity: page}
+            exp_annotations:
+              summary: "Duplicate id with a different digest (determinism or fencing breach)"
+              runbook: docs/operations/runbooks.md#digest-conflict
+      - eval_time: 60s
+        alertname: RsbWorkerRestartExhausted
+        exp_alerts: []
+
+  - interval: 15s
+    input_series:
+      # Commits failing and no successful transaction: page after 60 s.
+      - series: 'ray_raysimbatch_storage_errors_total{outcome="retry",WorkerId="c",actor_role="storage"}'
+        values: '0+3x20'
+      - series: 'ray_raysimbatch_storage_commit_seconds_count{WorkerId="c",actor_role="storage"}'
+        values: '100x20'
+      # A second process that still commits keeps the other test quiet: see next block.
+    alert_rule_test:
+      - eval_time: 4m
+        alertname: RsbDatabaseCommitsFailing
+        exp_alerts:
+          - exp_labels: {severity: page}
+            exp_annotations:
+              summary: "Durable commits are failing (no successful transaction in the last minute)"
+              runbook: docs/operations/runbooks.md#database-outage
+
+  - interval: 15s
+    input_series:
+      # Errors, but commits still succeed: transient retries must not page.
+      - series: 'ray_raysimbatch_storage_errors_total{outcome="retry",WorkerId="d",actor_role="storage"}'
+        values: '0+1x20'
+      - series: 'ray_raysimbatch_storage_commit_seconds_count{WorkerId="d",actor_role="storage"}'
+        values: '0+50x20'
+    alert_rule_test:
+      - eval_time: 4m
+        alertname: RsbDatabaseCommitsFailing
+        exp_alerts: []
+
+  - interval: 15s
+    input_series:
+      - series: 'ray_raysimbatch_healthy_capacity_ratio{WorkerId="e",actor_role="coordinator",mode="eval"}'
+        values: '1 1 0.9x12'
+      - series: 'ray_raysimbatch_healthy_capacity_ratio{WorkerId="f",actor_role="coordinator",mode="eval"}'
+        values: '1x14'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: RsbHealthyCapacityLow
+        exp_alerts: []
+      - eval_time: 3m
+        alertname: RsbHealthyCapacityLow
+        exp_alerts:
+          - exp_labels: {severity: page, mode: eval}
+            exp_annotations:
+              summary: "Healthy simulation capacity 90% (< 95%) during an active eval run"
+              runbook: docs/operations/runbooks.md#capacity-degraded

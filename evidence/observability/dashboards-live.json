@@ -1,0 +1,568 @@
+{
+ "tests_exit": 0,
+ "window_s": 59.7,
+ "scrape_up_fraction": 0.958,
+ "queries": 74,
+ "with_data": 55,
+ "expected_with_data": 48,
+ "expected": 48,
+ "event_driven_or_platform_empty": [
+  "overview / Episodes per second by outcome: sum (rate(ray_raysimbatch_aborted_episodes_total[5m]))",
+  "overview / Slot health failures and engine warnings: sum (rate(ray_raysimbatch_slot_health_failures_total[5m]))",
+  "overview / Slot health failures and engine warnings: sum (rate(ray_raysimbatch_warning_total[5m]))",
+  "liveness / Worker restarts: sum (rate(ray_raysimbatch_worker_restart_exhausted_total[5m]))",
+  "liveness / Stale commands and expired leases: sum (rate(ray_raysimbatch_stale_commands_total[5m]))",
+  "liveness / Stale commands and expired leases: sum (rate(ray_raysimbatch_leases_expired_total[5m]))",
+  "liveness / Duplicate commits (deduplicated): sum (rate(ray_raysimbatch_duplicate_commits_total[5m]))",
+  "liveness / Storage errors by outcome: sum by (outcome) (rate(ray_raysimbatch_storage_errors_total[5m]))",
+  "liveness / Dropped logs and spans: sum (rate(ray_raysimbatch_log_dropped_total[5m]))",
+  "liveness / Dropped logs and spans: sum (rate(ray_raysimbatch_traces_dropped_total[5m]))",
+  "resources / Worker memory (largest worker): max(ray_raysimbatch_worker_private_bytes)",
+  "resources / NUMA remote memory and affinity violations: max(ray_raysimbatch_numa_remote_ratio)",
+  "resources / NUMA remote memory and affinity violations: sum (rate(ray_raysimbatch_affinity_violations_total[5m]))",
+  "workloads / Fragments: sum by (outcome) (rate(ray_raysimbatch_fragments_rejected_total[5m]))",
+  "workloads / Inference failures: sum (rate(ray_raysimbatch_inference_deadlines_total[5m]))",
+  "workloads / Inference failures: sum (rate(ray_raysimbatch_inference_errors_total[5m]))",
+  "workloads / Gates: sum by (fault_code) (rate(ray_raysimbatch_sim2sim_gate_failures_total[5m]))"
+ ],
+ "exported_but_too_short_for_rate": [],
+ "recovery_events_observed": {
+  "circuit_state": true,
+  "transitions_lost_upper_bound_total": false,
+  "worker_restarts_total": false
+ },
+ "missing": [],
+ "rows": [
+  {
+   "dashboard": "overview",
+   "panel": "Control steps per second",
+   "expr": "sum (rate(ray_raysimbatch_control_steps_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Control steps per second",
+   "expr": "raysimbatch:calibrated_control_steps_per_second",
+   "series": 1,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Physics steps per second",
+   "expr": "sum (rate(ray_raysimbatch_physics_steps_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Episodes per second by outcome",
+   "expr": "sum by (outcome) (rate(ray_raysimbatch_episodes_total[5m]))",
+   "series": 2,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Episodes per second by outcome",
+   "expr": "sum (rate(ray_raysimbatch_aborted_episodes_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Slot health failures and engine warnings",
+   "expr": "sum (rate(ray_raysimbatch_slot_health_failures_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Slot health failures and engine warnings",
+   "expr": "sum (rate(ray_raysimbatch_warning_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Healthy capacity",
+   "expr": "min by (mode) (ray_raysimbatch_healthy_capacity_ratio)",
+   "series": 3,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Slots by state",
+   "expr": "sum(ray_raysimbatch_slots_active)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Slots by state",
+   "expr": "sum(ray_raysimbatch_slots_ready)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Slots by state",
+   "expr": "sum(ray_raysimbatch_slots_waiting)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Slots by state",
+   "expr": "sum(ray_raysimbatch_slots_quarantined)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Circuit state by model family",
+   "expr": "max by (model_family) (ray_raysimbatch_circuit_state)",
+   "series": 1,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Native slice (batch_step_seconds)",
+   "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_batch_step_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Native slice (batch_step_seconds)",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_batch_step_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "overview",
+   "panel": "Command round trip (control_interval_seconds)",
+   "expr": "histogram_quantile(0.99, sum by (le, stage) (rate(ray_raysimbatch_control_interval_seconds_bucket[5m])))",
+   "series": 3,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Active native call age",
+   "expr": "max(ray_raysimbatch_worker_progress_age_seconds)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Heartbeat age by node",
+   "expr": "max by (node) (ray_raysimbatch_heartbeat_age_seconds)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Worker restarts",
+   "expr": "sum (rate(ray_raysimbatch_worker_restarts_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Worker restarts",
+   "expr": "sum (rate(ray_raysimbatch_worker_restart_exhausted_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Stale commands and expired leases",
+   "expr": "sum (rate(ray_raysimbatch_stale_commands_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Stale commands and expired leases",
+   "expr": "sum (rate(ray_raysimbatch_leases_expired_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Duplicate commits (deduplicated)",
+   "expr": "sum (rate(ray_raysimbatch_duplicate_commits_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Storage commit latency",
+   "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_storage_commit_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Storage commit latency",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_storage_commit_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Storage errors by outcome",
+   "expr": "sum by (outcome) (rate(ray_raysimbatch_storage_errors_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Dropped logs and spans",
+   "expr": "sum (rate(ray_raysimbatch_log_dropped_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "liveness",
+   "panel": "Dropped logs and spans",
+   "expr": "sum (rate(ray_raysimbatch_traces_dropped_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Worker memory (largest worker)",
+   "expr": "max(ray_raysimbatch_worker_rss_bytes)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Worker memory (largest worker)",
+   "expr": "max(ray_raysimbatch_worker_private_bytes)",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Object store by node",
+   "expr": "raysimbatch:object_store_used_bytes",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Object store by node",
+   "expr": "raysimbatch:object_store_capacity_bytes",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Spill and restore throughput",
+   "expr": "sum(rate(raysimbatch:object_spilled_bytes_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Spill and restore throughput",
+   "expr": "sum(rate(raysimbatch:object_restored_bytes_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "CPU busy per leased thread",
+   "expr": "avg by (model_family) (ray_raysimbatch_cpu_busy_ratio)",
+   "series": 2,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "CPU busy per leased thread",
+   "expr": "min(ray_raysimbatch_cpu_busy_ratio)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "NUMA remote memory and affinity violations",
+   "expr": "max(ray_raysimbatch_numa_remote_ratio)",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "NUMA remote memory and affinity violations",
+   "expr": "sum (rate(ray_raysimbatch_affinity_violations_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Credits by stage",
+   "expr": "sum by (stage) (ray_raysimbatch_credits_in_use)",
+   "series": 2,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Credits by stage",
+   "expr": "sum by (stage) (ray_raysimbatch_credits_available)",
+   "series": 2,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Queued rows and bytes by stage",
+   "expr": "sum by (stage) (ray_raysimbatch_queue_rows)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Queued rows and bytes by stage",
+   "expr": "sum by (stage) (ray_raysimbatch_queue_bytes)",
+   "series": 2,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Oldest queued request",
+   "expr": "max by (stage) (ray_raysimbatch_oldest_request_seconds)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Frame publication",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_publish_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Frame publication",
+   "expr": "sum (rate(ray_raysimbatch_publish_bytes_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Reset, set_const and observation (p99)",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_reset_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Reset, set_const and observation (p99)",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_set_const_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Reset, set_const and observation (p99)",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_observe_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Placement",
+   "expr": "max(ray_raysimbatch_scheduler_backlog_seconds)",
+   "series": 1,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "resources",
+   "panel": "Placement",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_placement_ready_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Fragments",
+   "expr": "sum (rate(ray_raysimbatch_fragments_committed_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Fragments",
+   "expr": "sum by (outcome) (rate(ray_raysimbatch_fragments_rejected_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Transitions lost (upper bound)",
+   "expr": "sum (rate(ray_raysimbatch_transitions_lost_upper_bound_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Policy lag",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_policy_lag_versions_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Policy lag",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_policy_lag_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Sink delivery",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_sink_ack_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Sink delivery",
+   "expr": "sum(ray_raysimbatch_outbox_bytes)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Inference latency",
+   "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_inference_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Inference latency",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_inference_seconds_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Inference batch rows",
+   "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_inference_batch_rows_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Inference batch rows",
+   "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_inference_batch_rows_bucket[5m])))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Inference failures",
+   "expr": "sum (rate(ray_raysimbatch_inference_deadlines_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Inference failures",
+   "expr": "sum (rate(ray_raysimbatch_inference_errors_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Units",
+   "expr": "sum(ray_raysimbatch_eval_units_pending)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Units",
+   "expr": "sum(ray_raysimbatch_eval_units_running)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Units",
+   "expr": "sum(ray_raysimbatch_eval_units_exhausted)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Coverage and committed episodes",
+   "expr": "min(ray_raysimbatch_eval_coverage_ratio)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Coverage and committed episodes",
+   "expr": "sum (rate(ray_raysimbatch_eval_episodes_committed_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Suite results so far",
+   "expr": "avg(ray_raysimbatch_eval_success_ratio)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Suite results so far",
+   "expr": "avg(ray_raysimbatch_eval_return_mean)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Gates",
+   "expr": "sum by (fault_code) (rate(ray_raysimbatch_sim2sim_gate_failures_total[5m]))",
+   "series": 0,
+   "expected_in_healthy_runs": false
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Gates",
+   "expr": "sum (rate(ray_raysimbatch_sim2sim_validated_bundles_total[5m]))",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Transfer",
+   "expr": "min(ray_raysimbatch_sim2sim_transfer_ratio)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  },
+  {
+   "dashboard": "workloads",
+   "panel": "Transfer",
+   "expr": "min(ray_raysimbatch_sim2sim_paired_coverage_ratio)",
+   "series": 1,
+   "expected_in_healthy_runs": true
+  }
+ ],
+ "grafana": {
+  "image": "grafana/grafana:13.2.2@sha256:ac461fb352abc50da10a51c7d02462e9c05488f11f53f14b3ad79a8145f638a0",
+  "version": "13.2.2",
+  "prometheus_plugin": "13.1.7",
+  "dashboards": 4,
+  "panel_types": [
+   "row",
+   "timeseries"
+  ],
+  "queries": 74,
+  "same_series_as_prometheus": 74,
+  "problems": []
+ }
+}

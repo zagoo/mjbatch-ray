@@ -1,0 +1,14 @@
+2026-09-29 03:45:42,804	INFO client_builder.py:262 -- Passing the following kwargs to ray.init() on the server: log_to_driver
+{"janitor_worker_node": true}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": ["eac884c7d91f46008276f40f189b72f1"], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}
+{"janitor": {"fenced_controllers": [], "removed_placement_groups": [], "released_asset_holds": 0, "resumed_runs": [], "failed_orphans": []}}

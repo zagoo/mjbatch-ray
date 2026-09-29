@@ -1,0 +1,612 @@
+{
+ "uid": "rsb-workloads",
+ "title": "RaySimBatch / Mode A, B and C",
+ "description": "Rollout delivery and inference, evaluation progress, Sim2Sim transfer.",
+ "tags": [
+  "raysimbatch"
+ ],
+ "timezone": "utc",
+ "schemaVersion": 39,
+ "version": 1,
+ "editable": true,
+ "refresh": "30s",
+ "time": {
+  "from": "now-6h",
+  "to": "now"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "datasource",
+    "label": "Prometheus",
+    "type": "datasource",
+    "query": "prometheus",
+    "current": {},
+    "hide": 0
+   }
+  ]
+ },
+ "annotations": {
+  "list": []
+ },
+ "links": [
+  {
+   "title": "RaySimBatch dashboards",
+   "type": "dashboards",
+   "tags": [
+    "raysimbatch"
+   ],
+   "asDropdown": true
+  }
+ ],
+ "panels": [
+  {
+   "type": "row",
+   "title": "Mode A: rollout delivery",
+   "id": 1,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Fragments",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_fragments_committed_total[5m]))",
+     "legendFormat": "committed",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum by (outcome) (rate(ray_raysimbatch_fragments_rejected_total[5m]))",
+     "legendFormat": "rejected {{outcome}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 2,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Transitions lost (upper bound)",
+   "description": "Conservative tail-loss bound from worker loss (gap records).",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_transitions_lost_upper_bound_total[5m]))",
+     "legendFormat": "per second",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 3,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Policy lag",
+   "description": "Runbook: Policy lag.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_policy_lag_versions_bucket[5m])))",
+     "legendFormat": "p99 versions",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_policy_lag_seconds_bucket[5m])))",
+     "legendFormat": "p99 seconds",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 4,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 9
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Sink delivery",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_sink_ack_seconds_bucket[5m])))",
+     "legendFormat": "p99 ack latency (s)",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum(ray_raysimbatch_outbox_bytes)",
+     "legendFormat": "outbox bytes awaiting delivery",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 5,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 9
+   }
+  },
+  {
+   "type": "row",
+   "title": "Mode A: inference",
+   "id": 6,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 17
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Inference latency",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_inference_seconds_bucket[5m])))",
+     "legendFormat": "p50",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_inference_seconds_bucket[5m])))",
+     "legendFormat": "p99",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 7,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 18
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Inference batch rows",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.5, sum by (le) (rate(ray_raysimbatch_inference_batch_rows_bucket[5m])))",
+     "legendFormat": "p50",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(ray_raysimbatch_inference_batch_rows_bucket[5m])))",
+     "legendFormat": "p99",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 8,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 18
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Inference failures",
+   "description": "Runbook: Inference overload.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum (rate(ray_raysimbatch_inference_deadlines_total[5m]))",
+     "legendFormat": "deadline misses",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_inference_errors_total[5m]))",
+     "legendFormat": "errors",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 9,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 26
+   }
+  },
+  {
+   "type": "row",
+   "title": "Mode B: evaluation",
+   "id": 10,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 34
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Units",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(ray_raysimbatch_eval_units_pending)",
+     "legendFormat": "pending",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum(ray_raysimbatch_eval_units_running)",
+     "legendFormat": "running",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "C",
+     "expr": "sum(ray_raysimbatch_eval_units_exhausted)",
+     "legendFormat": "exhausted",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 11,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 35
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Coverage and committed episodes",
+   "description": "Runbook: Eval coverage.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "min(ray_raysimbatch_eval_coverage_ratio)",
+     "legendFormat": "coverage",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_eval_episodes_committed_total[5m]))",
+     "legendFormat": "episodes/s",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 12,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 35
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Suite results so far",
+   "description": "Running summaries; the run's aggregate artifact is authoritative.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "avg(ray_raysimbatch_eval_success_ratio)",
+     "legendFormat": "success among valid episodes",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "avg(ray_raysimbatch_eval_return_mean)",
+     "legendFormat": "mean return",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 13,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 43
+   }
+  },
+  {
+   "type": "row",
+   "title": "Mode C: Sim2Sim",
+   "id": 14,
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 51
+   },
+   "panels": []
+  },
+  {
+   "type": "timeseries",
+   "title": "Gates",
+   "description": "Runbook: Sim2Sim score regression.",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (fault_code) (rate(ray_raysimbatch_sim2sim_gate_failures_total[5m]))",
+     "legendFormat": "failed {{fault_code}}",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "sum (rate(ray_raysimbatch_sim2sim_validated_bundles_total[5m]))",
+     "legendFormat": "validated bundles",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ops"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 15,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 52
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Transfer",
+   "description": "",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${datasource}"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "min(ray_raysimbatch_sim2sim_transfer_ratio)",
+     "legendFormat": "conservative transfer ratio",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    },
+    {
+     "refId": "B",
+     "expr": "min(ray_raysimbatch_sim2sim_paired_coverage_ratio)",
+     "legendFormat": "paired coverage",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${datasource}"
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit"
+    },
+    "overrides": []
+   },
+   "options": {},
+   "id": 16,
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 52
+   }
+  }
+ ]
+}

@@ -1,0 +1,68 @@
+2026-09-28 03:01:58,581	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-28 03:01:58,588	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.43:6379...
+2026-09-28 03:01:58,592	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.43:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "f77b5ff7f811202232e894d0e7642f0a39fe6340f820a431758be7ed27476af4",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "ec33b471a4f8bb11116a55659e6ef5719ae6c40d",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 3,
+  "checks": {
+    "xresume_start": {
+      "run_id": "b94c24e884c246c4ae05a92828741300",
+      "committed_units_at_handoff": 4,
+      "passed": true
+    }
+  },
+  "affinity": {
+    "rsb-affinity-17886864c6558172": {
+      "cpus": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "service": [],
+      "pool": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "leases": {
+        "sim-b94c24e8-0000": {
+          "cpus": [
+            2
+          ],
+          "numa_node": null,
+          "pid": 2721
+        },
+        "sim-b94c24e8-0001": {
+          "cpus": [
+            3
+          ],
+          "numa_node": null,
+          "pid": 2720
+        }
+      }
+    }
+  },
+  "passed": true,
+  "seconds": 5.096564292907715
+}

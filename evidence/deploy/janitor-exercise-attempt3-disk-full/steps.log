@@ -1,0 +1,4 @@
+2026-09-28T03:41:05Z script ebab31f; deployed image: 2026-09-28T03:41:05Z raysimbatch-cpu:blue sha256:591e754dd670ac967bd1167ddc1efd49e20df2779cb22c40ae893a5f64b5968f git=ebab31f9431ad4022d13e9decf1597cf71407139 mjbatch=2f169146b643adda65e195d8ad13d997a
+2026-09-28T03:41:05Z image raysimbatch-cpu:blue
+2026-09-28T03:41:05Z xresume-start on blue (seeds=32 steps=200000)
+2026-09-28T03:49:04Z aborted: kind node disk full (No space left on device); run ebe4549b FAILED with StorageUnavailable (cause recorded). release.sh prune-images had been a no-op (ctr rm by ID); fixed in prune-node.sh: 16G free after.

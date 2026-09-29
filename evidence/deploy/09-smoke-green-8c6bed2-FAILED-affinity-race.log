@@ -1,0 +1,84 @@
+2026-09-27 23:56:35,641	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-09-27 23:56:35,647	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.18:6379...
+2026-09-27 23:56:35,651	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.18:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.1",
+    "mujoco_version": "3.13.0",
+    "mj_version": 3013000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "add526e4c70dc9f0255995a7e43cd65b2820aae21a8c707f980db14d6fb74456",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true
+    }
+  },
+  "image": "8c6bed2d6a28719f5c384a327d1d10320af8fa67",
+  "mjbatch": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "nodes": 2,
+  "checks": {
+    "mode_b": {
+      "run_id": "706ce80c587a415ea36bfb4c2e4a0901",
+      "state": "FAILED",
+      "error": "RayTaskError(FileNotFoundError): \u001b[36mray::ShardCoordinator.install()\u001b[39m (pid=196, ip=10.244.1.20, actor_id=1442ef78872351d8c4b2d8f401000000, repr=<raysimbatch.control.coordinator.ShardCoordinator object at 0xfffed1839a60>)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/control/coordinator.py\", line 181, in install\n    readies[rec.name] = self._initialize(rec)\n                        ^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/control/coordinator.py\", line 195, in _initialize\n    ready = ray.get(rec.actor.initialize.remote(*args), timeout=max(120.0, self.cfg.failure.native_max_deadline_s))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^\n                                  ^^^^^^^^^^^^^^^^^^^\nray.exceptions.RayTaskError(FileNotFoundError): \u001b[36mray::SimulationWorker.initialize()\u001b[39m (pid=304, ip=10.244.1.19, actor_id=7aff851bf24cebe1360b4d1b01000000, repr=<raysimbatch.worker.actor.SimulationWorker object at 0xffff3076c5f0>)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/worker/actor.py\", line 251, in initialize\n    self.affinity_report = self.affinity.after_construction().as_dict()\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/worker/affinity.py\", line 147, in after_construction\n    self.report.threads[tid] = allowed_cpus(tid)\n                               ^^^^^^^^^^^^^^^^^\n  File \"/src/.venv/lib/python3.12/site-packages/raysimbatch/worker/affinity.py\", line 62, in allowed_cpus\n    with open(f\"/proc/self/task/{tid}/status\") as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/proc/self/task/471/status'",
+      "complete": null,
+      "coverage": null,
+      "committed_units": 0,
+      "epoch": 0,
+      "passed": false
+    },
+    "mode_a": {
+      "run_id": "8ba96aeaa49f4f28ba72b5686e9fddb0",
+      "state": "COMPLETED",
+      "error": null,
+      "committed_transitions": 5418,
+      "gaps": 0,
+      "passed": true
+    }
+  },
+  "affinity": {
+    "rsb-affinity-5330292dd615c9d7": {
+      "cpus": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "service": [],
+      "pool": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "leases": {}
+    },
+    "rsb-affinity-4184c56e59f828ce": {
+      "cpus": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "service": [],
+      "pool": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "leases": {}
+    }
+  },
+  "passed": false,
+  "seconds": 24.834980249404907
+}
+command terminated with exit code 1
+deploy/kind/release.sh smoke green both  0.06s user 0.04s system 0% cpu 26.606 total
