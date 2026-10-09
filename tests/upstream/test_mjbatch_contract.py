@@ -129,16 +129,23 @@ def test_failed_sim_keeps_pending_write_and_restoring_the_old_value_cancels_it()
   np.testing.assert_array_equal(qpos[4], ref.qpos)
 
 
-def test_pending_field_write_survives_reset_but_state_row_write_does_not():
+def test_pending_field_and_state_row_writes_survive_reset_element_by_element():
+  """Since 0.1.4 the input fields are views into the state rows (upstream f188344), so a
+  state-row write is a field write: reset applies each written element on top of
+  mj_resetData and resets the rest. RaySimBatch never leaves a write pending into a
+  reset (AM-4, AM-6), so it relies only on reset applying field writes."""
   model = cart()
   batch = Batch(model, N)
   qpos, state, ctrl = batch.bind("qpos"), batch.bind("state"), batch.bind("ctrl")
+  assert np.shares_memory(qpos, state) and np.shares_memory(ctrl, state)
+  q0 = mujoco.mj_stateSize(model, mujoco.mjtState.mjSTATE_TIME)  # qpos follows time in the row
   batch.step(nstep=5)
   ctrl[1, 0] = 0.7  # pending field write
-  state[2] = state[0] * 0 + 1.0  # pending state row write
+  state[2, q0] = 0.3  # pending state-row write of qpos[0]
   batch.reset(np.array([1, 2]))
   assert ctrl[1, 0] == 0.7  # the field write landed after mj_resetData
-  np.testing.assert_array_equal(qpos[2], model.qpos0)  # the row write was discarded
+  assert qpos[2, 0] == 0.3  # so did the state-row element write
+  np.testing.assert_array_equal(qpos[2, 1:], model.qpos0[1:])  # unwritten elements were reset
   np.testing.assert_array_equal(ctrl[2], 0.0)
 
 

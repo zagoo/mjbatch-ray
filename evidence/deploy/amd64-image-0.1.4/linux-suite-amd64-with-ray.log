@@ -1,0 +1,7 @@
+# 2026-10-09T09:07:33Z tools/linux_suite.sh sha256:8a00581de4cb37586de3117491cbcc07e15d5ad1fd0883edc8333acf8551816e (the --ignore did not apply: pytest still collects a file given explicitly, so this run includes the 4 Ray tests, which passed this time)  (raysimbatch-cpu:amd64-test, rsb 7f7d10a, in image: 0.1.4 3.14.0 x86_64, Rosetta on Darwin arm64)
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+........................................................................ [ 47%]
+........................................................................ [ 94%]
+.........                                                                [100%]
+153 passed in 24.02s
+# exit=0

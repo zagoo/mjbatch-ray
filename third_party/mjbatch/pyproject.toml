@@ -1,10 +1,10 @@
 [build-system]
-requires = ["scikit-build-core>=1.0", "nanobind>=2.2.0", "mujoco==3.13.0"]
+requires = ["scikit-build-core>=1.0", "nanobind>=2.2.0", "mujoco==3.14.0"]
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "mjbatch"
-version = "0.1.1"
+version = "0.1.4"
 description = "A Python library for running thousands of MuJoCo simulations in parallel on CPU."
 readme = "README.md"
 license = "Apache-2.0"
@@ -27,7 +27,7 @@ classifiers = [
   "Topic :: Scientific/Engineering",
 ]
 requires-python = ">=3.10"
-dependencies = ["mujoco==3.13.0", "numpy"]
+dependencies = ["mujoco==3.14.0", "numpy"]
 
 [project.urls]
 Homepage = "https://github.com/kevinzakka/mjbatch"
@@ -44,6 +44,7 @@ examples = [
 
 [tool.scikit-build]
 minimum-version = "build-system.requires"
+cmake.version = ">=4.1"
 build-dir = "build/{wheel_tag}"
 wheel.packages = ["src/mjbatch"]
 wheel.exclude = ["mjbatch/csrc"]
@@ -76,10 +77,7 @@ testpaths = ["tests"]
 
 [tool.cibuildwheel]
 build = "cp310-* cp311-* cp312-* cp313-* cp314-* cp314t-*"
-# Windows: the mujoco wheel ships mujoco.dll with no import library, and the
-# extension finds libmujoco by rpath, which Windows has no equivalent of.
-skip = "*-musllinux_* *-win* *_i686"
-enable = ["cpython-freethreading"]
+skip = "*-musllinux_* *-win32 *_i686"
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
 

@@ -1,0 +1,2 @@
+# 2026-10-09T09:07:58Z the 4 Ray tests alone in the same image (expected to fail: Ray 2.58.0 does not stay up under Rosetta, evidence/deploy/amd64-image/ray-under-rosetta.txt)
+# exit=1

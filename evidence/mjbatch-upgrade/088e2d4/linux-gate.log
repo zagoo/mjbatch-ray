@@ -1,0 +1,62 @@
+$ docker build --target test --iidfile /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/linux-088e2d4cd0d5.iid -f deploy/docker/cpu.Dockerfile .  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 0.4s)
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from cpu.Dockerfile
+#1 transferring dockerfile: 3.15kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 175B done
+#3 DONE 0.0s
+
+#4 [build 1/8] FROM docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 255.61kB done
+#5 DONE 0.0s
+
+#6 [build 4/8] COPY pyproject.toml uv.lock README.md ./
+#6 CACHED
+
+#7 [build 6/8] COPY src src
+#7 CACHED
+
+#8 [build 7/8] COPY third_party/mjbatch third_party/mjbatch
+#8 CACHED
+
+#9 [build 8/8] RUN uv sync --frozen --no-dev --no-editable   && .venv/bin/python -m raysimbatch.cli compat > /src/compat.json  && test -z "$(cd third_party/mjbatch && find . -name build -maxdepth 1)"
+#9 CACHED
+
+#10 [build 3/8] WORKDIR /src
+#10 CACHED
+
+#11 [build 2/8] RUN apt-get update  && apt-get install -y --no-install-recommends build-essential git ca-certificates  && rm -rf /var/lib/apt/lists/*  && pip install --no-cache-dir "uv==0.12.19"
+#11 CACHED
+
+#12 [build 5/8] COPY native native
+#12 CACHED
+
+#13 [test 1/2] RUN uv sync --frozen --no-editable
+#13 CACHED
+
+#14 [test 2/2] COPY tests tests
+#14 DONE 0.0s
+
+#15 exporting to image
+#15 exporting layers 0.0s done
+#15 writing image sha256:cf8aa43de385a06583a2b9c0354f426afd5c626b1c01ad0b9a6f150a3db2537a done
+#15 DONE 0.0s
+
+$ docker run --rm sha256:cf8aa43de385a06583a2b9c0354f426afd5c626b1c01ad0b9a6f150a3db2537a python -c import importlib.metadata as m, mujoco, platform; print(m.version('mjbatch'), mujoco.__version__, platform.machine())  (cwd=None, exit=0, 0.4s)
+0.1.4 3.14.0 aarch64
+
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/tools/linux_suite.sh sha256:cf8aa43de385a06583a2b9c0354f426afd5c626b1c01ad0b9a6f150a3db2537a  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 16.9s)
+........................................................................ [ 47%]
+........................................................................ [ 94%]
+.........                                                                [100%]
+153 passed in 15.93s
+

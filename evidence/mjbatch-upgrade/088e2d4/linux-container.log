@@ -1,0 +1,7 @@
+# 2026-10-09T07:33:48Z docker run raysimbatch-cpu:test python -m pytest -q -rs tests/linux tests/ray/test_node_helpers.py tests/core tests/telemetry/test_procfs.py tests/upstream
+# rsb 9fdc194adf33ef441634b3481e6536d85f5b7742 + uncommitted port, image sha256:37114237a266, Linux aarch64, mujoco/mjbatch in image: 3.14.0 0.1.4
+........................................................................ [ 47%]
+........................................................................ [ 94%]
+.........                                                                [100%]
+153 passed in 15.47s
+# exit=0

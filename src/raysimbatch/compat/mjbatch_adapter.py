@@ -39,7 +39,7 @@ except ImportError as exc:  # pragma: no cover - exercised by packaging checks
 # Qualified pairs. A new entry is added only by tools/mjbatch_upgrade.py after the
 # candidate passes the full gate list in docs/operations/mjbatch-upgrade.md.
 QUALIFIED: dict[str, dict[str, str]] = {
-  "0.1.1": {"mujoco": "3.13.0", "revision": "2f169146b643adda65e195d8ad13d997abdd2a2e"},
+  "0.1.4": {"mujoco": "3.14.0", "revision": "088e2d4cd0d5878ea184010446c058710f23a671"},
 }
 CANDIDATE_ENV = "RSB_MJBATCH_CANDIDATE"
 _FIRST_ERROR = re.compile(r"^sim (\d+): (.*)$", re.S)

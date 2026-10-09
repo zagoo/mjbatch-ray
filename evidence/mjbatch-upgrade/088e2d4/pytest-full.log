@@ -1,0 +1,55 @@
+# 2026-10-09T07:22:57Z python -m pytest -q -rs tests (macOS arm64, real Ray, PostgreSQL 17, MinIO); mjbatch 0.1.4 at 088e2d4cd0d5878ea184010446c058710f23a671, mujoco 3.14.0; rsb 9fdc194adf33ef441634b3481e6536d85f5b7742 + uncommitted port
+........................................................................ [ 23%]
+........................................................................ [ 46%]
+...................................sss....sss..............s............ [ 69%]
+......F................................................................. [ 92%]
+......................                                                   [100%]
+=================================== FAILURES ===================================
+______ test_spill_manager_bytes_are_cumulative_spilled_and_restored_bytes ______
+
+    def test_spill_manager_bytes_are_cumulative_spilled_and_restored_bytes():
+      out = subprocess.run([sys.executable, "-c", PROBE], capture_output=True, text=True, timeout=240)
+      line = next((ln for ln in out.stdout.splitlines() if ln.startswith("RESULT ")), None)
+>     assert line, out.stderr[-2000:]
+E     AssertionError: 2026-10-09 15:28:22,786	INFO worker.py:2024 -- Started a local Ray instance.
+E       Traceback (most recent call last):
+E         File "<string>", line 21, in <module>
+E         File "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/lib/python3.12/site-packages/ray/_private/auto_init_hook.py", line 22, in auto_init_wrapper
+E           return fn(*args, **kwargs)
+E                  ^^^^^^^^^^^^^^^^^^^
+E         File "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/lib/python3.12/site-packages/ray/_private/client_mode_hook.py", line 134, in wrapper
+E           return func(*args, **kwargs)
+E                  ^^^^^^^^^^^^^^^^^^^^^
+E         File "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/lib/python3.12/site-packages/ray/_private/worker.py", line 3061, in put
+E           object_ref = worker.put_object(
+E                        ^^^^^^^^^^^^^^^^^^
+E         File "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/lib/python3.12/site-packages/ray/_private/worker.py", line 888, in put_object
+E           ret = self.core_worker.put_object(
+E                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         File "python/ray/_raylet.pyx", line 3670, in ray._raylet.CoreWorker.put_object
+E         File "python/ray/_raylet.pyx", line 3701, in ray._raylet.CoreWorker.put_serialized_object_and_increment_local_ref
+E         File "python/ray/includes/common.pxi", line 101, in ray._raylet.check_status
+E       ray.exceptions.OutOfDiskError: Local disk is full
+E       The object cannot be created because the local object store is full and the local disk's utilization is over capacity (95% by default).Tip: Use `df` on this node to check disk usage and `ray memory` to check object store memory usage.
+E       
+E     assert None
+
+tests/ray_contract/test_ray_metric_semantics.py:52: AssertionError
+=============================== warnings summary ===============================
+tests/policy/test_runtime.py::test_torchscript_matches_onnx_for_the_same_policy[cpu]
+tests/policy/test_runtime.py::test_torchscript_matches_onnx_for_the_same_policy[mps]
+  /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/lib/python3.12/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/linux/test_affinity.py:18: Linux CPU affinity
+SKIPPED [1] tests/linux/test_affinity.py:61: Linux CPU affinity
+SKIPPED [1] tests/linux/test_affinity.py:68: Linux CPU affinity
+SKIPPED [1] tests/linux/test_affinity_agent.py:62: Linux CPU affinity
+SKIPPED [1] tests/linux/test_procfs_linux.py:20: Linux /proc and /sys
+SKIPPED [1] tests/linux/test_procfs_linux.py:28: Linux /proc and /sys
+SKIPPED [1] tests/ray/test_node_helpers.py:69: Linux CPU affinity
+1 failed, 302 passed, 7 skipped, 2 warnings in 350.73s (0:05:50)
+python -m pytest -q -rs tests  42.39s user 28.00s system 20% cpu 5:50.92 total
+# exit=1

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/src/.venv/lib/python3.12/site-packages/raysimbatch/worker/affinity_agent.py", line 57, in __init__
+    check_exclusive_allocation(cpus, expected_cpus)
+  File "/src/.venv/lib/python3.12/site-packages/raysimbatch/worker/affinity_agent.py", line 43, in check_exclusive_allocation
+    raise RuntimeError(f"pod CPU set has {len(cpus)} CPUs but the pod requested {requested} exclusive CPUs: the "
+RuntimeError: pod CPU set has 4 CPUs but the pod requested 8 exclusive CPUs: the kubelet static CPU Manager did not assign them; refusing this node rather than oversubscribing
+command terminated with exit code 1

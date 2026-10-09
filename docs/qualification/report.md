@@ -11,8 +11,9 @@ accepted the shortfall on 2026-09-29). What remains before production is listed 
 statement is labelled as an **observed** result, an **inference**, or **unverified**.
 
 Revision under test: the final local suite ran at `5f4629f`. Other evidence names its
-own revision (§10). MJBatch `2f169146b643adda65e195d8ad13d997abdd2a2e`
-(v0.1.1), MuJoCo 3.13.0, Ray 2.58.0, KubeRay 1.7.0 (operator built from tag `v1.7.0`,
+own revision (§10). MJBatch `088e2d4cd0d5878ea184010446c058710f23a671` (v0.1.4) and
+MuJoCo 3.14.0 since 2026-10-09 ([the upgrade record](mjbatch-noninvasiveness.md#upgrade-to-088e2d4-v014-mujoco-3140-2026-10-09)); evidence dated before that used MJBatch
+`2f169146b643adda65e195d8ad13d997abdd2a2e` (v0.1.1) and MuJoCo 3.13.0. Ray 2.58.0, KubeRay 1.7.0 (operator built from tag `v1.7.0`,
 commit `59d663ae…`), PostgreSQL 17, MinIO. Design document SHA-256
 `d90700723665bdbedad32d3c9856f733f8188b9428f160265f93811e02ac5462` (unchanged,
 `tools/check_design_hash.py`).
@@ -37,8 +38,11 @@ Details are in [environment-inventory.md](../ledgers/environment-inventory.md).
 
 | Suite | Result | Notes |
 |---|---|---|
+| Full local suite on MJBatch 0.1.4 / MuJoCo 3.14.0 (uncommitted port on `9fdc194`, 2026-10-09) | **302 passed, 7 skipped, 1 failed** | The failure is environmental: Ray refused to spill with the host disk 98% full; rerun alone with Ray's disk threshold at 0.99, it passed. `evidence/mjbatch-upgrade/088e2d4/pytest-full.log`, `pytest-spill-rerun.log` |
+| Linux-only, `tests/core` and `tests/upstream` in the `test` image on MJBatch 0.1.4 | **153 passed, exit 0** (linux/aarch64) | Includes the caller-as-worker-0 affinity test and the row-strided view tests ([the upgrade record](mjbatch-noninvasiveness.md#upgrade-to-088e2d4-v014-mujoco-3140-2026-10-09)). `evidence/mjbatch-upgrade/088e2d4/linux-container.log` |
 | Full local suite (`pytest tests`, macOS, real Ray, PostgreSQL 17, MinIO, file blobs) | **300 passed, 7 skipped, exit 0** (373 s, `5f4629f`) | The skips are Linux-only (CPU affinity; the real /proc and /sys readers), run in the next row. `evidence/tests/pytest-final.log` |
 | Linux-only (`tests/linux`, `tests/ray/test_node_helpers.py`) and `tests/core` in the `test` image | **130 passed, exit 0** (`5f4629f`, linux/aarch64) | CPU affinity pinning, affinity agent leases and admission against the real cpuset, the /proc and /sys readers of worker_private_bytes and numa_remote_ratio, and all of `tests/core` against the Linux build of the native module. `evidence/tests/linux-container.log` |
+| The Linux suite (`tools/linux_suite.sh`) in the amd64 `test` image on MJBatch 0.1.4 (Rosetta) | **149 passed, 4 deselected, exit 0** (`7f7d10a`, linux/x86_64) | The 4 deselected are `tests/ray/test_node_helpers.py`: under Rosetta the raylet stops within seconds, so they passed in one run and died in another. Emulation, not x86-64 hardware. `evidence/deploy/amd64-image-0.1.4/` |
 | The same set in the amd64 `test` image (linux/amd64 under Rosetta emulation) | **126 passed, exit 0** (`050070e`, linux/x86_64); the 4 in `tests/ray/test_node_helpers.py` not run | Ray 2.58.0 does not stay up under Rosetta: the raylet reports its agents dead and fate-shares with them (reproduced with stock Ray). Emulation, not x86-64 hardware. `evidence/deploy/amd64-image/` |
 | MJBatch contract (`tests/upstream`) | 18 passed | pins the upstream semantics RaySimBatch relies on |
 | Bitwise parity (`tests/core`), default 300 control steps per fixture and thread count | passed | the extended run is in §4 |
@@ -73,6 +77,8 @@ janitor-wait, fragment-flush, chaos-ack and alert-rule tests.
 
 `RSB_PARITY_CONTROL_STEPS=100000 python -m pytest -v tests/core -k parity`
 (`evidence/tests/parity-100k.log`, revision `d3bd3a9`): **12 passed, exit 0, 575 s**.
+Rerun on MJBatch 0.1.4 and MuJoCo 3.14.0 at `8c46586`
+(`evidence/mjbatch-upgrade/088e2d4/parity-100k.log`): **12 passed, exit 0, 531 s**.
 
 - Each case is one of the three fixtures (cartpole, quadruped, reacher) at 1 or 3 MJBatch
   threads.
@@ -86,6 +92,16 @@ janitor-wait, fragment-flush, chaos-ack and alert-rule tests.
   **unverified**.
 
 ## 5. Performance (observed on this host only; not capacity claims)
+
+The table below was measured with MJBatch 0.1.1 at `d3bd3a9`. Re-measured on MJBatch
+0.1.4 at `10fff3a` with the same benchmark and arguments (`evidence/perf/mjbatch-0.1.4/throughput-overhead-{64,256}.json`; AM-2 has the full
+table): per-substep ratios rose 0.04–0.16 (cartpole 0.60–0.86, reacher 0.60–0.78);
+fused ratios moved within the 1–4% spread (cartpole 0.77–0.93, 0.01–0.02 lower in all
+six configurations; reacher 0.77–0.85, equal or higher); quadruped 1.10–1.24. The
+target is met on 0.1.4 for quadruped everywhere and for cartpole fused at 256 slots on
+1–2 threads; cartpole fused at 64 slots on 1 thread measured 0.899 (0.91 on 0.1.1).
+The owner accepted the 0.1.4 figures as the AM-2 baseline and regression reference on
+2026-10-09; the 0.1.1 table below is kept as history.
 
 `qualification/bench_throughput.py` at `d3bd3a9` (`evidence/perf/throughput-overhead-{64,256}.json`
 and `.log`):
@@ -176,6 +192,29 @@ MPS latency is flat at about 0.25 ms per call (dispatch overhead) up to batch 10
 curves are **BLOCKED** (no CUDA device; §9).
 
 ## 6. Deployment, release and rollback (observed on kind)
+
+- **Requalification after the MJBatch 0.1.4 port** (2026-10-09, `deploy/kind/requalify.sh`,
+  `evidence/deploy/requalify-8c46586/`). One image built at `8c46586` served both colors;
+  in its pods `raysimbatch.cli compat` reports MJBatch 0.1.4 and MuJoCo 3.14.0,
+  `qualified: true`.
+  - Smoke passed on blue (Mode B) and green (Mode B, and Mode A with 0 gaps). Routing
+    went to green and back to blue as below, and retiring the active color was refused.
+  - Admission: in a worker pod with cpuset `2-5`, the agent accepted the pod's own 4-CPU
+    request and refused an 8-CPU one.
+  - Rollback exercise (green failed with 32 of 64 units committed; blue resumed) and
+    janitor exercise: each run's 128 episodes are identical to an uninterrupted reference
+    run.
+  - Affinity on 0.1.4, checked by hand in a blue worker pod: a 2-thread core on lease
+    `(4, 5)` pinned the calling thread to 4 and the one pool thread to 5, with no
+    violations and no new threads while stepping (`affinity-in-pod.txt`). The smoke runs
+    cannot show this: a violation only increments `affinity_violations_total`.
+  - The first attempt stopped before the smoke tests. A 9-day-old blue worker pod was
+    stuck Terminating after a Docker restart, so `rsb-blue` never reported ready
+    (`requalify-8c46586-attempt1/README.txt`). After it was force-deleted, the rerun
+    passed from the start.
+  - Watchdog, recaptured during a run on blue (`evidence/deploy/requalify-8c46586/watchdog-live.txt`): the node's watchdog reported
+    `heartbeat_age_seconds` 0.00015 and both simulation workers' `worker_rss_bytes`
+    (about 195 MB each) once the run's workers registered.
 
 - **Requalification of the current release image** (2026-09-29, `deploy/kind/requalify.sh`,
   `evidence/deploy/requalify-6e0ad7e/`). One image built at `6e0ad7e` (the code of
@@ -368,11 +407,14 @@ curves are **BLOCKED** (no CUDA device; §9).
 | `evidence/perf/throughput-overhead-{64,256}.json`, `throughput-overhead.log` | `d3bd3a9` | §5 (after the native bookkeeping) |
 | `evidence/perf/overhead-{before,after}.json`, `overhead.log` | `2454a01` → `d3bd3a9` | §5 serial overhead per call |
 | `evidence/tests/linux-container.log` | `5f4629f` | 130 passed (Linux-only and `tests/core`), exit 0 |
+| `evidence/mjbatch-upgrade/088e2d4/` | port of `9fdc194` to MJBatch 0.1.4 (`8c46586`) | candidate qualified (4/4 gates); full suite 302 passed, 1 environmental failure (disk), passed on rerun; Linux container 153 passed; the old affinity code fails on 0.1.4; 100,000-step parity 12 passed |
+| `evidence/deploy/amd64-image-0.1.4/` | `7f7d10a` (MJBatch 0.1.4) | amd64 image under Rosetta: x86-64 native modules, compat passes; 149 passed without the Ray tests, exit 0; the Ray tests passed once and died once |
 | `evidence/deploy/amd64-image/` | `050070e` | amd64 image under Rosetta: compat passes; 126 passed (the same set without `tests/ray`), exit 0; Ray does not stay up |
 | `evidence/deploy/admission/` | image `31d9431` | smoke: Mode B and Mode A passed; the agent accepted the exclusive cpuset `2-5` for a 4-CPU pod and refused a mismatched request inside a real worker pod |
 | `evidence/tests/parity-100k.log` | `d3bd3a9` | 12 passed (100,000 control steps each; per-substep and fused), exit 0 |
 | `evidence/tests/static-analysis.log` | `5cfea1b` | ruff clean; pyright 0 errors (baseline empty); ratchet exit 0 |
 | `evidence/tests/pyright-triage-e228b97.csv` | `e228b97` | every one of 424 pyright errors classified: 406 false positive; 16 + 2 on 4 real defects, fixed in `a9cdb7b` |
+| `evidence/deploy/requalify-8c46586/` | image `8c46586` (MJBatch 0.1.4) | smoke, routing, admission, rollback and janitor exercises: all passed; affinity in a worker pod (§6) |
 | `evidence/deploy/requalify-6e0ad7e/` | image `6e0ad7e` | smoke, routing, admission, watchdog metrics, rollback and janitor exercises: all passed (§6) |
 | `evidence/perf/inference-curves.{json,log}` | `8b3eb4b` | §5 |
 | `evidence/perf/throughput-macos-arm64.json`, `evidence/mjbatch-upgrade/throughput-*.json` | §5 | light-model target not met (AM-2) |

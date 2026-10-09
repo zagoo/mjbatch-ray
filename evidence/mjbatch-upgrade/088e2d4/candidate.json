@@ -1,0 +1,11 @@
+{
+  "ref": "088e2d4cd0d5878ea184010446c058710f23a671",
+  "sha": "088e2d4cd0d5878ea184010446c058710f23a671",
+  "version": "0.1.4",
+  "declared_version": "0.1.4",
+  "mujoco": "3.14.0",
+  "worktree": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/mjbatch",
+  "venv": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/venv",
+  "committed_pin": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+  "prepared_at": 1791529481.696547
+}

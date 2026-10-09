@@ -1,4 +1,7 @@
-# MJBatch source findings (revision `2f169146b643adda65e195d8ad13d997abdd2a2e`)
+# MJBatch source findings (revision `088e2d4cd0d5878ea184010446c058710f23a671`, v0.1.4)
+
+First recorded at `2f169146…` (v0.1.1); reviewed for the 0.1.4 upgrade on 2026-10-09.
+Entries that changed in that upgrade say what changed.
 
 Each finding cites the file/symbol and, where behaviour matters, the executable test in
 `tests/upstream/test_mjbatch_contract.py` (UC-*) that pins it.
@@ -25,10 +28,13 @@ Each finding cites the file/symbol and, where behaviour matters, the executable 
   `bind`/`expand` take `mu_` *without* releasing the GIL: calling them concurrently
   with a running step blocks the calling Python thread while holding the GIL.
   RaySimBatch binds/expands only at construction, on the mutation thread.
-- **M5 Pool** (`threadpool.h`): blocking parallel-for; item `j` (the j-th selected id,
-  not the sim id) starts in slice `j*T/n`; finished workers steal from other slices
-  (atomic `fetch_add`); `Run` returns only when all items finish (`done_` condvar). No
-  per-item completion is published. Single-thread pools run inline on the caller.
+- **M5 Pool** (`threadpool.h`): blocking parallel-for over `max(1, min(threads, sims))`
+  workers. Since 0.1.4 worker 0 is the calling thread (`Run` does its share with
+  `Work(0)`) and only the other workers are `std::thread`s; before, every worker was a
+  pool thread and the caller waited. Idle workers spin 50 µs before sleeping. Item `j`
+  (the j-th selected id, not the sim id) starts in slice `j*T/n`; finished workers steal
+  from other slices (atomic `fetch_add`); `Run` returns only when all items finish. No
+  per-item completion is published. A single-worker pool runs on the caller.
   UC `test_step_releases_the_gil`.
 - **M6 Per-call sim execution** (`RunSim`): apply expanded rows to the thread model →
   `mj_setState(INTEGRATION)` (or `mj_resetData[Keyframe]` for reset) → copy changed
@@ -55,16 +61,16 @@ Each finding cites the file/symbol and, where behaviour matters, the executable 
 - **M9 Pending writes**: input fields (`IsInput`: time, qpos, qvel, act, history,
   qacc_warmstart, ctrl, qfrc_applied, xfrc_applied, eq_active, mocap_pos, mocap_quat,
   userdata, plugin_state, warning) are mirrored; only elements differing from the
-  mirror are copied in. Writing back the last copied-out value cancels a write. UC
+  mirror are copied in. Writing back the last copied-out value cancels a write. Since
+  0.1.4 (`f188344`) the fields in `mjSTATE_INTEGRATION` (time, qpos, qvel, act, ctrl, …)
+  are views into the state rows, `nstate` elements apart, so a state-row write is a field
+  write; RaySimBatch's native kernels accept such row-strided views. UC
   `test_failed_sim_keeps_pending_write_and_restoring_the_old_value_cancels_it`.
-- **M10 Reset** (`Op::Reset`): `mj_resetData`/`mj_resetDataKeyframe`, then pending
-  *field* writes are applied on top, then `mj_forward`. A pending *state-row* write is
-  discarded (state is not read). UC
-  `test_pending_field_write_survives_reset_but_state_row_write_does_not`.
-  Note: the `bind("state")` docstring sentence "reset discards it, as it discards a
-  field write" is contradicted by the code and by upstream's own
-  `test_reset_keyframe_and_expanded_qpos0` ("A write survives a reset"); the code and
-  tests are authoritative.
+- **M10 Reset** (`Op::Reset`): `mj_resetData`/`mj_resetDataKeyframe`, then every pending
+  element write is applied on top, then `mj_forward`. Since 0.1.4 that includes a
+  state-row write, element by element (M9); before, a pending state-row write was
+  discarded. RaySimBatch never leaves a write pending into a reset (AM-4, AM-6). UC
+  `test_pending_field_and_state_row_writes_survive_reset_element_by_element`.
 - **M11 forward** is a pure query: it restores the integration state, runs
   `mj_forward`, and writes back an identical state (MuJoCo copies
   `qacc`→`qacc_warmstart` only in integration). UC
@@ -93,12 +99,13 @@ Each finding cites the file/symbol and, where behaviour matters, the executable 
 ## Build, ABI, platform
 
 - **M18 ABI check**: the module raises at import when `mj_version() != mjVERSION_HEADER`
-  (headers come from the `mujoco==3.13.0` wheel used at build time).
+  (headers come from the `mujoco==3.14.0` wheel used at build time).
 - **M19 Build**: scikit-build-core + nanobind + CMake; links `libmujoco` from the
   installed wheel with rpath `../mujoco`; macOS rewrites the install name. Default
   `build-dir = build/{wheel_tag}` is *inside* the source tree; RaySimBatch overrides it
   per package (`pyproject.toml` `config-settings-package`).
-- **M20 Unsupported**: sleep (rejected), Windows builds, plugins are not specially
+- **M20 Unsupported**: sleep (rejected); Windows (upstream builds there since 0.1.3, but
+  RaySimBatch does not support it); plugins are not specially
   handled (plugin state is part of `mjSTATE_INTEGRATION` only via `plugin_state`), and
   installing another MuJoCo log handler disables the error trap.
 

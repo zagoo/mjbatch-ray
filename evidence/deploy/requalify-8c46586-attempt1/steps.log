@@ -1,0 +1,7 @@
+2026-10-09T07:36:32Z revision 8c46586fb65e691b455b3aceed6db5bd647f83e6
+pruned 24 project cache records
+2026-10-09T07:36:46Z raysimbatch-cpu:blue sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 git=8c46586fb65e691b455b3aceed6db5bd647f83e6 mjbatch=088e2d4cd0d5878ea184010446c058710f23a671
+2026-10-09T07:36:46Z raysimbatch-cpu:green sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 git=8c46586fb65e691b455b3aceed6db5bd647f83e6 mjbatch=088e2d4cd0d5878ea184010446c058710f23a671
+rsb-qual-worker rmi=1 import_names=1 stale_leases=11 in_use=1 free=12G
+rsb-qual-control-plane rmi=1 import_names=1 stale_leases=15 in_use=0 free=14G
+rsb-qual-worker2 rmi=1 import_names=1 stale_leases=6 in_use=1 free=16G

@@ -6,15 +6,15 @@
 |---|---|
 | Linux x86-64 and arm64 (container images, Kubernetes) | production target. Images are built for the build host's architecture; pass `--platform linux/amd64` (or `linux/arm64`) to `deploy/docker/build.sh` for the other. Ray does not stay up under Docker Desktop's Rosetta emulation, so test a cross-built image on its own architecture. |
 | macOS arm64 | development and testing. No CPU affinity or NUMA (the Linux-only tests are skipped), and no CUDA. |
-| Windows | not supported (MJBatch does not build there, M20) |
+| Windows | not supported (MJBatch builds there since 0.1.3, but RaySimBatch is not built or tested there, M20) |
 
 Pinned versions come from the release lock (`uv.lock`) and the submodule:
 
 | Component | Version |
 |---|---|
 | Python | 3.12 |
-| MuJoCo | 3.13.0 |
-| MJBatch | 0.1.1 at `2f169146…` (submodule `third_party/mjbatch`) |
+| MuJoCo | 3.14.0 |
+| MJBatch | 0.1.4 at `088e2d4c…` (submodule `third_party/mjbatch`) |
 | Ray | 2.58.0 |
 | KubeRay operator | 1.7.0 |
 | PostgreSQL | 17 |
@@ -40,7 +40,7 @@ git clone --recurse-submodules <raysimbatch-repository-url> raysimbatch
 cd raysimbatch && git submodule status
 ```
 
-The submodule must show `2f169146b643adda65e195d8ad13d997abdd2a2e third_party/mjbatch`.
+The submodule must show `088e2d4cd0d5878ea184010446c058710f23a671 third_party/mjbatch`.
 
 ## Build and install
 

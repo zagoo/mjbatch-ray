@@ -1,0 +1,9 @@
+# 2026-10-09T07:41:19Z pod rsb-blue-sim-general-worker-wn6st
+## pod request and real CPU set
+RSB_POD_CPUS=4
+Cpus_allowed_list:	2-5
+## agent with the pod's own request (must accept)
+accepted [2, 3, 4, 5]
+## agent told the pod requested 8 CPUs (must refuse)
+    raise RuntimeError(f"pod CPU set has {len(cpus)} CPUs but the pod requested {requested} exclusive CPUs: the "
+RuntimeError: pod CPU set has 4 CPUs but the pod requested 8 exclusive CPUs: the kubelet static CPU Manager did not assign them; refusing this node rather than oversubscribing

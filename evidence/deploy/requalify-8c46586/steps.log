@@ -1,0 +1,18 @@
+2026-10-09T07:39:18Z revision 8c46586fb65e691b455b3aceed6db5bd647f83e6
+pruned 25 project cache records
+2026-10-09T07:39:20Z raysimbatch-cpu:blue sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 git=8c46586fb65e691b455b3aceed6db5bd647f83e6 mjbatch=088e2d4cd0d5878ea184010446c058710f23a671
+2026-10-09T07:39:20Z raysimbatch-cpu:green sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 git=8c46586fb65e691b455b3aceed6db5bd647f83e6 mjbatch=088e2d4cd0d5878ea184010446c058710f23a671
+rsb-qual-worker rmi=2 import_names=1 stale_leases=0 in_use=0 free=12G
+rsb-qual-control-plane rmi=1 import_names=0 stale_leases=0 in_use=0 free=12G
+rsb-qual-worker2 rmi=2 import_names=1 stale_leases=0 in_use=0 free=14G
+active=blue previous=green
+2026-10-09T07:40:59Z smoke blue eval: passed
+2026-10-09T07:41:13Z smoke green both: passed
+active=green previous=blue
+2026-10-09T07:41:16Z routing: active=green selector=rsb-green endpoints=rsb-green-head-wjjl8 ray-client-landed-on=rsb-green-head-wjjl8
+active=blue previous=green
+2026-10-09T07:41:19Z routing: active=blue selector=rsb-blue endpoints=rsb-blue-head-rmxtw ray-client-landed-on=rsb-blue-head-rmxtw
+2026-10-09T07:41:19Z retire of the active color refused: rsb-blue is the active release; promote another color first
+2026-10-09T07:41:20Z admission: accepted the pod's own cpuset, refused a mismatched request
+2026-10-09T08:04:19Z rollback exercise passed; reference run 28b56d92ae3e4e66a6ae129209e5caee
+2026-10-09T08:17:44Z janitor exercise passed

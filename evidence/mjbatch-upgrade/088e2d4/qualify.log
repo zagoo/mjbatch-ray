@@ -1,0 +1,55 @@
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/venv/bin/python -m raysimbatch.cli compat  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5, exit=0, 3.8s)
+{
+  "mjbatch_version": "0.1.4",
+  "mujoco_version": "3.14.0",
+  "mj_version": 3014000,
+  "qualified": false,
+  "candidate_mode": true,
+  "binary_sha256": "00e14a16d5f1f0c814ffcbcf5155b5bf3520c66e652e4bcf75db655e58f8131f",
+  "probes": {
+    "first_error_attributed": true,
+    "failed_slots_exact": true,
+    "failed_keep_state": true,
+    "others_advanced": true,
+    "neutralize_cancels_pending": true,
+    "forward_pure": true,
+    "reset_applies_pending_field_writes": true,
+    "state_layout": true,
+    "fused_substeps_equal": true,
+    "history_rows_are_states": true
+  },
+  "abi_fingerprint": "bb25441ee59db13bbf0388bac1ec15cc204947c872f9eaa3691f03c79b131cf9"
+}
+
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/venv/bin/python -m pytest -q -p no:cacheprovider /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/tests/upstream /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/tests/core  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 6.3s)
+........................................................................ [ 53%]
+..............................................................           [100%]
+134 passed in 6.05s
+
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/bin/python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/qualification/bench_throughput.py --models cartpole,quadruped --threads 1,2 --seconds 1.5 --repeats 5 --out /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/throughput-pinned-0.json  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 136.5s)
+cartpole   T=1 upstream(nstep)=     703,729/s upstream(substep)=     744,757/s wrapper=     522,936/s  ratio=0.748 (vs substep 0.707) native_fraction=0.92 | fused=     642,436/s ratio=0.914 native_fraction=0.95
+cartpole   T=2 upstream(nstep)=   1,338,463/s upstream(substep)=   1,133,883/s wrapper=     793,390/s  ratio=0.593 (vs substep 0.700) native_fraction=0.87 | fused=   1,151,242/s ratio=0.863 native_fraction=0.91
+quadruped  T=1 upstream(nstep)=     128,085/s upstream(substep)=     125,969/s wrapper=     151,477/s  ratio=1.185 (vs substep 1.202) native_fraction=0.97 | per_substep=     152,131/s ratio=1.190 native_fraction=0.97
+quadruped  T=2 upstream(nstep)=     249,478/s upstream(substep)=     241,021/s wrapper=     275,289/s  ratio=1.105 (vs substep 1.146) native_fraction=0.93 | per_substep=     275,376/s ratio=1.103 native_fraction=0.93
+
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/venv/bin/python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/qualification/bench_throughput.py --models cartpole,quadruped --threads 1,2 --seconds 1.5 --repeats 5 --out /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/throughput-candidate-1.json  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 136.6s)
+cartpole   T=1 upstream(nstep)=     726,916/s upstream(substep)=     669,405/s wrapper=     604,714/s  ratio=0.833 (vs substep 0.903) native_fraction=0.92 | fused=     673,553/s ratio=0.925 native_fraction=0.95
+cartpole   T=2 upstream(nstep)=   1,482,511/s upstream(substep)=   1,345,686/s wrapper=   1,101,895/s  ratio=0.744 (vs substep 0.820) native_fraction=0.85 | fused=   1,267,410/s ratio=0.855 native_fraction=0.91
+quadruped  T=1 upstream(nstep)=     132,373/s upstream(substep)=     129,630/s wrapper=     163,667/s  ratio=1.234 (vs substep 1.258) native_fraction=0.96 | per_substep=     163,834/s ratio=1.239 native_fraction=0.97
+quadruped  T=2 upstream(nstep)=     256,770/s upstream(substep)=     251,598/s wrapper=     308,085/s  ratio=1.199 (vs substep 1.224) native_fraction=0.93 | per_substep=     310,237/s ratio=1.205 native_fraction=0.93
+
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/bin/python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/qualification/bench_throughput.py --models cartpole,quadruped --threads 1,2 --seconds 1.5 --repeats 5 --out /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/throughput-pinned-2.json  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 136.5s)
+cartpole   T=1 upstream(nstep)=     722,396/s upstream(substep)=     777,273/s wrapper=     543,893/s  ratio=0.754 (vs substep 0.700) native_fraction=0.93 | fused=     657,633/s ratio=0.910 native_fraction=0.95
+cartpole   T=2 upstream(nstep)=   1,409,743/s upstream(substep)=   1,166,970/s wrapper=     834,257/s  ratio=0.590 (vs substep 0.714) native_fraction=0.87 | fused=   1,202,934/s ratio=0.851 native_fraction=0.90
+quadruped  T=1 upstream(nstep)=     129,887/s upstream(substep)=     128,570/s wrapper=     154,760/s  ratio=1.195 (vs substep 1.208) native_fraction=0.96 | per_substep=     154,801/s ratio=1.191 native_fraction=0.97
+quadruped  T=2 upstream(nstep)=     252,184/s upstream(substep)=     243,759/s wrapper=     277,771/s  ratio=1.103 (vs substep 1.140) native_fraction=0.93 | per_substep=     278,341/s ratio=1.105 native_fraction=0.93
+
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/venv/bin/python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/qualification/bench_throughput.py --models cartpole,quadruped --threads 1,2 --seconds 1.5 --repeats 5 --out /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/throughput-candidate-3.json  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 136.6s)
+cartpole   T=1 upstream(nstep)=     732,270/s upstream(substep)=     673,888/s wrapper=     606,785/s  ratio=0.830 (vs substep 0.899) native_fraction=0.92 | fused=     676,149/s ratio=0.923 native_fraction=0.95
+cartpole   T=2 upstream(nstep)=   1,493,083/s upstream(substep)=   1,357,322/s wrapper=   1,099,908/s  ratio=0.736 (vs substep 0.810) native_fraction=0.85 | fused=   1,268,206/s ratio=0.849 native_fraction=0.91
+quadruped  T=1 upstream(nstep)=     132,422/s upstream(substep)=     129,486/s wrapper=     162,788/s  ratio=1.229 (vs substep 1.257) native_fraction=0.96 | per_substep=     162,854/s ratio=1.232 native_fraction=0.97
+quadruped  T=2 upstream(nstep)=     256,817/s upstream(substep)=     251,518/s wrapper=     307,439/s  ratio=1.198 (vs substep 1.223) native_fraction=0.93 | per_substep=     309,190/s ratio=1.205 native_fraction=0.93
+
+$ /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/.venv/bin/python /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/tools/check_mjbatch_clean.py --checkout /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/mjbatch --only-checkout  (cwd=/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch, exit=0, 0.1s)
+OK checkout pristine
+

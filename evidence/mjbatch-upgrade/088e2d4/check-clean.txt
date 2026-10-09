@@ -1,0 +1,3 @@
+# 2026-10-09T07:29:44Z python tools/check_mjbatch_clean.py (after promote)
+OK mjbatch checkout /Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/third_party/mjbatch pristine at 088e2d4cd0d5878ea184010446c058710f23a671; boundary respected
+# exit=0

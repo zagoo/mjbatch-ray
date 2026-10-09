@@ -64,5 +64,5 @@ prints success rates with 95% seed-cluster intervals and the paired difference.
 
 ## Pinned stack
 
-Python 3.12 · MuJoCo 3.13.0 · MJBatch 0.1.1 (`2f169146`) · Ray 2.58.0 · KubeRay 1.7.0 ·
+Python 3.12 · MuJoCo 3.14.0 · MJBatch 0.1.4 (`088e2d4c`) · Ray 2.58.0 · KubeRay 1.7.0 ·
 PostgreSQL 17 · S3-compatible storage. Everything else is locked in `uv.lock`.

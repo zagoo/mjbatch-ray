@@ -1,0 +1,61 @@
+{
+  "candidate": {
+    "ref": "088e2d4cd0d5878ea184010446c058710f23a671",
+    "sha": "088e2d4cd0d5878ea184010446c058710f23a671",
+    "version": "0.1.4",
+    "declared_version": "0.1.4",
+    "mujoco": "3.14.0",
+    "worktree": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/mjbatch",
+    "venv": "/Users/renshaobin/Workspace/Develop/GitHub/raysimbatch/var/upgrade/088e2d4cd0d5/venv",
+    "committed_pin": "2f169146b643adda65e195d8ad13d997abdd2a2e",
+    "prepared_at": 1791529481.696547
+  },
+  "gates": {
+    "behaviour_probes": {
+      "passed": true,
+      "report": {
+        "mjbatch_version": "0.1.4",
+        "mujoco_version": "3.14.0",
+        "mj_version": 3014000,
+        "qualified": false,
+        "candidate_mode": true,
+        "binary_sha256": "00e14a16d5f1f0c814ffcbcf5155b5bf3520c66e652e4bcf75db655e58f8131f",
+        "probes": {
+          "first_error_attributed": true,
+          "failed_slots_exact": true,
+          "failed_keep_state": true,
+          "others_advanced": true,
+          "neutralize_cancels_pending": true,
+          "forward_pure": true,
+          "reset_applies_pending_field_writes": true,
+          "state_layout": true,
+          "fused_substeps_equal": true,
+          "history_rows_are_states": true
+        },
+        "abi_fingerprint": "bb25441ee59db13bbf0388bac1ec15cc204947c872f9eaa3691f03c79b131cf9"
+      }
+    },
+    "upstream_contract_and_parity_tests": {
+      "passed": true,
+      "summary": [
+        "134 passed in 6.05s"
+      ]
+    },
+    "performance_regression": {
+      "passed": true,
+      "wrapper_change_vs_pinned": {
+        "cartpole/T1": 0.1356,
+        "cartpole/T2": 0.3528,
+        "quadruped/T1": 0.066,
+        "quadruped/T2": 0.1129
+      },
+      "method": "ABAB"
+    },
+    "candidate_tree_pristine": {
+      "passed": true,
+      "output": "OK checkout pristine"
+    }
+  },
+  "passed": true,
+  "qualified_at": 1791530038.146175
+}

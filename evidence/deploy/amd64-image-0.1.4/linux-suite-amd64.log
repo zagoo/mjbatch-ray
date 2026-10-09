@@ -1,0 +1,7 @@
+# 2026-10-09T09:08:30Z tools/linux_suite.sh sha256:8a00581de4cb37586de3117491cbcc07e15d5ad1fd0883edc8333acf8551816e -k 'not node_helpers'  (raysimbatch-cpu:amd64-test, rsb 7f7d10a, in image: 0.1.4 3.14.0 x86_64, Rosetta on Darwin arm64); the 4 Ray tests are excluded: Ray is unreliable under Rosetta
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+........................................................................ [ 48%]
+........................................................................ [ 96%]
+.....                                                                    [100%]
+149 passed, 4 deselected in 8.93s
+# exit=0

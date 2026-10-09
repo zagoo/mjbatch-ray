@@ -5,7 +5,8 @@ Linux: the actor's calling thread is restricted to its leased CPU set *before* t
 MJBatch Batch is constructed, so the pool threads MJBatch creates with
 ``std::thread`` (pthread_create) inherit that mask. After construction the new
 thread IDs are discovered from ``/proc/self/task`` and each physics thread is pinned
-to one core of the lease, with memory policy set to the lease's NUMA node so
+to one core of the lease (since MJBatch 0.1.4 the calling thread is pool worker 0 and
+takes the first core; the pool's other workers are the new threads), with memory policy set to the lease's NUMA node so
 first-touch allocations stay local. The result is verified by reading every
 thread's ``Cpus_allowed_list`` back. CPU IDs come from the node affinity agent's
 lease, never from Ray logical resource IDs.
@@ -21,6 +22,7 @@ import ctypes
 import ctypes.util
 import os
 import sys
+import threading
 from dataclasses import dataclass, field
 
 LINUX = sys.platform.startswith("linux")
@@ -142,10 +144,13 @@ class AffinityPlan:
     if self.mode == "none" or not LINUX:
       return self.report
     new = sorted(thread_ids() - self._before)
-    # MJBatch creates min(threads, num_sims) pool threads; others may be runtime threads
-    # that started concurrently. Physics threads are the ones restricted to our mask.
-    physics = [t for t in new if set(allowed_cpus(t) or ()) == set(self.cpus)][: self.threads]
-    for tid, cpu in zip(physics, self.cpus, strict=False):
+    # MJBatch's pool has min(threads, num_sims) workers: worker 0 is the calling thread,
+    # the others are new threads. More new threads may be runtime threads that started
+    # concurrently; the pool's are the ones restricted to our mask.
+    pool = [t for t in new if set(allowed_cpus(t) or ()) == set(self.cpus)][: self.threads - 1]
+    os.sched_setaffinity(0, {self.cpus[0]})
+    self.report.pinned[threading.get_native_id()] = self.cpus[0]
+    for tid, cpu in zip(pool, self.cpus[1:], strict=False):
       try:
         os.sched_setaffinity(tid, {cpu})
       except ProcessLookupError:

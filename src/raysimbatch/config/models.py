@@ -459,7 +459,7 @@ class AssetContract(Model):
   version: Literal[1] = 1
   source_engine: str = "IsaacLab"
   source_version: str | None = None
-  target_version: str = "3.13.0"
+  target_version: str = "3.14.0"
   length_unit: str = "m"
   mass_unit: str = "kg"
   up_axis: str = "Z"

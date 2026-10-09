@@ -10,8 +10,8 @@ readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-  "mjbatch==0.1.1",
-  "mujoco==3.13.0",
+  "mjbatch==0.1.4",
+  "mujoco==3.14.0",
   "numpy==2.3.5",
   "ray[default]==2.58.0",
   "pydantic==2.13.5",

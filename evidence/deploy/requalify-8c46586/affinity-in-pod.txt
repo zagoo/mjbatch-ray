@@ -1,0 +1,7 @@
+# 2026-10-09T08:18:29Z pod rsb-blue-sim-general-worker-b9rr4 (image raysimbatch-cpu:blue docker.io/library/import-2026-10-09@sha256:ee88af0fcc3877d749cc4dc75bf475d8f15c3): AffinityPlan + a 2-thread MJBatchCore on two of the pod's own CPUs
+Defaulted container "ray-worker" out of: ray-worker, wait-gcs-ready (init)
+mjbatch 0.1.4 mujoco 3.14.0 pod cpus [2, 3, 4, 5] lease (4, 5)
+violations []
+pinned {1850: 4, 1859: 5} caller 1850
+new threads while stepping [] masks {1850: (4,), 1859: (5,)}
+OK

@@ -1,0 +1,22 @@
+# 2026-10-09T08:45:09Z rsb 10fff3a mjbatch 0.1.4 mujoco 3.14.0 slots=64 load:  3.11 2.48 2.85 
+cartpole   T=1 upstream(nstep)=     752,278/s upstream(substep)=     687,222/s wrapper=     606,445/s  ratio=0.807 (vs substep 0.881) native_fraction=0.91 | fused=     675,329/s ratio=0.899 native_fraction=0.95
+cartpole   T=2 upstream(nstep)=   1,448,569/s upstream(substep)=   1,299,668/s wrapper=   1,050,731/s  ratio=0.724 (vs substep 0.807) native_fraction=0.84 | fused=   1,221,228/s ratio=0.843 native_fraction=0.90
+cartpole   T=4 upstream(nstep)=   2,867,968/s upstream(substep)=   2,488,299/s wrapper=   1,738,033/s  ratio=0.603 (vs substep 0.704) native_fraction=0.73 | fused=   2,204,173/s ratio=0.770 native_fraction=0.82
+quadruped  T=1 upstream(nstep)=     127,759/s upstream(substep)=     125,123/s wrapper=     154,497/s  ratio=1.209 (vs substep 1.234) native_fraction=0.96 | per_substep=     155,503/s ratio=1.219 native_fraction=0.96
+quadruped  T=2 upstream(nstep)=     250,041/s upstream(substep)=     244,774/s wrapper=     293,988/s  ratio=1.176 (vs substep 1.203) native_fraction=0.92 | per_substep=     296,748/s ratio=1.187 native_fraction=0.93
+quadruped  T=4 upstream(nstep)=     490,522/s upstream(substep)=     476,049/s wrapper=     537,019/s  ratio=1.095 (vs substep 1.129) native_fraction=0.86 | per_substep=     544,673/s ratio=1.109 native_fraction=0.87
+reacher    T=1 upstream(nstep)=     588,090/s upstream(substep)=     531,289/s wrapper=     441,204/s  ratio=0.750 (vs substep 0.829) native_fraction=0.86 | fused=     494,450/s ratio=0.840 native_fraction=0.88
+reacher    T=2 upstream(nstep)=   1,170,774/s upstream(substep)=   1,045,783/s wrapper=     819,157/s  ratio=0.700 (vs substep 0.783) native_fraction=0.81 | fused=     956,893/s ratio=0.818 native_fraction=0.86
+reacher    T=4 upstream(nstep)=   2,314,815/s upstream(substep)=   1,999,783/s wrapper=   1,394,498/s  ratio=0.603 (vs substep 0.697) native_fraction=0.72 | fused=   1,791,921/s ratio=0.774 native_fraction=0.81
+# exit=0 load after:  7.96 4.99 3.82 
+# 2026-10-09T08:49:58Z rsb 10fff3a mjbatch 0.1.4 mujoco 3.14.0 slots=256 load:  7.96 4.99 3.82 
+cartpole   T=1 upstream(nstep)=     806,528/s upstream(substep)=     743,622/s wrapper=     693,896/s  ratio=0.860 (vs substep 0.936) native_fraction=0.96 | fused=     747,667/s ratio=0.927 native_fraction=0.97
+cartpole   T=2 upstream(nstep)=   1,493,417/s upstream(substep)=   1,357,478/s wrapper=   1,224,843/s  ratio=0.820 (vs substep 0.903) native_fraction=0.92 | fused=   1,349,104/s ratio=0.904 native_fraction=0.95
+cartpole   T=4 upstream(nstep)=   2,835,862/s upstream(substep)=   2,524,490/s wrapper=   2,127,080/s  ratio=0.751 (vs substep 0.842) native_fraction=0.86 | fused=   2,423,683/s ratio=0.854 native_fraction=0.91
+quadruped  T=1 upstream(nstep)=     125,621/s upstream(substep)=     122,103/s wrapper=     156,030/s  ratio=1.242 (vs substep 1.278) native_fraction=0.97 | per_substep=     156,678/s ratio=1.247 native_fraction=0.98
+quadruped  T=2 upstream(nstep)=     249,252/s upstream(substep)=     243,705/s wrapper=     299,600/s  ratio=1.202 (vs substep 1.230) native_fraction=0.95 | per_substep=     301,581/s ratio=1.207 native_fraction=0.96
+quadruped  T=4 upstream(nstep)=     495,742/s upstream(substep)=     481,665/s wrapper=     561,366/s  ratio=1.132 (vs substep 1.165) native_fraction=0.91 | per_substep=     571,325/s ratio=1.152 native_fraction=0.92
+reacher    T=1 upstream(nstep)=     583,985/s upstream(substep)=     529,779/s wrapper=     457,566/s  ratio=0.782 (vs substep 0.860) native_fraction=0.89 | fused=     494,024/s ratio=0.853 native_fraction=0.89
+reacher    T=2 upstream(nstep)=   1,162,763/s upstream(substep)=   1,032,788/s wrapper=     870,442/s  ratio=0.748 (vs substep 0.842) native_fraction=0.86 | fused=     977,028/s ratio=0.840 native_fraction=0.88
+reacher    T=4 upstream(nstep)=   2,339,763/s upstream(substep)=   2,051,726/s wrapper=   1,615,191/s  ratio=0.691 (vs substep 0.787) native_fraction=0.81 | fused=   1,904,014/s ratio=0.814 native_fraction=0.86
+# exit=0 load after:  5.48 4.99 4.13 

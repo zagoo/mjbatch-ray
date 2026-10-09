@@ -1,0 +1,59 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from cpu.Dockerfile
+#1 transferring dockerfile: 3.15kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 175B done
+#3 DONE 0.0s
+
+#4 [build 1/8] FROM docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 8.90kB done
+#5 DONE 0.0s
+
+#6 [build 2/8] RUN apt-get update  && apt-get install -y --no-install-recommends build-essential git ca-certificates  && rm -rf /var/lib/apt/lists/*  && pip install --no-cache-dir "uv==0.12.19"
+#6 CACHED
+
+#7 [runtime 4/5] COPY --from=build /src/compat.json /etc/raysimbatch/compat.json
+#7 CACHED
+
+#8 [runtime 2/5] RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 procps  && rm -rf /var/lib/apt/lists/*  && useradd --uid 1000 --create-home ray  && mkdir -p /var/lib/ray-spill /var/lib/raysimbatch /etc/raysimbatch  && chown ray:ray /var/lib/ray-spill /var/lib/raysimbatch
+#8 CACHED
+
+#9 [runtime 3/5] COPY --from=build /src/.venv /src/.venv
+#9 CACHED
+
+#10 [build 8/8] RUN uv sync --frozen --no-dev --no-editable   && .venv/bin/python -m raysimbatch.cli compat > /src/compat.json  && test -z "$(cd third_party/mjbatch && find . -name build -maxdepth 1)"
+#10 CACHED
+
+#11 [build 3/8] WORKDIR /src
+#11 CACHED
+
+#12 [build 6/8] COPY src src
+#12 CACHED
+
+#13 [build 5/8] COPY native native
+#13 CACHED
+
+#14 [build 4/8] COPY pyproject.toml uv.lock README.md ./
+#14 CACHED
+
+#15 [build 7/8] COPY third_party/mjbatch third_party/mjbatch
+#15 CACHED
+
+#16 [runtime 5/5] WORKDIR /home/ray
+#16 CACHED
+
+#17 exporting to image
+#17 exporting layers done
+#17 writing image sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 done
+#17 naming to docker.io/library/raysimbatch-cpu:green done
+#17 DONE 0.0s
+2026-10-09T07:39:20Z raysimbatch-cpu:green sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 git=8c46586fb65e691b455b3aceed6db5bd647f83e6 mjbatch=088e2d4cd0d5878ea184010446c058710f23a671

@@ -1,0 +1,7 @@
+# 2026-10-09T07:34:49Z tests/linux/test_affinity.py in raysimbatch-cpu:test (MJBatch 0.1.4) with the pre-port worker/affinity.py (git show 9fdc194:src/raysimbatch/worker/affinity.py) mounted over the installed one: the test must fail
+E       AssertionError: ['found 1 physics threads, expected 2']
+E       assert not ['found 1 physics threads, expected 2']
+E        +  where ['found 1 physics threads, expected 2'] = AffinityReport(mode='numa_exclusive', supported=True, requested=(14, 15), numa_node=None, threads={1: (14, 15), 7: (0,..., 6, 7, 8, 9, 10, 1
+1 failed, 2 passed in 0.17s
+
+# the same test with the ported affinity.py: see linux-container.log (153 passed)

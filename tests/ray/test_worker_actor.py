@@ -74,7 +74,7 @@ def test_initialize_advance_and_immutable_publication(ray_session):
   ray = ray_session
   actor, spec, mjb = make_worker(ray)
   ready = ray.get(actor.initialize.remote(mjb, None, lease(1)))
-  assert ready["generation"] == 1 and ready["obs_dim"] == 4 and ready["mujoco"] == "3.13.0"
+  assert ready["generation"] == 1 and ready["obs_dim"] == 4 and ready["mujoco"] == "3.14.0"
   env = reset_all(ray, actor, 1)
   frame0 = P.HeteroFrame.from_wire(ray.get(env["frame_ref"]))
   obs0 = frame0.groups[0].observation.copy()

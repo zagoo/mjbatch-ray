@@ -34,8 +34,8 @@ second prints the version pair, binary SHA-256, ABI fingerprint, and every probe
 | Item | Value |
 |---|---|
 | Repository | `https://github.com/kevinzakka/mjbatch.git`, submodule `third_party/mjbatch` |
-| Revision | `2f169146b643adda65e195d8ad13d997abdd2a2e` (tag `v0.1.1`) |
-| MuJoCo | `3.13.0` (MJBatch raises at import if `mj_version()` differs from the header it was built against, M18) |
+| Revision | `088e2d4cd0d5878ea184010446c058710f23a671` (tag `v0.1.4`) |
+| MuJoCo | `3.14.0` (MJBatch raises at import if `mj_version()` differs from the header it was built against, M18) |
 | Build | scikit-build-core + nanobind, from the pinned source by `uv sync` (build directory outside the checkout) |
 
 ## Semantics RaySimBatch depends on

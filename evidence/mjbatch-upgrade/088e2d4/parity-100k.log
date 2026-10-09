@@ -1,0 +1,16 @@
+# 2026-10-09T08:19:11Z RSB_PARITY_CONTROL_STEPS=100000 python -m pytest -v tests/core -k parity (MJBatch 0.1.4, MuJoCo 3.14.0)
+# rsb 8c46586fb65e691b455b3aceed6db5bd647f83e6 mjbatch 088e2d4cd0d5878ea184010446c058710f23a671 host Apple Apple M4 Max
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-cartpole] PASSED [  8%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-quadruped] PASSED [ 16%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-1-reacher] PASSED [ 25%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-cartpole] PASSED [ 33%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-quadruped] PASSED [ 41%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[True-3-reacher] PASSED [ 50%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-cartpole] PASSED [ 58%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-quadruped] PASSED [ 66%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-1-reacher] PASSED [ 75%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-cartpole] PASSED [ 83%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-quadruped] PASSED [ 91%]
+tests/core/test_core.py::test_bitwise_parity_with_scalar_mujoco[False-3-reacher] PASSED [100%]
+================ 12 passed, 102 deselected in 530.58s (0:08:50) ================
+# exit=0 2026-10-09T08:28:02Z

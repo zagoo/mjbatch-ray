@@ -1,0 +1,116 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from cpu.Dockerfile
+#1 transferring dockerfile: 3.15kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 175B done
+#3 DONE 0.0s
+
+#4 [build 1/8] FROM docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 8.90kB done
+#5 DONE 0.0s
+
+#6 [build 7/8] COPY third_party/mjbatch third_party/mjbatch
+#6 CACHED
+
+#7 [build 4/8] COPY pyproject.toml uv.lock README.md ./
+#7 CACHED
+
+#8 [build 6/8] COPY src src
+#8 CACHED
+
+#9 [build 2/8] RUN apt-get update  && apt-get install -y --no-install-recommends build-essential git ca-certificates  && rm -rf /var/lib/apt/lists/*  && pip install --no-cache-dir "uv==0.12.19"
+#9 CACHED
+
+#10 [build 5/8] COPY native native
+#10 CACHED
+
+#11 [build 3/8] WORKDIR /src
+#11 CACHED
+
+#12 [build 8/8] RUN uv sync --frozen --no-dev --no-editable   && .venv/bin/python -m raysimbatch.cli compat > /src/compat.json  && test -z "$(cd third_party/mjbatch && find . -name build -maxdepth 1)"
+#12 CACHED
+
+#13 [runtime 2/5] RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 procps  && rm -rf /var/lib/apt/lists/*  && useradd --uid 1000 --create-home ray  && mkdir -p /var/lib/ray-spill /var/lib/raysimbatch /etc/raysimbatch  && chown ray:ray /var/lib/ray-spill /var/lib/raysimbatch
+#13 0.765 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#13 1.531 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#13 1.788 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#13 2.050 Get:4 http://deb.debian.org/debian bookworm/main arm64 Packages [8689 kB]
+#13 5.062 Get:5 http://deb.debian.org/debian bookworm-updates/main arm64 Packages [6936 B]
+#13 5.314 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 Packages [347 kB]
+#13 5.567 Fetched 9285 kB in 5s (1693 kB/s)
+#13 5.567 Reading package lists...
+#13 5.773 Reading package lists...
+#13 5.974 Building dependency tree...
+#13 6.024 Reading state information...
+#13 6.088 The following additional packages will be installed:
+#13 6.088   gcc-12-base libgcc-s1 libproc2-0 libstdc++6
+#13 6.089 Recommended packages:
+#13 6.089   psmisc
+#13 6.109 The following NEW packages will be installed:
+#13 6.109   libgomp1 libproc2-0 procps
+#13 6.109 The following packages will be upgraded:
+#13 6.110   gcc-12-base libgcc-s1 libstdc++6
+#13 6.867 3 upgraded, 3 newly installed, 0 to remove and 38 not upgraded.
+#13 6.867 Need to get 1491 kB of archives.
+#13 6.867 After this operation, 3370 kB of additional disk space will be used.
+#13 6.867 Get:1 http://deb.debian.org/debian bookworm/main arm64 gcc-12-base arm64 12.2.0-14+deb12u1 [37.6 kB]
+#13 7.339 Get:2 http://deb.debian.org/debian bookworm/main arm64 libstdc++6 arm64 12.2.0-14+deb12u1 [557 kB]
+#13 7.995 Get:3 http://deb.debian.org/debian bookworm/main arm64 libgcc-s1 arm64 12.2.0-14+deb12u1 [34.8 kB]
+#13 8.008 Get:4 http://deb.debian.org/debian bookworm/main arm64 libproc2-0 arm64 2:4.0.2-3 [60.1 kB]
+#13 8.026 Get:5 http://deb.debian.org/debian bookworm/main arm64 procps arm64 2:4.0.2-3 [698 kB]
+#13 8.219 Get:6 http://deb.debian.org/debian bookworm/main arm64 libgomp1 arm64 12.2.0-14+deb12u1 [104 kB]
+#13 8.308 debconf: delaying package configuration, since apt-utils is not installed
+#13 8.319 Fetched 1491 kB in 2s (697 kB/s)
+#13 8.328 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6680 files and directories currently installed.)
+#13 8.340 Preparing to unpack .../gcc-12-base_12.2.0-14+deb12u1_arm64.deb ...
+#13 8.343 Unpacking gcc-12-base:arm64 (12.2.0-14+deb12u1) over (12.2.0-14) ...
+#13 8.359 Setting up gcc-12-base:arm64 (12.2.0-14+deb12u1) ...
+#13 8.375 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6680 files and directories currently installed.)
+#13 8.377 Preparing to unpack .../libstdc++6_12.2.0-14+deb12u1_arm64.deb ...
+#13 8.387 Unpacking libstdc++6:arm64 (12.2.0-14+deb12u1) over (12.2.0-14) ...
+#13 8.428 Setting up libstdc++6:arm64 (12.2.0-14+deb12u1) ...
+#13 8.439 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6680 files and directories currently installed.)
+#13 8.441 Preparing to unpack .../libgcc-s1_12.2.0-14+deb12u1_arm64.deb ...
+#13 8.444 Unpacking libgcc-s1:arm64 (12.2.0-14+deb12u1) over (12.2.0-14) ...
+#13 8.457 Setting up libgcc-s1:arm64 (12.2.0-14+deb12u1) ...
+#13 8.470 Selecting previously unselected package libproc2-0:arm64.
+#13 8.470 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6680 files and directories currently installed.)
+#13 8.472 Preparing to unpack .../libproc2-0_2%3a4.0.2-3_arm64.deb ...
+#13 8.473 Unpacking libproc2-0:arm64 (2:4.0.2-3) ...
+#13 8.487 Selecting previously unselected package procps.
+#13 8.487 Preparing to unpack .../procps_2%3a4.0.2-3_arm64.deb ...
+#13 8.491 Unpacking procps (2:4.0.2-3) ...
+#13 8.533 Selecting previously unselected package libgomp1:arm64.
+#13 8.534 Preparing to unpack .../libgomp1_12.2.0-14+deb12u1_arm64.deb ...
+#13 8.535 Unpacking libgomp1:arm64 (12.2.0-14+deb12u1) ...
+#13 8.548 Setting up libgomp1:arm64 (12.2.0-14+deb12u1) ...
+#13 8.553 Setting up libproc2-0:arm64 (2:4.0.2-3) ...
+#13 8.555 Setting up procps (2:4.0.2-3) ...
+#13 8.573 Processing triggers for libc-bin (2.36-9+deb12u9) ...
+#13 DONE 8.6s
+
+#14 [runtime 3/5] COPY --from=build /src/.venv /src/.venv
+#14 DONE 2.0s
+
+#15 [runtime 4/5] COPY --from=build /src/compat.json /etc/raysimbatch/compat.json
+#15 DONE 0.0s
+
+#16 [runtime 5/5] WORKDIR /home/ray
+#16 DONE 0.0s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.5s done
+#17 writing image sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 done
+#17 naming to docker.io/library/raysimbatch-cpu:blue done
+#17 DONE 1.5s
+2026-10-09T07:36:46Z raysimbatch-cpu:blue sha256:116ce9432bad3a75d30e0ac9eac355db0e8fdc3f824f3d5b566f41c39cebf221 git=8c46586fb65e691b455b3aceed6db5bd647f83e6 mjbatch=088e2d4cd0d5878ea184010446c058710f23a671

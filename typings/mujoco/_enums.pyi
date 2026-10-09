@@ -211,6 +211,8 @@ class mjtEnableBit:
     
       mjENBL_DIAGEXACT
     
+      mjENBL_IPC
+    
       mjNENABLE
     """
     __members__: typing.ClassVar[dict[str, mjtEnableBit]]
@@ -218,6 +220,7 @@ class mjtEnableBit:
     mjENBL_ENERGY: typing.ClassVar[mjtEnableBit]
     mjENBL_FWDINV: typing.ClassVar[mjtEnableBit]
     mjENBL_INVDISCRETE: typing.ClassVar[mjtEnableBit]
+    mjENBL_IPC: typing.ClassVar[mjtEnableBit]
     mjENBL_OVERRIDE: typing.ClassVar[mjtEnableBit]
     mjENBL_SLEEP: typing.ClassVar[mjtEnableBit]
     mjNENABLE: typing.ClassVar[mjtEnableBit]

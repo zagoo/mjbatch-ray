@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """Linux-only: CPU affinity without touching MJBatch (amendment AM-5). The calling
 thread's lease is applied before the Batch exists so MJBatch's pool threads inherit
-it; each physics thread is then pinned to one core and verified from /proc."""
+it; each physics thread is then pinned to one core and verified from /proc. Since
+MJBatch 0.1.4 the calling thread is pool worker 0, so it is one of the physics threads."""
 
 from __future__ import annotations
 
@@ -15,6 +16,8 @@ pytestmark = pytest.mark.skipif(not sys.platform.startswith("linux"), reason="Li
 
 
 def test_physics_threads_inherit_and_pin_the_lease():
+  import threading
+
   from raysimbatch.adapter import compile_adapter
   from raysimbatch.tasks import bind_task
   from raysimbatch.testing import fixtures as F
@@ -32,21 +35,27 @@ def test_physics_threads_inherit_and_pin_the_lease():
   b = bind_task(fx.task_doc, meta)
   c = compile_adapter(fx.contract, meta, num_commands=b.num_commands)
   plan = AffinityPlan("numa_exclusive", lease, 2)
-  plan.before_construction()
-  core = MJBatchCore(model, meta, c, b, CoreSpec(num_slots=16, threads=2, decimation=4, timestep_ns=4_000_000,
-                                                 keyframe=0))
-  rep = plan.after_construction()
-  assert not rep.violations, rep.violations
-  assert sorted(rep.pinned.values()) == list(lease)
-  for tid, cpu in rep.pinned.items():
-    assert allowed_cpus(tid) == (cpu,)
-  assert set(os.sched_getaffinity(0)) == set(lease)  # the calling (mutation) thread
-  # The pinned threads really run the physics: stepping works and no new threads appear.
-  before = thread_ids()
-  s = np.arange(16, dtype=np.int32)
-  core.reset_exact(s, s.astype(np.uint64), np.zeros(16, np.uint64), (s.astype(np.uint64), np.zeros(16, np.uint64)))
-  core.advance_control(s, np.zeros((16, 8), np.float32))
-  assert thread_ids() == before
+  try:
+    plan.before_construction()
+    core = MJBatchCore(model, meta, c, b, CoreSpec(num_slots=16, threads=2, decimation=4,
+                                                   timestep_ns=4_000_000, keyframe=0))
+    rep = plan.after_construction()
+    assert not rep.violations, rep.violations
+    assert sorted(rep.pinned.values()) == list(lease)
+    for tid, cpu in rep.pinned.items():
+      assert allowed_cpus(tid) == (cpu,)
+    # The calling (mutation) thread is pool worker 0: pinned to the lease's first core.
+    assert rep.pinned[threading.get_native_id()] == lease[0]
+    assert os.sched_getaffinity(0) == {lease[0]}
+    # The pinned threads really run the physics: stepping works and no new threads appear.
+    before = thread_ids()
+    s = np.arange(16, dtype=np.int32)
+    ids = s.astype(np.uint64)
+    core.reset_exact(s, ids, np.zeros(16, np.uint64), (ids, np.zeros(16, np.uint64)))
+    core.advance_control(s, np.zeros((16, 8), np.float32))
+    assert thread_ids() == before
+  finally:
+    os.sched_setaffinity(0, set(cpus))
 
 
 def test_affinity_rejects_leases_outside_the_pod():

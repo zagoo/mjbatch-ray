@@ -1,0 +1,14 @@
+2026-10-09T07:41:21Z images: blue=raysimbatch-cpu:blue green=raysimbatch-cpu:green
+active=green previous=blue
+2026-10-09T07:41:21Z pointer {"active":"green","previous":"blue"}
+2026-10-09T07:41:21Z xresume-start on green (seeds=32 steps=200000)
+2026-10-09T07:41:27Z green hard-failed; run a791d4f04ee745d899b39f6fe3e77991 durable state:
+RUNNING|32
+SUCCEEDED|32
+run|RUNNING|0
+active=blue previous=green
+2026-10-09T07:41:27Z pointer {"active":"blue","previous":"green"}
+2026-10-09T07:41:27Z xresume-finish on blue
+2026-10-09T08:04:18Z xresume-finish exit=0; run a791d4f04ee745d899b39f6fe3e77991 durable state:
+SUCCEEDED|64
+run|COMPLETED|1

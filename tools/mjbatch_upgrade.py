@@ -5,6 +5,7 @@
   python tools/mjbatch_upgrade.py prepare <ref> [--mujoco X.Y.Z] [--no-fetch]
   python tools/mjbatch_upgrade.py qualify <sha12> [--baseline evidence/perf/<file>.json]
   python tools/mjbatch_upgrade.py promote <sha12>     # only with a passing qualification
+  python tools/mjbatch_upgrade.py linux <sha12>       # required after promote, before commit
   python tools/mjbatch_upgrade.py rollback            # back to the committed pin
   python tools/mjbatch_upgrade.py cleanup <sha12>
 
@@ -188,11 +189,55 @@ def cmd_promote(args) -> int:
   sh("uv", "sync", "--extra", "torch", cwd=ROOT)
   # Stage the pin change as one unit (gitlink + lock + table + pyproject), uncommitted.
   sh("git", "add", "third_party/mjbatch", "pyproject.toml", "uv.lock", str(ADAPTER.relative_to(ROOT)), cwd=ROOT)
-  p = sh(sys.executable, str(ROOT / "tools/check_mjbatch_clean.py"), cwd=ROOT, check=False)
+  p = sh(sys.executable, str(ROOT / "tools/check_mjbatch_clean.py"), "--no-linux-gate", cwd=ROOT, check=False)
   print(p.stdout)
   print(sh("git", "status", "--short", cwd=ROOT).stdout)
-  print("promoted in the working tree; review, run the full suite, then commit (gitlink + lock + table)")
+  print(f"promoted in the working tree; next: `linux {args.sha12}` (required), the full suite, then commit")
   return p.returncode
+
+
+def cmd_linux(args) -> int:
+  """The Linux gate, after promote and before commit. The other gates run on macOS, which
+  has no CPU affinity: the 0.1.4 thread-pool change passed them all and broke pinning on
+  every Linux worker. Builds the `test` image from the working tree (by image ID, never a
+  tag that a failed build would leave stale), checks the image has the promoted versions,
+  and runs tools/linux_suite.sh with no skips allowed. tools/check_mjbatch_clean.py, which
+  CI runs on every commit, refuses a pin without a passing record."""
+  from raysimbatch.compat.mjbatch_adapter import QUALIFIED
+
+  head = sh("git", "rev-parse", "HEAD", cwd=PIN).stdout.strip()
+  if not head.startswith(args.sha12):
+    raise SystemExit(f"third_party/mjbatch is at {head}, not {args.sha12}: promote it first")
+  version = next((v for v, e in QUALIFIED.items() if e["revision"] == head), None)
+  if version is None:
+    raise SystemExit(f"{head} is not in QUALIFIED: promote it first")
+  out = ROOT / "evidence/mjbatch-upgrade" / head[:7]
+  out.mkdir(parents=True, exist_ok=True)
+  log = out / "linux-gate.log"
+  log.write_text("")
+  iid = UPGRADE / f"linux-{head[:12]}.iid"
+  iid.parent.mkdir(parents=True, exist_ok=True)
+  iid.unlink(missing_ok=True)
+  sh("docker", "build", "--target", "test", "--iidfile", str(iid), "-f", "deploy/docker/cpu.Dockerfile", ".",
+     cwd=ROOT, log=log)
+  image = iid.read_text().strip()
+  probe = sh("docker", "run", "--rm", image, "python", "-c",
+             "import importlib.metadata as m, mujoco, platform; "
+             "print(m.version('mjbatch'), mujoco.__version__, platform.machine())", log=log).stdout.split()
+  rec: dict = {"sha": head, "image": image, "mjbatch": probe[0], "mujoco": probe[1], "machine": probe[2]}
+  want = (version, QUALIFIED[version]["mujoco"])
+  if (probe[0], probe[1]) != want:
+    rec.update(passed=False, reason=f"the image has mjbatch/mujoco {probe[0]}/{probe[1]}, QUALIFIED says {want}")
+  else:
+    p = sh(str(ROOT / "tools/linux_suite.sh"), image, cwd=ROOT, check=False, log=log)
+    lines = [ln for ln in p.stdout.splitlines() if ln.strip()]
+    rec["summary"] = lines[-1] if lines else ""
+    rec["exit"] = p.returncode
+    rec["passed"] = p.returncode == 0 and " skipped" not in rec["summary"]
+  rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+  (out / "linux-gate.json").write_text(json.dumps(rec, indent=2) + "\n")
+  print(json.dumps(rec, indent=2))
+  return 0 if rec["passed"] else 1
 
 
 def cmd_rollback(_args) -> int:
@@ -233,6 +278,9 @@ def main(argv=None) -> int:
   p = sub.add_parser("promote")
   p.add_argument("sha12")
   p.set_defaults(fn=cmd_promote)
+  p = sub.add_parser("linux")
+  p.add_argument("sha12")
+  p.set_defaults(fn=cmd_linux)
   sub.add_parser("rollback").set_defaults(fn=cmd_rollback)
   p = sub.add_parser("cleanup")
   p.add_argument("sha12")

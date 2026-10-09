@@ -186,7 +186,7 @@ requirements:
     implementation: [src/raysimbatch/control/coordinator.py, src/raysimbatch/recovery/watchdog.py, src/raysimbatch/recovery/circuit.py]
     config: [failure]
     tests: [tests/ray/test_watchdog.py, tests/e2e/test_watchdog_liveness.py, tests/e2e/test_mode_b_chaos.py]
-    evidence: [evidence/tests/pytest-final.log, evidence/deploy/requalify-6e0ad7e/watchdog-live.txt]
+    evidence: [evidence/tests/pytest-final.log, evidence/deploy/requalify-6e0ad7e/watchdog-live.txt, evidence/deploy/requalify-8c46586/watchdog-live.txt]
     status: VERIFIED
     notes: "Command deadlines plus the per-node watchdog (AM-16, deployed 2026-09-29): a GIL-holding command is recovered by the watchdog before its 60 s deadline and an idle worker's death without any command, each run giving exactly the episodes of a clean run (mutation-checked). Verified with real Ray and PostgreSQL on one host; node loss under load is R-8.1-NODE (BLOCKED)."
   - id: R-3.3.4
@@ -213,9 +213,9 @@ requirements:
     implementation: [qualification/bench_throughput.py, qualification/bench_overhead.py, qualification/bench_inference.py, src/raysimbatch/worker/core.py, native/src/kernels.h]
     config: [worker.fuse_substeps, models.health.check_each_substep]
     tests: [tests/core/test_fused.py, tests/core/test_book.py, tests/core/test_substep_settle.py]
-    evidence: [evidence/perf/throughput-overhead-64.json, evidence/perf/throughput-overhead-256.json, evidence/perf/overhead-after.json, evidence/perf/overhead-before.json, evidence/perf/throughput-fused-64.json, evidence/perf/throughput-fused-256.json, evidence/perf/throughput-macos-arm64.json, evidence/perf/inference-curves.json]
+    evidence: [evidence/perf/mjbatch-0.1.4/throughput-overhead-64.json, evidence/perf/mjbatch-0.1.4/throughput-overhead-256.json, evidence/perf/throughput-overhead-64.json, evidence/perf/throughput-overhead-256.json, evidence/perf/overhead-after.json, evidence/perf/overhead-before.json, evidence/perf/throughput-fused-64.json, evidence/perf/throughput-fused-256.json, evidence/perf/throughput-macos-arm64.json, evidence/perf/inference-curves.json]
     status: IMPLEMENTED
-    notes: "Measured on Apple arm64 (interleaved): met for the contact model (quadruped 0.97-1.20x); for the lightest models fused stepping with native bookkeeping (AM-2, identical results) gives 0.75-0.93x vs 0.44-0.78x per-substep - the target is met for cartpole at 64 slots/1 thread and 256 slots/1-2 threads only. The owner accepted these figures on 2026-09-29 and closed AM-2 optimization; the status stays IMPLEMENTED because the target is not met, and it is unmeasured on the reference x86-64 nodes (R-X86). In-process policy inference p99 is below 0.4 ms at batch 1024 (CPU, MPS); the p99 slice and round-trip SLOs on target hardware and the CUDA service are BLOCKED."
+    notes: "Measured on Apple arm64 (interleaved): met for the contact model (quadruped 0.97-1.20x); for the lightest models fused stepping with native bookkeeping (AM-2, identical results) gives 0.75-0.93x vs 0.44-0.78x per-substep - the target is met for cartpole at 64 slots/1 thread and 256 slots/1-2 threads only. The owner accepted these figures on 2026-09-29 and closed AM-2 optimization. Re-measured on MJBatch 0.1.4 (2026-10-09, evidence/perf/mjbatch-0.1.4/): per-substep 0.60-0.86x (up 0.04-0.16), fused 0.77-0.93x (within the spread; cartpole 0.01-0.02 lower), quadruped 1.10-1.24x; met for cartpole fused at 256 slots/1-2 threads, 0.899 at 64 slots/1 thread. The owner accepted the 0.1.4 figures as the AM-2 baseline on 2026-10-09. The status stays IMPLEMENTED because the target is not met, and it is unmeasured on the reference x86-64 nodes (R-X86). In-process policy inference p99 is below 0.4 ms at batch 1024 (CPU, MPS); the p99 slice and round-trip SLOs on target hardware and the CUDA service are BLOCKED."
   - id: R-3.4
     section: "§4 3.4, §9.2-9.4"
     requirement: 10k/50k/100k environment sizing, memory, GCS/raylet load.
@@ -397,4 +397,4 @@ requirements:
     tests: []
     evidence: [docs/ledgers/environment-inventory.md, evidence/deploy/amd64-image]
     status: BLOCKED
-    notes: "Only Apple arm64 (macOS host, Linux arm64 containers) available. The linux/amd64 CPU image builds under Rosetta emulation and passes compat and 126 of the 130 Linux tests; the other 4 need Ray, which does not stay up under Rosetta, so Ray is unverified on x86-64."
+    notes: "Only Apple arm64 (macOS host, Linux arm64 containers) available. The linux/amd64 CPU image builds under Rosetta emulation; on MJBatch 0.1.4 (7f7d10a, evidence/deploy/amd64-image-0.1.4) it passes compat and 149 of the 153 Linux-suite tests. The other 4 need Ray, which stays up only seconds under Rosetta (they passed in one run, died in another), so Ray is unverified on x86-64."

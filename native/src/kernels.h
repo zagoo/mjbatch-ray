@@ -140,11 +140,11 @@ class ActionProcessor {
         prev[i] = a[i];
         double x = a[i];
         if (order_ == 0) {
-          x = Clamp(x, -clip_, clip_) * scale_.p[i] + offset_.p[i];
+          x = Clamp(x, -clip_, clip_) * scale_[i] + offset_[i];
         } else {
-          x = Clamp(x * scale_.p[i], -clip_, clip_) + offset_.p[i];
+          x = Clamp(x * scale_[i], -clip_, clip_) + offset_[i];
         }
-        x *= sign_.p[i];
+        x *= sign_[i];
         ema[i] = alpha_ * x + (1.0 - alpha_) * ema[i];
         buf[pos * A_ + i] = ema[i];
       }
@@ -204,8 +204,8 @@ class Controller {
     evals_ = Get<int64_t>(arrays, "effort_evals", N_, 1);
     energy_ = Get<double>(arrays, "energy", N_, 1);
     for (int64_t i = 0; i < A_; ++i) {
-      if (qadr_.p[i] < 0 || qadr_.p[i] >= qpos_.cols || dadr_.p[i] < 0 || dadr_.p[i] >= qvel_.cols ||
-          cidx_.p[i] < 0 || cidx_.p[i] >= ctrl_.cols) {
+      if (qadr_[i] < 0 || qadr_[i] >= qpos_.cols || dadr_[i] < 0 || dadr_[i] >= qvel_.cols ||
+          cidx_[i] < 0 || cidx_[i] >= ctrl_.cols) {
         throw nb::value_error("controller address out of range");
       }
     }
@@ -261,10 +261,10 @@ class Controller {
       const double* target = targets_.Row(s);  // no delay: the commanded targets
       for (int64_t i = 0; i < A_; ++i) {
         if (kind_ == 1) {
-          ctrl[cidx_.p[i]] = target[i];
+          ctrl[cidx_[i]] = target[i];
         } else {
-          const double limit = elim_.p[i] > 0 ? elim_.p[i] : kInf;
-          ctrl[cidx_.p[i]] = Clamp(target[i], -limit, limit) / gear_.p[i];
+          const double limit = elim_[i] > 0 ? elim_[i] : kInf;
+          ctrl[cidx_[i]] = Clamp(target[i], -limit, limit) / gear_[i];
         }
       }
     }
@@ -316,26 +316,26 @@ class Controller {
     count_.Row(s)[0] += nstep;
     if (kind_ == 1) {
       for (int64_t i = 0; i < A_; ++i) {
-        ctrl[cidx_.p[i]] = target[i];
+        ctrl[cidx_[i]] = target[i];
         effort[i] = std::numeric_limits<double>::quiet_NaN();
       }
       return;
     }
     int64_t clipped_count = 0;
     for (int64_t i = 0; i < A_; ++i) {
-      const double limit = elim_.p[i] > 0 ? elim_.p[i] : kInf;
+      const double limit = elim_[i] > 0 ? elim_[i] : kInf;
       const double clipped = Clamp(target[i], -limit, limit);
       if (clipped != target[i]) ++clipped_count;
       clip_[i] = clipped;
       effort[i] = clipped;
-      ctrl[cidx_.p[i]] = clipped / gear_.p[i];
+      ctrl[cidx_[i]] = clipped / gear_[i];
     }
     sat_.Row(s)[0] += clipped_count * nstep;
     evals_.Row(s)[0] += A_ * nstep;
     double& energy = energy_.Row(s)[0];
     for (int64_t k = 0; k < nstep; ++k) {
       const double* dq = k == 0 ? dq0_.data() + s * qvel_.cols : h + (k - 1) * nstate + qvel_off;
-      for (int64_t i = 0; i < A_; ++i) energy += std::abs(clip_[i] * dq[dadr_.p[i]]) * dt;
+      for (int64_t i = 0; i < A_; ++i) energy += std::abs(clip_[i] * dq[dadr_[i]]) * dt;
     }
   }
   int64_t nq() const { return qpos_.cols; }
@@ -369,15 +369,15 @@ class Controller {
     const double* target = buf + (count <= delay_ ? 0 : (count - 1 - delay_) % size) * A_;
     double* effort = effort_.Row(s);
     for (int64_t i = 0; i < A_; ++i) {
-      const double qi = q[qadr_.p[i]];
-      const double dqi = dq[dadr_.p[i]];
+      const double qi = q[qadr_[i]];
+      const double dqi = dq[dadr_[i]];
       if (kind_ == 1) {
-        ctrl[cidx_.p[i]] = target[i];
+        ctrl[cidx_[i]] = target[i];
         effort[i] = std::numeric_limits<double>::quiet_NaN();
         continue;
       }
-      double tau = kind_ == 0 ? target[i] : kp_.p[i] * (target[i] - qi) - kd_.p[i] * dqi + tau_ff_;
-      double limit = elim_.p[i] > 0 ? elim_.p[i] : kInf;
+      double tau = kind_ == 0 ? target[i] : kp_[i] * (target[i] - qi) - kd_[i] * dqi + tau_ff_;
+      double limit = elim_[i] > 0 ? elim_[i] : kInf;
       if (kind_ == 3) {
         const bool motoring = tau * dqi >= 0.0;
         const int64_t k = env_speed_.cols;
@@ -390,7 +390,7 @@ class Controller {
       ++evals_.Row(s)[0];
       effort[i] = clipped;
       energy_.Row(s)[0] += std::abs(clipped * dqi) * dt;
-      ctrl[cidx_.p[i]] = clipped / gear_.p[i];
+      ctrl[cidx_[i]] = clipped / gear_[i];
     }
   }
 
@@ -427,10 +427,10 @@ class Health {
     base_ = Get<int32_t>(arrays, "warning_base", N_, nwarn_);
     expected_ = Get<double>(arrays, "expected_time", N_, 1);
     for (int64_t i = 0; i < quat_adr_.rows; ++i) {
-      if (quat_adr_.p[i] < 0 || quat_adr_.p[i] + 4 > qpos_.cols) throw nb::value_error("quat_adr");
+      if (quat_adr_[i] < 0 || quat_adr_[i] + 4 > qpos_.cols) throw nb::value_error("quat_adr");
     }
     for (int64_t i = 0; i < fatal_.rows; ++i) {
-      if (fatal_.p[i] < 0 || fatal_.p[i] >= nwarn_) throw nb::value_error("fatal_warnings");
+      if (fatal_[i] < 0 || fatal_[i] >= nwarn_) throw nb::value_error("fatal_warnings");
     }
   }
 
@@ -471,7 +471,7 @@ class Health {
         const int32_t d = warning_.Row(s)[2 * w + 1] - base_.Row(s)[w];
         delta += d;
         if (d > 0) {
-          for (int64_t f = 0; f < fatal_.rows; ++f) fatal |= fatal_.p[f] == w;
+          for (int64_t f = 0; f < fatal_.rows; ++f) fatal |= fatal_[f] == w;
         }
       }
       if (fatal) code = kFaultFatalWarning;
@@ -484,7 +484,7 @@ class Health {
       if (!code) {
         const double* q = qpos_.Row(s);
         for (int64_t i = 0; i < quat_adr_.rows; ++i) {
-          const double* x = q + quat_adr_.p[i];
+          const double* x = q + quat_adr_[i];
           const double n = std::sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + x[3] * x[3]);
           if (std::abs(n - 1.0) > quat_tol_) code = kFaultQuaternion;
         }
@@ -806,7 +806,7 @@ class Observation {
       Flatten(hist, o);
       if (mean_.Valid()) {
         for (int64_t i = 0; i < obs_dim_; ++i) {
-          const double v = (o[i] - mean_.p[i]) * inv_std_.p[i];
+          const double v = (o[i] - mean_[i]) * inv_std_[i];
           o[i] = static_cast<float>(norm_clip_ > 0 ? Clamp(v, -norm_clip_, norm_clip_) : v);
         }
       }
@@ -870,7 +870,7 @@ class Observation {
                                                      : -1;
       if (limit >= 0) {
         for (int32_t k = 0; k < icnt; ++k) {
-          if (index_.p[ioff + k] < 0 || index_.p[ioff + k] >= limit) {
+          if (index_[ioff + k] < 0 || index_[ioff + k] >= limit) {
             throw nb::value_error("term index out of range for its source");
           }
         }

@@ -5,7 +5,8 @@ The technical design (`RaySimBatch-Technical-Design.md`, SHA-256 `d9070072…546
 below records a place where the implementation departs from it: what the design said,
 what was built, the cause (source evidence, a controlling assignment constraint, or an
 observation in qualification), and how it is verified. MJBatch citations refer to revision
-`2f169146b643adda65e195d8ad13d997abdd2a2e` (v0.1.1), with findings `M1`–`M20` from
+`088e2d4cd0d5878ea184010446c058710f23a671` (v0.1.4; first written against `2f169146…`,
+v0.1.1), with findings `M1`–`M20` from
 [mjbatch-source-findings](ledgers/mjbatch-source-findings.md).
 
 Status values: **ADOPTED** (implemented and verified), **ADOPTED-PARTIAL** (implemented
@@ -29,7 +30,8 @@ with a measured limitation), **OPEN** (needs an owner decision).
   models. Fused intervals and native bookkeeping recover most of it with identical
   results, but not all of it. See [qualification report §5](qualification/report.md).
 - **Status:** ADOPTED-PARTIAL. The light-model throughput target is met in some measured
-  configurations only; the owner accepted that shortfall on 2026-09-29 (see AM-2).
+  configurations only; the owner accepted that shortfall on 2026-09-29, and the MJBatch
+  0.1.4 figures as the baseline on 2026-10-09 (see AM-2).
 
 ## AM-1: Per-slot call outcomes from a public-buffer sentinel
 
@@ -115,7 +117,25 @@ with a measured limitation), **OPEN** (needs an owner decision).
   | 256 | per-substep | 0.78 / 0.72 / 0.64 | 0.72 / 0.66 / 0.59 |
   | 256 | fused | **0.93** / **0.92** / 0.87 | 0.85 / 0.84 / 0.81 |
 
-  quadruped (`pd`) is not fusable and meets the target everywhere (0.97–1.20). Before the
+  quadruped (`pd`) is not fusable and meets the target everywhere (0.97–1.20).
+
+  **Re-measured on MJBatch 0.1.4** (2026-10-09, revision `10fff3a`, same benchmark and
+  arguments, host load average 3–8; `evidence/perf/mjbatch-0.1.4/throughput-overhead-{64,256}.json`):
+
+  | Slots | Path | cartpole T=1 / 2 / 4 | reacher T=1 / 2 / 4 |
+  |---|---|---|---|
+  | 64 | per-substep | 0.81 / 0.72 / 0.60 | 0.75 / 0.70 / 0.60 |
+  | 64 | fused | 0.90 (0.899) / 0.84 / 0.77 | 0.84 / 0.82 / 0.77 |
+  | 256 | per-substep | 0.86 / 0.82 / 0.75 | 0.78 / 0.75 / 0.69 |
+  | 256 | fused | **0.93** / **0.90** / 0.85 | 0.85 / 0.84 / 0.81 |
+
+  quadruped: 1.10–1.24. Against the accepted figures, per-substep ratios rose by
+  0.04–0.16 (0.1.4 cut MJBatch's per-call overhead, which the per-substep path pays
+  every substep). Fused ratios are within the 1–4% spread: reacher equal or higher,
+  cartpole 0.01–0.02 lower in all six configurations, because upstream's own `nstep`
+  got faster for cartpole by slightly more than the fused wrapper did. Cartpole fused at
+  64 slots on 1 thread is 0.899, just under the target (0.91 before). The owner accepted
+  these figures as the AM-2 baseline on 2026-10-09. Before the
   native bookkeeping (`evidence/perf/throughput-fused-{64,256}.json`, `4b6df90`), the
   fused figures were 0.59–0.90.
 
@@ -131,22 +151,26 @@ with a measured limitation), **OPEN** (needs an owner decision).
 
   With a termination inside every interval (cartpole): fused 155 → 65 µs at 64 slots and
   202 → 105 µs at 256; per-substep 132 → 53 and 185 → 88.
-- **Status:** ADOPTED-PARTIAL; the shortfall is **accepted by the owner (2026-09-29)**.
-  The §9.1 target (≥90% of equal-thread upstream) is met:
+- **Status:** ADOPTED-PARTIAL; the shortfall is **accepted by the owner** (2026-09-29, and
+  on MJBatch 0.1.4 on 2026-10-09). On the accepted 0.1.4 figures the §9.1 target (≥90% of
+  equal-thread upstream) is met:
   - for the contact model at every measured configuration;
-  - for cartpole with fused stepping at 64 slots on 1 thread and at 256 slots on 1–2
-    threads.
+  - for cartpole with fused stepping at 256 slots on 1–2 threads.
 
-  It is **not** met for cartpole otherwise (0.78–0.87 fused), nor for reacher (0.75–0.85).
-- **Accepted baseline (owner decision, 2026-09-29).** AM-2 optimization is closed. The
-  figures under *Measured* (revision `d3bd3a9`, Apple M4 Max) are the accepted
-  light-model throughput. The levers below are recorded and not pursued. The acceptance:
+  It is **not** met for cartpole otherwise (0.77–0.85 fused, and 0.899 at 64 slots on 1
+  thread), nor for reacher (0.77–0.85). On 0.1.1 it was also met for cartpole fused at 64
+  slots on 1 thread (0.91).
+- **Accepted baseline (owner decisions, 2026-09-29 and 2026-10-09).** AM-2 optimization is
+  closed. Since 2026-10-09 the accepted light-model throughput is the MJBatch 0.1.4
+  re-measurement under *Measured* (revision `10fff3a`, Apple M4 Max). It replaces the
+  0.1.1 figures (`d3bd3a9`) accepted on 2026-09-29. The levers below are recorded and not
+  pursued. The acceptance:
   - does not make the target met: R-3.3.6 stays IMPLEMENTED, not VERIFIED;
   - covers this host only. The ratios on the reference x86-64 nodes are unmeasured
     (R-X86) and are measured before production
     ([production to-do](deployment/production-todo.md), item 3.1);
   - makes these figures the reference for regressions: a later change is compared with
-    `evidence/perf/throughput-overhead-{64,256}.json` by the same interleaved benchmark.
+    `evidence/perf/mjbatch-0.1.4/throughput-overhead-{64,256}.json` by the same interleaved benchmark.
 - **Remaining gap (measured; not pursued):**
   - The fused MJBatch call is within about 4% of upstream's. History recording costs
     3–4%; the extra bound fields about 1% (same Batch, same physics).
@@ -190,7 +214,9 @@ with a measured limitation), **OPEN** (needs an owner decision).
   1. The lease is applied to the constructing thread *before* the Batch exists, so
      MJBatch's pool threads inherit it (Linux).
   2. Each new pool thread is then pinned to one core and verified from
-     `/proc/self/task/*/status`.
+     `/proc/self/task/*/status`. Since MJBatch 0.1.4 the calling thread is pool worker 0
+     (M5), so it is pinned to the lease's first core and the new threads to the rest;
+     the constructing thread is the one that steps (the actor's single `mutate` thread).
   3. The per-node agent leases disjoint core sets from the pod's actual cpuset, which
      the kubelet static CPU manager assigns, never from Ray logical IDs. Leases are
      persisted and reaped only when their holder's process has died.

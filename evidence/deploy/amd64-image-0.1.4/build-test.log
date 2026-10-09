@@ -1,0 +1,71 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from cpu.Dockerfile
+#1 transferring dockerfile: 3.15kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 175B done
+#3 DONE 0.0s
+
+#4 [build 1/8] FROM docker.io/library/python:3.12.8-slim-bookworm@sha256:2199a62885a12290dc9c5be3ca0681d367576ab7bf037da120e564723292a2f0
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 255.61kB done
+#5 DONE 0.0s
+
+#6 [build 2/8] RUN apt-get update  && apt-get install -y --no-install-recommends build-essential git ca-certificates  && rm -rf /var/lib/apt/lists/*  && pip install --no-cache-dir "uv==0.12.19"
+#6 CACHED
+
+#7 [build 3/8] WORKDIR /src
+#7 CACHED
+
+#8 [build 5/8] COPY native native
+#8 CACHED
+
+#9 [build 7/8] COPY third_party/mjbatch third_party/mjbatch
+#9 CACHED
+
+#10 [build 4/8] COPY pyproject.toml uv.lock README.md ./
+#10 CACHED
+
+#11 [build 6/8] COPY src src
+#11 CACHED
+
+#12 [build 8/8] RUN uv sync --frozen --no-dev --no-editable   && .venv/bin/python -m raysimbatch.cli compat > /src/compat.json  && test -z "$(cd third_party/mjbatch && find . -name build -maxdepth 1)"
+#12 CACHED
+
+#13 [test 1/2] RUN uv sync --frozen --no-editable
+#13 1.819 Downloading pygments (1.2MiB)
+#13 1.820 Downloading pyright (5.9MiB)
+#13 1.820 Downloading ruff (9.9MiB)
+#13 2.725  Downloaded pygments
+#13 5.554  Downloaded pyright
+#13 7.964  Downloaded ruff
+#13 7.964 Prepared 9 packages in 7.58s
+#13 8.226 Installed 9 packages in 259ms
+#13 9.003 Bytecode compiled 9525 files in 777ms
+#13 9.004  + iniconfig==2.3.0
+#13 9.004  + nodeenv==1.11.0
+#13 9.004  + pluggy==1.6.0
+#13 9.004  + pygments==2.21.0
+#13 9.004  + pyright==1.1.414
+#13 9.004  + pytest==9.1.1
+#13 9.004  + pytest-asyncio==1.4.0
+#13 9.004  + pytest-timeout==2.4.0
+#13 9.004  + ruff==0.16.9
+#13 DONE 9.1s
+
+#14 [test 2/2] COPY tests tests
+#14 DONE 0.0s
+
+#15 exporting to image
+#15 exporting layers
+#15 exporting layers 5.5s done
+#15 writing image sha256:8a00581de4cb37586de3117491cbcc07e15d5ad1fd0883edc8333acf8551816e done
+#15 DONE 5.5s
+docker build --platform linux/amd64 --progress plain --target test --iidfile   0.11s user 0.10s system 1% cpu 14.887 total

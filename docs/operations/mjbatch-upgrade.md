@@ -69,14 +69,40 @@ python tools/mjbatch_upgrade.py promote <sha12>
 2. adds the candidate's version to `QUALIFIED` in `compat/mjbatch_adapter.py`;
 3. updates the mjbatch and mujoco pins in `pyproject.toml`;
 4. runs `uv lock` and `uv sync`; and
-5. runs `tools/check_mjbatch_clean.py`.
+5. runs `tools/check_mjbatch_clean.py --no-linux-gate` (the Linux gate comes next).
 
 The changes are left **uncommitted** for review. If the MuJoCo version changed,
 regenerate its type stubs (`uv run --with pybind11-stubgen==3.0.0 python
 tools/gen_mujoco_stubs.py`; `tests/tooling/test_mujoco_stubs.py` fails until you do) and
-run `python tools/pyright_ratchet.py`. Run the full suite, rebuild the images,
-qualify them on a green cluster ([deployment](../deployment/kuberay.md)), then commit the
-gitlink, lock and table together.
+run `python tools/pyright_ratchet.py`.
+
+## 4a. Linux gate (required before commit)
+
+```bash
+python tools/mjbatch_upgrade.py linux <sha12>
+```
+
+The gates of step 3 run on macOS, which has no CPU affinity. MJBatch 0.1.4 passed all of
+them while its thread-pool change (the calling thread became pool worker 0) broke CPU
+pinning on every Linux worker; only the Linux suite showed it. `linux`:
+
+1. requires the promoted pin (the checkout at `<sha12>`, its version in `QUALIFIED`);
+2. builds the `test` image from the working tree and uses it by image ID, so a failed
+   build cannot leave an old image to be tested by mistake;
+3. checks that the image has the promoted mjbatch and MuJoCo versions;
+4. runs `tools/linux_suite.sh` (Linux-only tests, `tests/core`, `tests/upstream`); any
+   failure *or skip* fails the gate; and
+5. writes `evidence/mjbatch-upgrade/<sha7>/linux-gate.json` and `linux-gate.log`.
+
+**Enforcement:** `tools/check_mjbatch_clean.py` (CI `static` job, every commit) fails
+unless the pinned revision has a passing record, so a pin change cannot pass CI without
+this gate. CI's `image-and-linux` job also runs the same suite on x86-64 for every
+commit. Both must be required status checks on `main` (production to-do 1.4).
+
+Then run the full suite and commit the gitlink, lock, table, stubs and the gate record
+together. Rebuild the images and requalify that commit on kind
+(`deploy/kind/requalify.sh`, which refuses uncommitted changes), and fix forward if it
+fails.
 
 A promotion is a release: it goes through blue/green like any other image change. Runs
 never mix MJBatch versions, and binary snapshots do not cross versions without explicit
@@ -108,5 +134,6 @@ python tools/check_mjbatch_clean.py
 ```
 
 The checker runs in CI and must pass at every commit (see
-[mjbatch-integration.md](../mjbatch-integration.md) for the rules it enforces).
+[mjbatch-integration.md](../mjbatch-integration.md) for the rules it enforces). It also
+requires the pinned revision's passing Linux gate record (step 4a).
 `tests/tooling/test_noninvasive.py` proves it detects each class of violation.

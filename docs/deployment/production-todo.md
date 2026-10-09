@@ -38,8 +38,11 @@ and the infrastructure of phases 2–3 only after the authorization in phase 0.
   - the production models and their features (only cartpole, reacher and quadruped were
     measured) → 3.2.
 - [x] **AM-2 light-model throughput:** the owner accepted the measured figures on
-  2026-09-29 and closed the optimization ([AM-2](../design-amendments.md)). The ratio on
-  the reference hardware is still measured in 3.1.
+  2026-09-29 and closed the optimization ([AM-2](../design-amendments.md)). Re-measured on
+  MJBatch 0.1.4 (2026-10-09): per-substep up 0.04–0.16, fused within the spread
+  (cartpole 0.01–0.02 lower, its 64-slot 1-thread case now 0.899); the owner accepted
+  these as the baseline and regression reference on 2026-10-09. The ratio on the
+  reference hardware is still measured in 3.1.
 
 ## Phase 1: engineering work (can start now)
 
@@ -56,12 +59,16 @@ and the infrastructure of phases 2–3 only after the authorization in phase 0.
   of the 130 Linux tests pass in the amd64 `test` image. The other 4
   (`tests/ray/test_node_helpers.py`) need Ray, which does not stay up under Rosetta
   (reproduced with stock Ray 2.58.0), so Ray has not yet run on x86-64; 3.1 checks it
-  first. *V-1, R-X86.*
+  first. Rebuilt on MJBatch 0.1.4 at `7f7d10a` (2026-10-09, `evidence/deploy/amd64-image-0.1.4/`): compat passes and
+  149 of the 153 Linux-suite tests pass; the 4 Ray tests passed in one run and died in
+  another (Ray stays up only seconds under Rosetta). *V-1, R-X86.*
 - [ ] **1.3 GPU image** (`deploy/docker/gpu.Dockerfile`), if 0.4 puts CUDA in scope.
   *R-GPU, R-3.5-OPS.*
 - [ ] **1.4 Run CI on a real runner.** `.github/workflows/ci.yml` is written but has never
   run, and its service images are referenced by tag. Run it, pin the service images by
-  digest. *R-3.5-OPS.*
+  digest, and make `static` and `image-and-linux` required status checks on `main`
+  (branch protection, a repository setting). Those two jobs enforce the MJBatch
+  upgrade's Linux gate ([runbook](../operations/mjbatch-upgrade.md) step 4a). *R-3.5-OPS.*
 - [x] **1.5 Triage the pyright errors.** All 424 at `e228b97` classified
   (`evidence/tests/pyright-triage-e228b97.csv`): 406 false positives, 16 on 3 real
   defects, 2 on 1 unsure issue that proved real. All four fixed with tests that fail on
@@ -90,16 +97,19 @@ and the infrastructure of phases 2–3 only after the authorization in phase 0.
   `native_arena_peak_bytes` (MJBatch's public API does not expose it; accepted gap), and
   four Grafana dashboards cover the rest, checked against a live Prometheus and in
   Grafana 13.2.2 ([observability.md](../operations/observability.md#dashboards)). *R-3.5-OBS.*
-- [ ] **1.10 Requalify the current revision on kind.** Twelve commits to `src/` and
-  `deploy/` since `6e0ad7e` (the pyright fixes and the 1.9 metrics) have run only in the
-  local suite and the Linux container. Rebuild the image and rerun
-  `deploy/kind/requalify.sh`. *R-3.5-OPS.*
+- [x] **1.10 Requalify the current revision on kind.** Done 2026-10-09 at `8c46586`, which
+  also ports RaySimBatch to MJBatch 0.1.4 and MuJoCo 3.14.0 ([upgrade record](../qualification/mjbatch-noninvasiveness.md#upgrade-to-088e2d4-v014-mujoco-3140-2026-10-09)):
+  `deploy/kind/requalify.sh` passed every step (`evidence/deploy/requalify-8c46586/`,
+  report §6), and in a worker pod the physics threads, including the calling thread, were
+  each pinned to one leased core. Live watchdog metrics recaptured during a run on blue
+  (`evidence/deploy/requalify-8c46586/watchdog-live.txt`).
+  *R-3.5-OPS.*
 
 ## Phase 2: production platform (after 0.1)
 
 Per [kuberay.md](kuberay.md):
 
-- [ ] **2.1 KubeRay operator 1.7.0**; Ray 2.58.0, MuJoCo 3.13.0 and MJBatch `2f16914`
+- [ ] **2.1 KubeRay operator 1.7.0**; Ray 2.58.0, MuJoCo 3.14.0 and MJBatch `088e2d4`
   in the images (`raysimbatch.cli compat` passes in each image). *V-1.*
 - [ ] **2.2 Nodes.** Kubelet static CPU Manager with reserved system CPUs; SMT per 0.4;
   pools labelled `raysimbatch.io/pool: head` and `sim`; `/dev/shm` at least the object

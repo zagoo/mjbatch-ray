@@ -1,0 +1,71 @@
+2026-10-09 08:17:43,191	INFO worker.py:1683 -- Using address 127.0.0.1:6379 set in the environment variable RAY_ADDRESS
+2026-10-09 08:17:43,197	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 10.244.2.10:6379...
+2026-10-09 08:17:43,201	INFO worker.py:2015 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://10.244.2.10:8265 [39m[22m
+{
+  "compat": {
+    "mjbatch_version": "0.1.4",
+    "mujoco_version": "3.14.0",
+    "mj_version": 3014000,
+    "qualified": true,
+    "candidate_mode": false,
+    "binary_sha256": "d2429a3fa73b78ae3cdf8a692aa9da2bb1155e67c283fa79e582ee56b6ab8470",
+    "probes": {
+      "first_error_attributed": true,
+      "failed_slots_exact": true,
+      "failed_keep_state": true,
+      "others_advanced": true,
+      "neutralize_cancels_pending": true,
+      "forward_pure": true,
+      "reset_applies_pending_field_writes": true,
+      "state_layout": true,
+      "fused_substeps_equal": true,
+      "history_rows_are_states": true
+    }
+  },
+  "image": "8c46586fb65e691b455b3aceed6db5bd647f83e6",
+  "mjbatch": "088e2d4cd0d5878ea184010446c058710f23a671",
+  "nodes": 2,
+  "checks": {
+    "compare_runs": {
+      "runs": {
+        "bea5c61e6efd446d9ff45fb81aa63d38": {
+          "state": "COMPLETED",
+          "attempt": 1,
+          "epoch": 1,
+          "cluster": "rsb-blue",
+          "episodes": 128,
+          "identical_to_reference": true
+        },
+        "28b56d92ae3e4e66a6ae129209e5caee": {
+          "state": "COMPLETED",
+          "attempt": 0,
+          "epoch": 0,
+          "cluster": "rsb-blue",
+          "episodes": 128,
+          "identical_to_reference": true
+        }
+      },
+      "passed": true
+    }
+  },
+  "affinity": {
+    "rsb-affinity-c99d9944fb4f0de0": {
+      "cpus": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "service": [],
+      "pool": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "leases": {}
+    }
+  },
+  "passed": true,
+  "seconds": 0.22524333000183105
+}

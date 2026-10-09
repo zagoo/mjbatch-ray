@@ -1,0 +1,11 @@
+# 2026-10-09T08:57:02Z rsb-blue (image 8c46586: MJBatch 0.1.4) during run 49b658f0f4394283a5354623539241fc (xresume-start then xresume-finish on blue, 16 seeds x 100000 steps)
+## named RaySimBatch actors (all namespaces), from the head
+raysimbatch rsb-run-49b658f0f4394283a5354623539241fc
+raysimbatch rsb-affinity-c99d9944fb4f0de0
+raysimbatch rsb-watchdog-c99d9944fb4f0de0
+raysimbatch rsb-asset-cache-c99d9944fb4f0de0
+raysimbatch rsb-coord-49b658f0-0
+## 2026-10-09T08:57:36Z worker pod rsb-blue-sim-general-worker-b9rr4 metrics (port 8080), name, selected labels and value; the run's workers registered (polled every 5 s, attempt 7)
+ray_raysimbatch_heartbeat_age_seconds {'actor_role': 'watchdog', 'node': 'c99d9944fb4f0de0', 'model_family': None} 0.00014541600012307754
+ray_raysimbatch_worker_rss_bytes {'actor_role': 'simulation', 'node': None, 'model_family': 'cartpole'} 1.94904064e+08
+ray_raysimbatch_worker_rss_bytes {'actor_role': 'simulation', 'node': None, 'model_family': 'cartpole'} 1.94920448e+08

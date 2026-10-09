@@ -15,6 +15,10 @@ Checks (each failure is reported; exit 1 if any):
    pin upstream behaviour); nothing assigns attributes on mjbatch objects (no
    monkey-patching) or reads a private (underscore) attribute of an mjbatch object.
 5. No copy of MJBatch sources lives outside the checkout (no vendor-and-modify).
+6. The pinned revision passed the Linux gate (`tools/mjbatch_upgrade.py linux`): a
+   passing `evidence/mjbatch-upgrade/<sha7>/linux-gate.json` for exactly that revision.
+   The upgrade gates run on macOS, which has no CPU affinity; only the Linux suite sees
+   it. `promote` skips this check (`--no-linux-gate`): the gate runs after it.
 """
 
 from __future__ import annotations
@@ -131,11 +135,26 @@ def check_no_vendored_copy(root: Path, checkout: Path) -> list[str]:
   return problems
 
 
+def check_linux_gate(root: Path, head: str) -> list[str]:
+  rec_path = root / "evidence" / "mjbatch-upgrade" / head[:7] / "linux-gate.json"
+  rel = rec_path.relative_to(root)
+  if not rec_path.exists():
+    return [f"no Linux gate record for the pin {head[:12]} ({rel}): run tools/mjbatch_upgrade.py linux {head[:12]}"]
+  rec = json.loads(rec_path.read_text())
+  if rec.get("sha") != head:
+    return [f"{rel} is recorded for {rec.get('sha')}, but the pin is {head}"]
+  if rec.get("passed") is not True:
+    return [f"{rel}: the Linux gate did not pass ({rec.get('summary') or rec.get('reason')})"]
+  return []
+
+
 def main(argv=None) -> int:
   ap = argparse.ArgumentParser()
   ap.add_argument("--checkout", default=str(ROOT / "third_party/mjbatch"))
   ap.add_argument("--superproject", default=str(ROOT))
   ap.add_argument("--no-installed", action="store_true", help="skip the installed-distribution check")
+  ap.add_argument("--no-linux-gate", action="store_true",
+                  help="skip the Linux gate record (promote: the gate runs after it)")
   ap.add_argument("--only-checkout", action="store_true",
                   help="only check that the given checkout is pristine (upgrade candidates)")
   args = ap.parse_args(argv)
@@ -152,6 +171,8 @@ def main(argv=None) -> int:
     problems += check_installed(head, checkout)
   problems += check_sources(ROOT / "src" / "raysimbatch", {"raysimbatch/compat/mjbatch_adapter.py"})
   problems += check_no_vendored_copy(ROOT, checkout)
+  if not args.no_linux_gate and head:
+    problems += check_linux_gate(Path(args.superproject), head)
   for p in problems:
     print(f"FAIL {p}")
   if not problems:

@@ -1,0 +1,11 @@
+{
+  "sha": "088e2d4cd0d5878ea184010446c058710f23a671",
+  "image": "sha256:cf8aa43de385a06583a2b9c0354f426afd5c626b1c01ad0b9a6f150a3db2537a",
+  "mjbatch": "0.1.4",
+  "mujoco": "3.14.0",
+  "machine": "aarch64",
+  "summary": "153 passed in 15.93s",
+  "exit": 0,
+  "passed": true,
+  "at": "2026-10-09T08:55:37Z"
+}

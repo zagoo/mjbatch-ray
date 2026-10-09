@@ -12,15 +12,15 @@ modifying MJBatch is measured and recorded (design amendment AM-2).
 
 | Check | Result | Evidence |
 |---|---|---|
-| Pinned checkout `third_party/mjbatch` pristine (no modified, untracked or ignored files) at `2f169146b643adda65e195d8ad13d997abdd2a2e` | OK | `evidence/mjbatch-upgrade/10-check-clean-pinned.txt` (`tools/check_mjbatch_clean.py`) |
-| Superproject gitlink = checkout HEAD = `QUALIFIED["0.1.1"]` | OK | same |
+| Pinned checkout `third_party/mjbatch` pristine (no modified, untracked or ignored files) at `088e2d4cd0d5878ea184010446c058710f23a671` | OK | `evidence/mjbatch-upgrade/088e2d4/check-clean.txt` (`tools/check_mjbatch_clean.py`; at `2f169146…`: `evidence/mjbatch-upgrade/10-check-clean-pinned.txt`) |
+| Superproject gitlink = checkout HEAD = `QUALIFIED["0.1.4"]` | OK | same |
 | Installed `mjbatch` built from that checkout (`direct_url.json` → `third_party/mjbatch`) | OK | same |
 | Only `raysimbatch/compat/mjbatch_adapter.py` imports mjbatch | OK | same (AST scan of `src/`) |
 | No attribute assignment or `setattr` on mjbatch objects (no monkey-patching); no private-attribute reads | OK | same |
 | No MJBatch source files outside the checkout (no vendor-and-modify) | OK | same |
 | Build artifacts outside the checkout (`build/mjbatch/<wheel_tag>` via `[tool.uv] config-settings-package`); `PYTHONDONTWRITEBYTECODE=1` in `tools/env.sh` | OK | `pyproject.toml`, `tools/env.sh` |
 | The checker detects each violation class: an import outside the boundary, monkey-patching, a private read, edits, untracked files, build artifacts, a vendored copy | OK | `tests/tooling/test_noninvasive.py` (5 tests) |
-| The user's own MJBatch checkout (`~/Workspace/Develop/GitHub/mjbatch`) is untouched: branch `main` at `2f16914`, `git status` empty (the only ignored entry is the environment's `.claude/` worktree directory), no stash entries. Its only other worktree is the one the session environment created (also clean). | OK | rechecked at the end of qualification, 2026-09-28 |
+| The user's own MJBatch checkout (`~/Workspace/Develop/GitHub/mjbatch`) is untouched: branch `main` at `088e2d4` (the owner pulled it; the upgrade only fetched from it), `git status` empty (the only ignored entry is the environment's `.claude/` worktree directory), no stash entries. | OK | rechecked 2026-10-09 (first on 2026-09-28 at `2f16914`) |
 
 What RaySimBatch depends on is only MJBatch's **public** API (`Batch`, `bind`,
 `expand`, `step` including its documented `history` argument, `forward`, `reset`,
@@ -112,3 +112,64 @@ After qualification the candidate's manifest and the tool's own logs were copied
 `tools/mjbatch_upgrade.py cleanup 121e0331323e`: its worktree was deregistered from the
 pinned repository, `status` lists no candidates, and the pinned checkout still passes
 `check_mjbatch_clean.py`.
+
+### Upgrade to `088e2d4` (v0.1.4, MuJoCo 3.14.0), 2026-10-09
+
+Upstream `main` moved from `2f16914` (0.1.1) through 0.1.2 and 0.1.3 to `088e2d4` (0.1.4),
+which tracks MuJoCo 3.14.0. The candidate came from the owner's local checkout (`main`
+fetched into the pinned repository, then `prepare 088e2d4… --mujoco 3.14.0 --no-fetch`).
+
+**First qualification: failed, and the pin did not move.** All ten probes passed, but 65
+of 131 contract and parity tests failed, and the throughput gate measured nothing (the
+benchmark hit the same error). Two upstream changes broke RaySimBatch:
+
+- `f188344` makes the integration-state fields (time, qpos, qvel, act, ctrl, …) views
+  into the state rows, `nstate` elements apart. RaySimBatch's native kernels took MJBatch
+  views only when C-contiguous (`qpos: must be a C-contiguous CPU array`).
+- In the same change a pending state-row write became a field write, so `reset` now
+  applies it element by element instead of discarding it (M10). One contract test pinned
+  the old behavior; RaySimBatch itself never leaves a write pending into a reset.
+
+A third change was invisible to every gate, because they run on macOS without CPU
+affinity. Since `b6613c0` the calling thread is pool worker 0, and a pool of T workers
+creates only T−1 threads (M5). `worker/affinity.py` pinned "T new threads" and would
+have reported `found 1 physics threads, expected 2` on every Linux worker, leaving
+worker 0's physics unpinned. Only the Linux tests show this
+(`088e2d4/affinity-old-code-on-0.1.4.txt`). Since `03102f1` the Linux suite is a
+required gate: `tools/mjbatch_upgrade.py linux` after promote, and
+`tools/check_mjbatch_clean.py` (CI, every commit) refuses a pin without its passing
+record (`docs/operations/mjbatch-upgrade.md` step 4a). `088e2d4` passed it
+(`088e2d4/linux-gate.json`: 153 passed).
+
+**Port (RaySimBatch only; MJBatch untouched):**
+
+- `native/src/arrays.h`: a view's rows must be contiguous, but rows may be any distance
+  apart (`Mat::ld`). One-column arrays are indexed through `Mat::operator[]`, which
+  honors the stride. `tests/core/test_strided_views.py` drives the adapter and health
+  kernels with row-strided views on any MJBatch version.
+- `worker/affinity.py`: the calling (`mutate`) thread is pinned to the lease's first
+  core and the T−1 pool threads to the rest (AM-5). `tests/linux/test_affinity.py`
+  checks it.
+- `tests/upstream`: the reset contract now pins element-by-element application (passes on
+  0.1.4, fails on 0.1.1).
+- `QUALIFIED` lists only 0.1.4. The affinity code is correct only for the 0.1.4 pool, so
+  rolling back means the previous release image, which carries its own table. MuJoCo
+  stubs were regenerated, and the default `AssetContract.target_version` is 3.14.0.
+
+**Second qualification: passed** (`088e2d4/qualification.json`, `qualify.log`):
+
+| Gate | Result |
+|---|---|
+| behaviour_probes | pass: all ten |
+| upstream_contract_and_parity_tests | pass: 134 passed |
+| performance_regression (A-B-A-B, one session, macOS arm64) | pass. Candidate vs pinned wrapper throughput: cartpole +13.6% (1 thread), +35.3% (2); quadruped +6.6%, +11.3% (`throughput-*.json`) |
+| candidate_tree_pristine | pass |
+
+After `promote`: ruff clean, pyright 0 errors, `check_mjbatch_clean.py` OK. The full
+local suite gave 302 passed, 7 skipped (Linux-only) and 1 failed: Ray refused to spill
+because the host disk was 98% full (`pytest-full.log`). That test passed when rerun alone
+with Ray's disk threshold raised to 0.99 (`pytest-spill-rerun.log`). The Linux tests,
+`tests/core` and `tests/upstream` in the `test` image with MJBatch 0.1.4 and MuJoCo
+3.14.0: 153 passed (`linux-container.log`). The 100,000-step bitwise parity: 12 passed
+(`parity-100k.log`). The kind requalification at `8c46586` passed (report §6).
+

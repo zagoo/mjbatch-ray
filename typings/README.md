@@ -4,4 +4,4 @@
 bindings (MuJoCo is Apache-2.0, Copyright DeepMind Technologies Limited). Do not edit
 by hand; regenerate after a MuJoCo upgrade.
 
-generated-for: mujoco==3.13.0 pybind11-stubgen==3.0.0 platform=darwin
+generated-for: mujoco==3.14.0 pybind11-stubgen==3.0.0 platform=darwin
